@@ -206,7 +206,7 @@ io.on("connection", (socket) => {
     io.emit("AppUsage", { message: dataTask });
   });
 });
-http.listen(process.env.PORT, () =>
+http.listen(process.env.PORT || 4000, () =>
   console.log("server running on port:" + 4000)
 );
 // ------------------------- Socket ---------------------------------
