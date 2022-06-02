@@ -24,7 +24,6 @@
     "express-joi-validation": "^5.0.0",
     "express-joi-validator": "^2.0.1",
     "fcm-node": "^1.5.2",
-    "fitbit": "0.0.7",
     "fitbit-node": "^2.2.0",
     "fs": "0.0.1-security",
     "html-pdf": "^3.0.1",
