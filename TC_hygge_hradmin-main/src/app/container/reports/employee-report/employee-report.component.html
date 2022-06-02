@@ -1,0 +1,339 @@
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="70">
+    <h3 class="page-title">Employee Report</h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/reports">Reports</a></li>
+      <li>Employee</li>
+    </ul>
+  </div>
+  <div fxFlex="30" class="pdf-head-button">
+    <button mat-raised-button (click)="downloadAsPDF()" color="primary">
+      Export Report as PDF
+    </button>
+  </div>
+</div>
+
+<div id="pdfTable" #pdfTable>
+  <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+    <div fxFlex="33" style="position: relative">
+      <app-card [title]="''" [children]="children">
+        <ng-template #children>
+          <span class="head-chart">Total Number of Employees</span>
+          <button mat-stroked-button class="btn-round" color="primary">
+            {{ data ? data.length : 0 }}
+          </button>
+        </ng-template>
+      </app-card>
+    </div>
+    <div fxFlex="33">
+      <app-card [title]="''" [children]="children1">
+        <ng-template #children1>
+          <mat-tab-group mat-align-tabs="start" [selectedIndex]="1">
+            <mat-tab disabled label="Employee based on"></mat-tab>
+            <mat-tab label="Department">
+              <div style="padding-top: 20px">
+                <app-doughnut *ngIf="graphDepartmentData" [data]="graphDepartmentData"></app-doughnut>
+              </div>
+            </mat-tab>
+            <mat-tab label="Nationality">
+              <div style="padding-top: 20px">
+                <app-doughnut *ngIf="graphNationalityData" [data]="graphNationalityData"></app-doughnut>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </ng-template>
+      </app-card>
+    </div>
+    <div fxFlex="34">
+      <app-card [title]="''" [children]="children2">
+        <ng-template #children2>
+          <mat-tab-group mat-align-tabs="start" [selectedIndex]="1">
+            <mat-tab disabled label="Employee based on"></mat-tab>
+            <mat-tab label="Gender">
+              <div style="padding-top: 20px">
+                <app-doughnut *ngIf="graphGenderData" [data]="graphGenderData"></app-doughnut>
+              </div>
+            </mat-tab>
+            <mat-tab label="Maritial Status">
+              <div style="padding-top: 20px">
+                <app-doughnut *ngIf="graphMaritalData" [data]="graphMaritalData"></app-doughnut>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </ng-template>
+      </app-card>
+    </div>
+  </div>
+  <br />
+  <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+    <div fxFlex="33">
+      <app-card [title]="''" [children]="children3">
+        <ng-template #children3>
+          <mat-tab-group mat-align-tabs="start" [selectedIndex]="1">
+            <mat-tab disabled label="Average Salary"></mat-tab>
+            <mat-tab label="Average">
+              <span class="count-detail">{{ salaryAverage }}</span>
+            </mat-tab>
+            <mat-tab label="Chart">
+              <div style="padding-top: 20px">
+                <app-doughnut *ngIf="graphSalaryData" [data]="graphSalaryData"></app-doughnut>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </ng-template>
+      </app-card>
+    </div>
+    <div fxFlex="33">
+      <app-card [title]="''" [children]="children4">
+        <ng-template #children4>
+          <mat-tab-group mat-align-tabs="start" [selectedIndex]="1">
+            <mat-tab disabled label="Average Age"></mat-tab>
+            <mat-tab label="Average">
+              <span class="count-detail">{{ ageAverage }} Years</span>
+            </mat-tab>
+            <mat-tab label="Chart">
+              <div style="padding-top: 20px">
+                <app-doughnut *ngIf="graphAgeData" [data]="graphAgeData"></app-doughnut>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </ng-template>
+      </app-card>
+    </div>
+    <div fxFlex="34">
+      <app-card [title]="'Top 5 home location'" [children]="children5">
+        <ng-template #children5>
+          <app-horizontal-bar *ngIf="graphTopNationality" [data]="graphTopNationality"></app-horizontal-bar>
+        </ng-template>
+      </app-card>
+    </div>
+  </div>
+  <br />
+  <!-- --------------- -->
+  <div fxLayout="row" fxflexfill class="mid-graph tab-top" fxLayoutGap="10px grid">
+    <div fxFlex="100" fxFlex.gt-xs="100">
+      <mat-card class="dashboard-detail">
+        <mat-card-content>
+          <mat-toolbar color="light">
+            <mat-form-field class="search-field" appearance="standard">
+              <mat-icon matSuffix>search</mat-icon>
+              <input matInput placeholder="Search" #input (keyup)="applyFilter($event)" />
+            </mat-form-field>
+            <span class="spacer"></span>
+
+            <mat-select class="custom-selection" [(ngModel)]="customizeData" (ngModelChange)="addRemoveColumn($event)"
+              multiple>
+              <mat-select-trigger>
+                <span class="example-additional-selection">
+                  Customize Table
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let item of displayedColumnsTitleDemo; let i = index" [value]="item.value">
+                {{ item.title }}</mat-option>
+            </mat-select>
+
+            <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">
+              Export Table <mat-icon>expand_more </mat-icon></button>&nbsp;&nbsp;
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="exportExcel()">As EXCEL</button>
+              <button mat-menu-item (click)="export()">
+                As CSV
+              </button>
+            </mat-menu>&nbsp;&nbsp;
+            <button mat-raised-button color="primary" (click)="openFilterModal()" class="filter-btn">
+              <mat-icon>filter_list</mat-icon> Filter
+            </button>
+          </mat-toolbar>
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let module of modulename" [selectable]="selectable" [removable]="removable"
+              (removed)="remove(module)">
+              {{ module.name }}&nbsp;&nbsp; {{ module.value }}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input style="display: none" placeholder="New fruit..." [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="add($event)" />
+          </mat-chip-list>
+          <table id="csvTable" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Name
+              </th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.first_name }} {{ element.last_name }}
+              </td>
+            </ng-container>
+
+            <!-- department Column -->
+            <ng-container matColumnDef="department">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Department
+              </th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.department }}
+              </td>
+            </ng-container>
+
+            <!-- reporting_Manager Column -->
+            <ng-container matColumnDef="reporting_Manager">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Reporting Manager
+              </th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.reporting_Manager }}
+              </td>
+            </ng-container>
+
+            <!-- Designation Column -->
+            <ng-container matColumnDef="designation">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Designation
+              </th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.designation }}
+              </td>
+            </ng-container>
+
+            <!-- DOB Column -->
+            <ng-container matColumnDef="dob">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>DOB</th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.DOB }}
+              </td>
+            </ng-container>
+
+            <!-- gender Column -->
+            <ng-container matColumnDef="gender">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Gender</th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.gender }}
+              </td>
+            </ng-container>
+
+            <!-- gender Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.email }}
+              </td>
+            </ng-container>
+
+            <!-- gender mobile -->
+            <ng-container matColumnDef="mobile">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+              <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+                {{ element.mobile }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data found</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<div style="display: none" *ngIf="data.length > 0">
+  <table>
+    <thead>
+      <tr style="text-align: left">
+        <th *ngFor="let c of displayedColumnsTitleDemo">
+          <b>{{ c.title }}</b>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let itemData of data; let i = index">
+        <ng-container *ngFor="let c of displayedColumnsTitleDemo">
+          <td>{{ itemData[c.value] }}</td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Export CSV and EXCEL -->
+<div style="display: none">
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.first_name }} {{ element.last_name }}
+      </td>
+    </ng-container>
+
+    <!-- department Column -->
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.department }}
+      </td>
+    </ng-container>
+
+    <!-- reporting_Manager Column -->
+    <ng-container matColumnDef="reporting_Manager">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Reporting Manager
+      </th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.reporting_Manager }}
+      </td>
+    </ng-container>
+
+    <!-- Designation Column -->
+    <ng-container matColumnDef="designation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Designation</th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.designation }}
+      </td>
+    </ng-container>
+
+    <!-- DOB Column -->
+    <ng-container matColumnDef="dob">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>DOB</th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.DOB }}
+      </td>
+    </ng-container>
+
+    <!-- gender Column -->
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Gender</th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.gender }}
+      </td>
+    </ng-container>
+
+    <!-- gender Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.email }}
+      </td>
+    </ng-container>
+
+    <!-- gender mobile -->
+    <ng-container matColumnDef="mobile">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+      <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{ element.user_id }}">
+        {{ element.mobile }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data found</td>
+    </tr>
+  </table>
+</div>
+<!-- Export CSV and EXCEL -->

@@ -1,0 +1,96 @@
+@import "./../../../../variable.scss";
+.custom-field-row {
+  margin-bottom: 20px;
+}
+.event-detail {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.heading-calendar-detail {
+  padding-left: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f2f2f2;
+  .target_title {
+    @include character-style-5;
+    color: var(--unnamed-color-000000);
+    text-align: left;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 1;
+    margin-right: 10px;
+  }
+}
+.desc-heading {
+  @include character-style-5;
+  color: var(--unnamed-color-000000);
+  text-align: left;
+  text-transform: capitalize;
+  opacity: 1;
+}
+.icon-cont {
+  background: var(--unnamed-color-e0e0e0) 0% 0% no-repeat padding-box;
+  background: #e0e0e0 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 0.5;
+  text-align: center;
+  width: 67px;
+  margin: 0 auto;
+  padding: 16px 0;
+}
+.e-time-zone-container {
+  display: none;
+}
+.e-control.e-recurrenceeditor.e-lib {
+  display: none;
+}
+.e-location-container {
+  display: none;
+}
+
+.todayevent {
+  font-family: "Poppins", SemiBold !important;
+  font-size: 24px;
+  font-weight:600;
+}
+
+.tiggeron{
+  font-size: 15px;
+  font-family: "Poppins", Medium !important;
+  text-align: left;
+  font-weight:500;
+}
+
+.red{
+  color:#F44336;
+}
+
+.blue{
+  color:#3F51B5;
+}
+
+.yellow {
+  background-color:#FFAA00;
+  color:white;
+}
+
+.blueborder{
+  border:0.2em solid #3F51B5;
+  color:#3F51B5
+}
+
+.eventcard_labels {
+  color: #3d3d3d;
+  font-size: 20px;
+  font-family: "Poppins", SemiBold !important;
+  text-align: left;
+  font-weight:600;
+}
+
+// responsive 414px
+
+@media (max-width: 414px) {
+  .fnt {
+    font-size: 14px;
+  }
+}

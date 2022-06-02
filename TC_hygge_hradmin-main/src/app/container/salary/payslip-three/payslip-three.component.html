@@ -1,0 +1,126 @@
+<div
+  class="back"
+  fxLayout="row"
+  fxflexfill
+  class="mid-graph"
+  fxLayoutGap="10px grid"
+>
+  <div fxFlex="100" fxFlex.gt-xs="100" class="back">
+    <mat-card class="dashboard-detail">
+      <div fxLayout="row" class="hea">
+        <div fxFlex="30">
+          <h5 class="logo">
+            <span *ngIf="!userData && !userData.company_favicon">
+              Company <br /><span>Logo</span>
+            </span>
+            <img
+              src="{{ imgPath }}{{ userData.company_favicon }}"
+              *ngIf="userData && userData.company_favicon"
+              [alt]="userData && userData.company_favicon"
+            />
+          </h5>
+          <p class="com-attitude">Atticus Finch LZE</p>
+          <p class="com-delhi">New delhi, 100021 India</p>
+        </div>
+        <div fxFlex="50"></div>
+        <div fxFlex="20">
+          <h5 class="com-pay">Pay Slip</h5>
+          <p class="com-jan">{{ currentMonth }}</p>
+          <p class="com-slip">Slip No. 213452</p>
+        </div>
+      </div>
+      <div fxLayout="row" class="back-ground">
+        <div fxFlex="100">
+          <p class="net-salary">Total Salary</p>
+          <p class="net-rupe">{{demoData.salary | currency:'AED'}}</p>
+          <p class="five-thous">{{demoData.salary | amountToWord}}</p>
+        </div>
+      </div>
+      <div fxLayout="row" class="header-bg">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="100">
+              <table class="table headings">
+                <thead>
+                  <tr class="th-bg">
+                    <th class="profile">Profile</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody class="fir">
+                  <tr>
+                    <th class="profile">Employee</th>
+                    <td class="jai-ho">
+                      {{ demoData && demoData.first_name }}
+                      {{ demoData && demoData.last_name }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="data.designation">
+                    <th class="profile">Designation</th>
+                    <td class="jai-ho">
+                      {{ demoData && demoData.designation }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="data.department">
+                    <th class="profile">Department</th>
+                    <td class="jai-ho">
+                      {{ demoData && demoData.department }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="profile">Joining Date</th>
+                    <td class="jai-ho">
+                      {{
+                        demoData && getJoinDate(demoData.employee_joiningDate)
+                      }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="data.address">
+                    <th class="profile">Work location</th>
+                    <td class="jai-ho">
+                      {{ userData && userData.company_Address }}
+                    </td>
+                  </tr>
+                  <tr *ngIf="data.passport">
+                    <th class="profile">Passport No.</th>
+                    <td class="jai-ho">{{ demoData && demoData.passport }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" class="header-bg">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="100">
+              <table class="table headings">
+                <thead>
+                  <tr class="th-bg-1">
+                    <th class="profile">Profile</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of demoData.salaryArray">
+                    <th class="profile">{{ item.label }}</th>
+                    <td class="jai-ho">{{ item.value | currency: "AED" }}</td>
+                  </tr>
+                  <tr class="tr-data">
+                    <th class="profile">Total Salary</th>
+                    <td class="jai-ho">
+                      {{ demoData && demoData.salary | currency: "AED" }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

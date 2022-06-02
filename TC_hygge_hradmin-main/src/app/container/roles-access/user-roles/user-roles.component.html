@@ -1,0 +1,85 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+    <div fxFlex>
+      <h3 class="page-title">
+        User Roles
+      </h3>
+      <ul class="breadcrumb">
+        <li> <a routerLink="/dashboard">Dashboard </a></li>
+        <li> <a> Roles & Access </a> </li>
+         <li>User Roles</li>
+      </ul>
+    </div>
+</div>
+<div fxLayout="row"  class="mid-graph top">
+    <div fxFlex="100"  fxFlex.gt-xs="100"  >
+      <mat-card>
+      <mat-toolbar color="light" class="tolbr">
+        <span class="mat-toolbar-title"> <b> User Roles </b> </span>
+        <span class="spacer"></span>
+        <mat-form-field class="search-field inp" appearance="standard">
+          <mat-icon matSuffix>search</mat-icon>
+          <input matInput placeholder="Search"  #input  (keyup)="applyFilter($event)" >
+        </mat-form-field>
+        <button mat-mini-fab color="light" class="cal-button but_cir" aria-label="Sync">
+          <mat-icon>sync</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="cal-button but_plus"  *ngIf="accessPermission"  aria-label="Add new" (click)="openRoleAddModal()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <table mat-table [dataSource]="roleData" matSort class="mat-elevation-z8" class="tab_le">
+
+        <ng-container matColumnDef="role_Type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f"> Role </b> </th>
+          <td mat-cell *matCellDef="let element" class="equ"> {{element.role_Type}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nouser">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f"> No Of User </b> </th>
+          <td mat-cell *matCellDef="let element"> {{element.nouser}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accesslevel">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="rt"> <b class="status_f"> Access Level </b> </th>
+          <td mat-cell *matCellDef="let element" class="head_access rt"> {{element.accesslevel}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef > <b class="status_f"> Status </b> </th>
+          <!-- <td mat-cell *matCellDef="let element"> {{element.status}} </td> -->
+
+          <td mat-cell *matCellDef="let element">
+            <button mat-raised-button class="round-btn fir" *ngIf="element.status == 0" color="warn">Lock</button>
+            <button mat-raised-button class="round-btn sec" *ngIf="element.status == 1" color="light">Active</button>
+          </td>
+
+        </ng-container>
+        <ng-container matColumnDef="actionsrequired">
+          <th mat-header-cell *matHeaderCellDef  class="head_status"> <b class="status_f"> Actions Required </b> </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="!accessPermission"> No Permission</span>
+            <button mat-mini-fab  class="cal-button" #tooltip="matTooltip"
+            matTooltip="Lock" *ngIf="element.status != 0 && accessPermission" color="light" (click)="udpateStatus(element.userRole_id,'0')"><mat-icon color="primary">lock</mat-icon></button>
+            <button mat-mini-fab  class="cal-button" #tooltip="matTooltip"
+            matTooltip="Activate" *ngIf="element.status != 1 && accessPermission" color="light"  (click)="udpateStatus(element.userRole_id,'1')"><mat-icon color="primary">lock_open</mat-icon></button>
+           <button mat-mini-fab  class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+            matTooltip="Delete"   color="light"  (click)="confirmDialog(element.userRole_id,'2')"><mat-icon color="warn">delete</mat-icon></button>
+            <button mat-mini-fab  class="cal-button" #tooltip="matTooltip" (click)="openRoleEditModal(element)" *ngIf="accessPermission"
+            matTooltip="Edit"   color="light"><mat-icon color="green">edit</mat-icon></button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+    </mat-card>
+
+    </div>
+  </div>

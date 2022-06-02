@@ -1,0 +1,15 @@
+.table-detail{
+  width: 100%;
+  tr{
+    border-bottom: 1px solid lightgray;
+    th {
+      padding: 13px;
+      height: auto;
+    }
+    td {
+      padding: 13px;
+      height: auto;
+      text-align: left !important;
+    }
+  }
+}

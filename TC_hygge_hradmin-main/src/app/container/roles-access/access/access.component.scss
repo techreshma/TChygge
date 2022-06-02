@@ -1,0 +1,35 @@
+.spacer {
+    flex: 1 1 auto;
+  }
+.selectField{
+  max-width: 300px;
+}
+.headForm{
+  margin-bottom:30px;
+}
+.example-tree-invisible {
+  display: none;
+}
+
+.mat-tree-node{
+  border-bottom: 1px solid #E0E0E0;
+}
+span.node-text {
+  font-family: 'Poppins', sans-serif !important;
+  padding-left: 20px;
+  display: flex;
+  flex: 1;
+}
+span.node-perm {
+  padding: 0;
+    width: 110px;
+    display: inline-flex;
+
+    justify-content: center;
+}
+.example-tree ul,
+.example-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}

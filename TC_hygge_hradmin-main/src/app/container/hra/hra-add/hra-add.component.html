@@ -1,0 +1,281 @@
+
+    <mat-toolbar color="primary">
+      <mat-icon class="closeModal" (click)="prev()"  *ngIf="tab > 0">keyboard_backspace</mat-icon>
+      <span class="spacer"></span>
+      <span class="mat-toolbar-title">Create New Question</span>
+      <span class="spacer"></span>
+      <mat-icon class="closeModal" [routerLink]="['/hra']" routerLinkActive="router-link-active" >close</mat-icon>
+    </mat-toolbar>
+  <div class="main-hra-form-container">
+    <form name="registerForm" #registerForm="ngForm">
+      <div class="sub-hra-form-container" >
+
+        <ng-container *ngFor="let q of question;let i = index;">
+          <div class="ques-tab" *ngIf="tab == i">
+            <span class="card-title">Question {{i+1}}</span>
+            <p>Please fill below information to change your setting.</p>
+
+            <div class="toolbox"  (click)="openPreviewModal()">
+              <mat-icon>play_circle_filled</mat-icon>
+            </div>
+
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Question Type <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <mat-select  name="type" [(ngModel)]="q.type">
+                      <mat-option *ngFor="let t of qeustionType"  [value]="t.value">{{t.label}}</mat-option>
+                    </mat-select></mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Question Name <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <input matInput   type="text" maxlength="200"  name="title" [(ngModel)]="q.title"  />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Category <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <mat-select name="category" [(ngModel)]="q.category"  name="category" #category required (ngModelChange)="setSegment($event)">
+                      <mat-option  value="body">Body</mat-option>
+                      <mat-option  value="lifestyle">Lifestyle</mat-option>
+                      <mat-option  value="mind">Mind</mat-option>
+                    </mat-select></mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Segment <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <mat-select  [(ngModel)]="q.segments"  name="segments" #segments required>
+                      <mat-option  value="" *ngIf="segmentData.length == 0">Please Select Category</mat-option>
+                      <mat-option *ngFor="let item of segmentData" [value]="item">{{item}}</mat-option>
+                    </mat-select></mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Parent Question</mat-label>
+                  <mat-form-field>
+                    <mat-select  [(ngModel)]="q.dependentQuestionId"  name="dependentQuestionId" #dependentQuestionId  (ngModelChange)="getParentIds($event)">
+                      <mat-option  value="0">Select parent question</mat-option>
+                      <ng-container *ngFor="let item of questionSelction">
+                        <mat-option *ngIf="item.questionId != q.questionId"  [value]="item.questionId">{{item.title}}</mat-option>
+                      </ng-container>
+                    </mat-select></mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.parentOption.length > 0">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Parent Question Option <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <mat-select  [(ngModel)]="q.dependentOption" multiple  name="dependentOption" #dependentOption >
+                      <mat-option  value="0">Select parent question option</mat-option>
+                        <mat-option *ngFor="let item of q.parentOption;let poi = index;" [value]="item.value">{{item.value}}</mat-option>
+                    </mat-select></mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Description <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <textarea matInput maxlength="500"  name="description" [(ngModel)]="q.description"  ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+              <ng-container *ngIf="q.type == 'text' || q.type == 'textarea'">
+              <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="" >
+                <div fxFlex="100">
+                  <div class="form-ques">
+                    <mat-label>Correct Answer </mat-label>
+                    <mat-form-field>
+                      <textarea matInput  maxlength="500"  name="answer" [(ngModel)]="q.answer"  ></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Max Point <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <input matInput    maxlength="8" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 46 && $event.charCode <= 57" name="score" [(ngModel)]="q.score"  />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'slider'">
+              <div fxFlex="100">
+                  <div fxLayout="row" class="quesOption">
+                    <div fxFlex="25">
+                      <div class="form-ques">
+                        <mat-label class="center">Left Side</mat-label>
+                          <mat-form-field>
+                            <input matInput    maxlength="8" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 46 && $event.charCode <= 57" name="left" [(ngModel)]="q.sliderOption.left"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="50">
+                      <div class="form-ques">
+                        <mat-label class="center">Center</mat-label>
+                          <mat-form-field>
+                            <input placeholder="Enter a Label (Optional)" matInput  maxlength="50" type="text" name="label" [(ngModel)]="q.sliderOption.label"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="25">
+                      <div class="form-ques">
+                        <mat-label class="center">Right Side</mat-label>
+                          <mat-form-field>
+                            <input matInput  maxlength="8"  (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 46 && $event.charCode <= 57" name="right" [(ngModel)]="q.sliderOption.right"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'slider' || q.type == 'multiSelect' || q.type == 'radio' || q.type == 'dropdown'">
+              <div fxFlex="100" *ngFor="let o of q.optionArray;let io = index;">
+                  <h3 *ngIf="q.type == 'slider'">Give point for slider value (eg, value = 10, point =2)</h3>
+                  <div fxLayout="row" class="quesOption">
+                    <div fxFlex>
+                      <div class="form-ques">
+                        <mat-label>Option</mat-label>
+                          <mat-form-field>
+                            <input matInput  maxlength="50" type="text" name="value{{io}}" [(ngModel)]="o.value"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="20" *ngIf="q.type == 'multiSelect' && o.value !=''" style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;">
+                      <mat-slide-toggle
+                        class="example-margin"
+                        color="primary"
+                        (change)="setSpecial(i,o.value)">
+                        Special
+                      </mat-slide-toggle>
+                    </div>
+                    <div fxFlex="30">
+                      <div class="form-ques">
+                        <mat-label>Point</mat-label>
+                          <mat-form-field>
+                            <input matInput  maxlength="8" type="text" name="point{{io}}" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 46 && $event.charCode <= 57" [(ngModel)]="o.point"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="10">
+                      <span class="option_options">
+                        <mat-icon color="info" *ngIf="io == (q.optionArray.length - 1)" (click)="addOption(i)">add_circle</mat-icon>
+                        <mat-icon color="warn" *ngIf="io != (q.optionArray.length - 1)" (click)="removeOption(i,io)">remove_circle</mat-icon>
+                      </span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'rating'">
+              <div fxFlex>
+                <br />
+                <mat-slide-toggle
+                  class="example-margin"
+                  color="primary"
+                  (change)="disLabel = !disLabel"
+                  [checked]="disLabel">
+                  Add Rating Labels
+                </mat-slide-toggle>
+              </div>
+              <div fxFlex="100" *ngFor="let o of q.optionArray;let io = index;">
+                  <div fxLayout="row" class="quesOption">
+                    <div fxFlex="10">
+                      <div class="form-ques">
+                        {{io+1}}*
+                      </div>
+                    </div>
+                    <div fxFlex="70" >
+                      <div class="form-ques" *ngIf="disLabel">
+                        <mat-label>Text for rating</mat-label>
+                          <mat-form-field>
+                            <input matInput  maxlength="50" type="text" name="value{{io}}" [(ngModel)]="o.value" [disabled]="!disLabel"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="20">
+                      <div class="form-ques">
+                        <mat-label>Point</mat-label>
+                          <mat-form-field>
+                            <input matInput  maxlength="8"  (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 46 && $event.charCode <= 57" name="point{{io}}" [(ngModel)]="o.point"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="10">
+                      <span class="option_options">
+                        <mat-icon color="info" *ngIf="io == (q.optionArray.length - 1)" (click)="addOption(i)">add_circle</mat-icon>
+                        <mat-icon color="warn" *ngIf="io != (q.optionArray.length - 1)" (click)="removeOption(i,io)">remove_circle</mat-icon>
+                      </span>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <br />
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="10" >
+                <mat-icon (click)="copy(i)" #tooltip="matTooltip" matTooltip="Copy question" >content_copy</mat-icon>
+              </div>
+              <div fxFlex="10"  *ngIf="tab > 0">
+                <mat-icon (click)="delete(i)"  #tooltip="matTooltip" matTooltip="Delete this question">delete</mat-icon>
+              </div>
+              <div fxFlex="20">
+                <mat-slide-toggle
+                  class="example-margin"
+                  color="primary"
+                  (change)="changeRequired($event,i)"
+                  [checked]="q.isRequired == 0?false:true">
+                  Required
+                </mat-slide-toggle>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxflexfill fxLayoutGap="10px grid" >
+              <div fxFlex="33">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" *ngIf="tab > 0" (click)="prev()" color="warn">Cancel</button>
+              </div>
+              <div fxFlex="33">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" (click)="addHra()"  color="green">Done</button>
+              </div>
+              <div fxFlex="33">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" (click)="next(i)" [disabled]="!disTab"  color="primary">Save & Continue</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <!-- <div class="toolbox"  (click)="openPreviewModal()">
+          <mat-icon>play_circle_filled</mat-icon>
+        </div> -->
+
+      </div>
+    </form>
+  </div>

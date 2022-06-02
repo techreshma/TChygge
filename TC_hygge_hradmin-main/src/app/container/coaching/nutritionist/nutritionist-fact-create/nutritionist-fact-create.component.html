@@ -1,0 +1,108 @@
+<mat-toolbar color="primary">
+  <!-- <mat-icon class="closeModal" >keyboard_backspace</mat-icon> -->
+  <span class="spacer"></span>
+  <span class="mat-toolbar-title" style="color:#fff !important">Create
+    {{addTitle}}</span>
+  <span class="spacer"></span>
+  <mat-icon class="closeModal" [routerLink]="['/be-your-own-nutritionist-info/',
+    catId]"
+    routerLinkActive="router-link-active">close</mat-icon>
+  <!-- <mat-icon class="closeModal" [routerLink]="['/be-your-own-nutritionist-info']" routerLinkActive="router-link-active" >close</mat-icon> -->
+</mat-toolbar>
+<div class="main-hra-form-container">
+  <form name="postForm" #postForm="ngForm">
+    <div class="sub-hra-form-container">
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Title <span class="red-txt">*</span> </mat-label>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <div class="form-ques">
+            <mat-form-field>
+              <input matInput type="text" maxlength="100" name="title"
+                [(ngModel)]="formGroup.title" required />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Description <span class="red-txt">*</span> </mat-label>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <div class="form-ques">
+            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+            <ngx-editor [editor]="editor" [ngModel]="formGroup.description"
+              name="description" #description="ngModel"
+              (ngModelChange)="changeEditor($event)" [disabled]="false"
+              [placeholder]="'Type here...'"></ngx-editor>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Image / Video</mat-label>
+          <div class="dropzone">
+            <ngx-dropzone (change)="onSelect($event)"
+              accept="image/jpeg,image/jpg,image/png,image/gif,video/mp4">
+              <ngx-dropzone-label>
+                <mat-icon>note_add</mat-icon><br />
+                Upload Your Image/Video<br />
+                <small>drag & drop to upload the Image/Video (jpeg,png,jpg,gif
+                  and mp4 only)</small>
+              </ngx-dropzone-label>
+              <ngx-dropzone-preview *ngFor="let f of formGroup.image"
+                [removable]="true" (removed)="onRemove(f)"
+                style="background-image: url({{f}});">
+                <ngx-dropzone-label>{{ f }}</ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Keywords</mat-label>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="25" *ngFor="let item of formGroup.keyOff; let
+          valueIndex=index;">
+          <mat-form-field class="form-ques" style="width: 80% !important;">
+            <input matInput maxlength="50"
+              [(ngModel)]="formGroup.keyOff[valueIndex].key"
+              name="keyOff{{valueIndex}}" required>
+
+            <button mat-icon-button matSuffix color="warn"
+              (click)="removeOption(valueIndex)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+        <div style="display: flex;max-width: 50px;">
+          <button mat-raised-button
+            (click)="addOption()"
+            style="height: 40px;" color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="short-container">
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="100">
+          <mat-label></mat-label>
+          <button mat-raised-button class="big-btn block-btn"
+            (click)="addfact()" [disabled]="!postForm.valid"
+            color="primary">Save & Publish</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

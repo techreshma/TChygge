@@ -1,0 +1,806 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Setting
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Setting</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="100">
+    <mat-card class="employee-tab">
+      <mat-card-content>
+        <mat-tab-group mat-align-tabs="start">
+          <mat-tab label="Theme">
+            <form name="ThemeForm" (ngSubmit)="updateTheme()" #ThemeForm="ngForm">
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                <div fxFlex="50">
+                  <span class="card-title">Lable</span>
+                </div>
+                <div fxFlex="50">
+                  <mat-form-field class="form-fields">
+                    <input matInput type="url" placeholder="Company Website" #company_Website="ngModel"
+                      [(ngModel)]="themeData.company_Website" name="company_Website" required autocomplete="off"
+                      pattern="^(https?:\/\/)?(www\.)?([a-zA-Z0-9]+(-?[a-zA-Z0-9])*\.)+[\w]{2,}(\/\S*)?$" />
+
+                  </mat-form-field>
+                  <div *ngIf="company_Website.valid || company_Website.untouched">
+                    <span class="error" *ngIf="company_Website.errors?.required">Website is mandatory.</span>
+                    <span class="error" *ngIf="company_Website.errors?.pattern">Website name is not in proper
+                      format.</span>
+                  </div>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                <div fxFlex="50">
+                  <span class="card-title">Logo and iconography</span>
+                  <br />
+                  <p class="lorem">Recommended image size is 40px x 40px</p>
+                </div>
+                <div fxFlex="50">
+                  <mat-label>Light Logo</mat-label>
+                  <div class="dropzone">
+                    <ngx-dropzone class="light" (change)="onSelect($event)"
+                      accept="image/jpeg,image/jpg,image/png,image/gif">
+                      <ngx-dropzone-label>
+                        <mat-icon>note_add</mat-icon><br />
+                        Upload Your Logo<br />
+                        <small>drag & drop to upload the logo image</small>
+                      </ngx-dropzone-label>
+                      <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)"
+                        style="background-image: url({{imgPath}}{{themeData.company_Logo}});">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                      <ngx-dropzone-preview *ngIf="files.length == 0 && themeData.company_Logo != ''" [removable]="true"
+                        style="background-image: url({{imgPath}}{{themeData.company_Logo}});">
+                        <ngx-dropzone-label></ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                  </div>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                <div fxFlex="50"><br />
+                  <p>Recommended image size is 40px x 40px</p>
+                </div>
+                <div fxFlex="50">
+                  <mat-label>company_favicon</mat-label>
+                  <div class="dropzone">
+                    <ngx-dropzone class="light" (change)="onFaviSelect($event)"
+                      accept="image/jpeg,image/jpg,image/png,image/gif">
+                      <ngx-dropzone-label>
+                        <mat-icon>note_add</mat-icon><br />
+                        Upload Your company_favicon<br />
+                        <small>drag & drop to upload the company_favicon image</small>
+                      </ngx-dropzone-label>
+                      <ngx-dropzone-preview *ngFor="let f of files2" [removable]="true" (removed)="onFaviRemove(f)"
+                        style="background-image: url({{imgPath}}{{themeData.company_favicon}});">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                      <ngx-dropzone-preview *ngIf="files2.length == 0 && themeData.company_favicon != ''"
+                        [removable]="true" style="background-image: url({{imgPath}}{{themeData.company_favicon}});">
+                        <ngx-dropzone-label></ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                  </div>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" *ngIf="accessPermission">
+                <div fxFlex="50">
+                </div>
+                <div fxFlex="50">
+                  <mat-label></mat-label>
+                  <button mat-raised-button class="big-btn block-btn" color="primary"
+                    [disabled]="!ThemeForm.valid ">Save Settings</button>
+                </div>
+              </div>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Notifications">
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="50">
+                <span class="card-title">Lable</span>
+
+              </div>
+              <div fxFlex="50">
+                <section class="toggle-section">
+                  <mat-label class="leave">Leave Request</mat-label>
+                  <mat-slide-toggle class="example-margin portal" color="primary" checked="checked">Portal
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="example-margin mail" color="primary" checked="checked">Email
+                  </mat-slide-toggle>
+                </section>
+                <section class="toggle-section">
+                  <mat-label class="leave">Chat</mat-label>
+                  <mat-slide-toggle class="example-margin portal" color="primary" checked="checked">Portal
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="example-margin mail" color="primary" checked="checked">Email
+                  </mat-slide-toggle>
+                </section>
+                <section class="toggle-section">
+                  <mat-label class="leave">Document Expiry</mat-label>
+                  <mat-slide-toggle class="example-margin portal" color="primary" checked="checked">Portal
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="example-margin mail" color="primary" checked="checked">Email
+                  </mat-slide-toggle>
+                </section>
+                <section class="toggle-section">
+                  <mat-label class="leave">Survey Completed</mat-label>
+                  <mat-slide-toggle class="example-margin portal" color="primary" checked="checked">Portal
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="example-margin mail" color="primary" checked="checked">Email
+                  </mat-slide-toggle>
+                </section>
+                <section class="toggle-section">
+                  <mat-label class="leave">Reward Redeemed</mat-label>
+                  <mat-slide-toggle class="example-margin portal" color="primary" checked="checked">Portal
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="example-margin mail" color="primary" checked="checked">Email
+                  </mat-slide-toggle>
+                </section>
+                <section class="toggle-section">
+                  <mat-label class="leave">Calendar & Events</mat-label>
+                  <mat-slide-toggle class="example-margin portal" color="primary" checked="checked">Portal
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="example-margin mail" color="primary" checked="checked">Email
+                  </mat-slide-toggle>
+                </section>
+                <section class="toggle-section">
+                  <mat-label class="leave">Birthday / Anniversary</mat-label>
+                  <mat-slide-toggle class="example-margin portal" color="primary" checked="checked">Portal
+                  </mat-slide-toggle>
+                  <mat-slide-toggle class="example-margin mail" color="primary" checked="checked">Email
+                  </mat-slide-toggle>
+                </section>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" *ngIf="accessPermission">
+              <div fxFlex="50">
+              </div>
+              <div fxFlex="50">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" color="primary">Save Settings</button>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Security">
+            <form name="SecurityForm" (ngSubmit)="updatePassword()" #SecurityForm="ngForm">
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                <div fxFlex="50">
+                  <span class="card-title">Change Password</span>
+
+                </div>
+                <div fxFlex="50">
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="Old Password" [type]="fieldOldPass ? 'text' : 'password'"
+                      #oldpassword="ngModel" name="oldpassword" [(ngModel)]="passwordData.oldpassword" required
+                      autocomplete="off" />
+                    <mat-icon matSuffix (click)="fieldOldPass = !fieldOldPass" style="cursor: pointer;">
+                      {{fieldOldPass?'visibility_off':'visibility'}}</mat-icon>
+                  </mat-form-field>
+                  <div [hidden]="oldpassword.valid || oldpassword.untouched">
+                    <span class="error" *ngIf="oldpassword.errors?.required">Old Password is mandatory.</span>
+                  </div>
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="New Password" [type]="fieldNewPass ? 'text' : 'password'"
+                      #newpassword="ngModel" (ngModelChange)="ChkOldNew($event)" name="newpassword"
+                      [(ngModel)]="passwordData.newpassword" required autocomplete="off" />
+                    <mat-icon matSuffix (click)="fieldNewPass = !fieldNewPass" style="cursor: pointer;">
+                      {{fieldNewPass?'visibility_off':'visibility'}}</mat-icon>
+                  </mat-form-field>
+                  <div [hidden]="newpassword.valid || newpassword.untouched">
+                    <span class="error" *ngIf="newpassword.errors?.required">New Password is mandatory.</span>
+                  </div>
+                  <div *ngIf="passwordData.oldpassword != '' && passwordData.newpassword == passwordData.oldpassword">
+                    <span class="error">Old password an new password can not be same </span>
+                  </div>
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="Confirm Password" [type]="fieldconPass ? 'text' : 'password'"
+                      #confirmpassword="ngModel" name="confirmpassword" [(ngModel)]="passwordData.confirmpassword"
+                      required autocomplete="off" />
+                    <mat-icon matSuffix (click)="fieldconPass = !fieldconPass" style="cursor: pointer;">
+                      {{fieldconPass?'visibility_off':'visibility'}}</mat-icon>
+                  </mat-form-field>
+                  <div [hidden]="confirmpassword.valid || confirmpassword.untouched">
+                    <span class="error" *ngIf="confirmpassword.errors?.required">confirmpassword Password is
+                      mandatory.</span>
+                  </div>
+                  <div *ngIf="passwordData.newpassword != passwordData.confirmpassword">
+                    <span class="error">Confirm Password is not matched.</span>
+                  </div>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" *ngIf="accessPermission">
+                <div fxFlex="50">
+                </div>
+                <div fxFlex="50">
+                  <mat-label></mat-label>
+                  <button mat-raised-button class="big-btn block-btn"
+                    [disabled]="!SecurityForm.valid || passwordData.newpassword != passwordData.confirmpassword || passwordData.newpassword == passwordData.oldpassword "
+                    color="primary">Update Password</button>
+                </div>
+              </div>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="SMTP">
+            <form name="SmtpForm" (ngSubmit)="updateSmtp()" #SmtpForm="ngForm">
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid"
+                *ngIf="smtpDataSet">
+                <div fxFlex="50">
+                  <span class="card-title">Email Configurations</span>
+
+                </div>
+                <div fxFlex="50">
+                  <mat-form-field class="form-fields">
+                    <input class="mail" matInput placeholder="Mail Server" type="text" #mail_Server name="mail_Server"
+                      maxlength="50" [(ngModel)]="smtpDataSet.mail_Server" required autocomplete="off" />
+                    <div *ngIf="mail_Server.errors && mail_Server.touched">
+                      <span class="error" *ngIf="mail_Server.errors?.required">Mail Server is mandatory.</span>
+                    </div>
+                  </mat-form-field>
+
+                  <mat-form-field class="form-fields">
+                    <input class="mail" matInput placeholder="SMTP Port" type="number" #smtp_Port min="0" maxlength="40"
+                      onkeypress="return event.charCode >= 48" name="smtp_Port" [(ngModel)]="smtpDataSet.smtp_Port"
+                      required autocomplete="off" />
+                    <div *ngIf="smtp_Port.errors && smtp_Port.touched">
+                      <span class="error" *ngIf="smtp_Port.errors?.required">SMTP Server is mandatory.</span>
+                    </div>
+                  </mat-form-field>
+
+                  <mat-form-field class="form-fields">
+                    <input class="mail" matInput placeholder="Username" type="text" #userName name="userName"
+                      maxlength="50" [(ngModel)]="smtpDataSet.userName" required autocomplete="off" />
+                    <div *ngIf="userName.errors && userName.touched">
+                      <span class="error" *ngIf="userName.errors?.required">Username is mandatory.</span>
+                    </div>
+                  </mat-form-field>
+
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="Password" type="password" #password name="password" maxlength="50"
+                      [(ngModel)]="smtpDataSet.password" required autocomplete="off" />
+                    <div *ngIf="password.errors && password.touched">
+                      <span class="error" *ngIf="password.errors?.required">Password is mandatory.</span>
+                    </div>
+                  </mat-form-field>
+                  <mat-label>Server Security</mat-label>
+                  <mat-radio-group aria-label="Select an option" [(ngModel)]="smtpDataSet.server_Security">
+                    <mat-radio-button value="TLS">TLS</mat-radio-button>
+                    <mat-radio-button value="SSL">SSL</mat-radio-button>
+                  </mat-radio-group>
+
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="Default Sender" type="text" #default_Sender name="default_Sender"
+                      maxlength="50" [(ngModel)]="smtpDataSet.default_Sender" required autocomplete="off" />
+                    <div *ngIf="default_Sender.errors && default_Sender.touched">
+                      <span class="error" *ngIf="default_Sender.errors?.required">Default Sender is mandatory.</span>
+                    </div>
+                  </mat-form-field>
+
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="Default Sender Name" type="text" #default_SenderName maxlength="50"
+                      [(ngModel)]="smtpDataSet.default_SenderName" name="default_SenderName" required
+                      autocomplete="off" />
+                    <div *ngIf="default_SenderName.errors && default_SenderName.touched">
+                      <span class="error" *ngIf="default_SenderName.errors?.required">Default Sender Name is
+                        mandatory.</span>
+                    </div>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+                <div fxFlex="50">
+                </div>
+                <div fxFlex="50">
+                  <mat-label></mat-label>
+                  <button mat-raised-button class="big-btn block-btn" color="primary" [disabled]="!SmtpForm.valid"
+                    *ngIf="accessPermission">Save Settings</button>
+                </div>
+              </div>
+            </form>
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="50">
+              </div>
+              <div fxFlex="50">
+                <button mat-raised-button class="big-btn block-btn" color="light" [disabled]="!SmtpForm.valid"
+                  (click)="testEmail()">Send Test Mail</button>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Salary">
+            <div fxLayout="row" class="theme-setting-inner">
+              <div fxFlex="100">
+                <mat-toolbar color="light">
+                  <span class="mat-toolbar-title">All Salary Type</span>
+                  <span class="spacer"></span>
+                  <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getSalary()">
+                    <mat-icon>sync</mat-icon>
+                  </button>
+                </mat-toolbar>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="50">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S.no</th>
+                      <th width="70%">Salary Type</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let d of salaryData;let i = index;">
+                      <td>{{i+1}}</td>
+                      <td>{{d.salary_Type}}</td>
+                      <td>
+                        <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                          (click)="confirmDialogSalary(d.salaryType_id)" matTooltip="Delete" color="light">
+                          <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div fxFlex="10"></div>
+              <div fxFlex="40" class="top" *ngIf="accessPermission">
+                <mat-card>
+                  <form name="SalaryForm" (ngSubmit)="addSalary()" #SalaryForm="ngForm">
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <mat-form-field class="form-fields">
+                          <input placeholder="Salary Type" list="salaryTypeList" matInput maxlength="40" type="text"
+                            #salaryType [(ngModel)]="salarySet.salaryType" name="salaryType" required
+                            autocomplete="off" />
+                          <datalist id="salaryTypeList">
+                            <option value="Basic Pay">
+                            <option value="Accommodation Allowance">
+                            <option value="Travel Allowance">
+                            <option value="Communication Allowance">
+                            <option value="Food Allowance">
+                            <option value="Schooling Allowance">
+                            <option value="Other Allowance">
+                          </datalist>
+                        </mat-form-field>
+                        <div *ngIf="salaryType.errors && salaryType.touched">
+                          <span class="error" *ngIf="salaryType.errors?.required">Salary Type is mandatory.</span>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner">
+                      <div fxFlex="100">
+                        <mat-label></mat-label>
+                        <button mat-raised-button class="big-btn block-btn" color="primary"
+                          [disabled]="!SalaryForm.valid">Save Salary</button>
+                      </div>
+                    </div>
+                  </form>
+                </mat-card>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Leaves">
+
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="100">
+                <mat-toolbar color="light">
+                  <span class="mat-toolbar-title">All Leaves</span>
+                  <span class="spacer"></span>
+                  <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getLeave()">
+                    <mat-icon>sync</mat-icon>
+                  </button>
+                </mat-toolbar>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="50">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S.no</th>
+                      <th width="70%">Leave</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let d of leaveData; let i = index;">
+                      <td>{{i+1}}</td>
+                      <td>{{d.leave_Type}}</td>
+                      <td>
+                        <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                          (click)="confirmDialogLeave(d.leaveType_id)" matTooltip="Delete" color="light">
+                          <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div fxFlex="10"></div>
+              <div fxFlex="40" *ngIf="accessPermission">
+                <mat-card>
+                  <form name="LeaveForm" (ngSubmit)="addLeave()" #LeaveForm="ngForm">
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <mat-form-field class="form-fields">
+                          <input matInput maxlength="40" list="leaveTypeList" placeholder="Leave Type" type="text"
+                            #leaveType [(ngModel)]="leaveDataSet.leaveType" name="leaveType" required
+                            autocomplete="off" />
+                          <datalist id="leaveTypeList">
+                            <option value="Annual">
+                            <option value="Medical">
+                            <option value="Study">
+                            <option value="Maternity">
+                            <option value="Paternity">
+                            <option value="Compassionate">
+                            <option value="Hajj and Umrah">
+                            <option value="Without pay">
+                            <option value="National service & Reserve">
+                          </datalist>
+                        </mat-form-field>
+                        <div *ngIf="leaveType.errors && leaveType.touched">
+                          <span class="error" *ngIf="leaveType.errors?.required">leave Type is mandatory.</span>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner">
+                      <div fxFlex="100">
+                        <mat-label></mat-label>
+                        <button mat-raised-button class="big-btn block-btn" color="primary"
+                          [disabled]="!LeaveForm.valid">Save Leave</button>
+                      </div>
+                    </div>
+                  </form>
+                </mat-card>
+                <br />
+                <mat-card>
+                  <section class="toggle-section">
+                    <mat-label class="leave">Sandwich Leave</mat-label>
+                    No
+                    <mat-slide-toggle (change)="oncheckleave($event)" class="example-margin portal" color="primary"
+                      [checked]="togglValue">
+                      yes
+                    </mat-slide-toggle>
+
+                  </section>
+                </mat-card>
+              </div>
+            </div>
+
+          </mat-tab>
+
+          <mat-tab label="Department">
+
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="100">
+                <mat-toolbar color="light">
+                  <span class="mat-toolbar-title">All Departments</span>
+                  <span class="spacer"></span>
+                  <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getDepartment()">
+                    <mat-icon>sync</mat-icon>
+                  </button>
+                </mat-toolbar>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="50">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S.no</th>
+                      <th>ID (For CSV use)</th>
+                      <th width="50%">Deaprtment</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let d of departmentData; let i= index;">
+                      <td>{{i+1}}</td>
+                      <td>{{d.department_id}}</td>
+                      <td>{{d.department_Type}}</td>
+                      <td>
+                        <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                          (click)="confirmDialog(d.department_id)" matTooltip="Delete" color="light">
+                          <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div fxFlex="10"></div>
+              <div fxFlex="40" *ngIf="accessPermission">
+                <mat-card>
+                  <form name="DepartmentForm" (ngSubmit)="addDepartement()" #DepartmentForm="ngForm">
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <mat-form-field class="form-fields">
+                          <input matInput type="text" list="departmentTypeList" placeholder="Deaprtment" #departmentType
+                            maxlength="50" [(ngModel)]="departmentSet.departmentType" name="departmentType" required
+                            autocomplete="off" />
+                          <datalist id="departmentTypeList">
+                            <option value="Accounting & Finance">
+                            <option value="Administration">
+                            <option value="Compliance">
+                            <option value="Customer Service">
+                            <option value="Distribution">
+                            <option value="Human Resource">
+                            <option value="Information Technology">
+                            <option value="Legal">
+                            <option value="Management">
+                            <option value="Marketing">
+                            <option value="Office Support">
+                            <option value="Operations">
+                            <option value="Productions">
+                            <option value="Research and Development">
+                            <option value="Sales">
+                            <option value="Transformation">
+                          </datalist>
+                        </mat-form-field>
+                        <div *ngIf="departmentType.errors && departmentType.touched">
+                          <span class="error" *ngIf="departmentType.errors?.required">Department name is
+                            mandatory.</span>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner">
+                      <div fxFlex="100">
+                        <mat-label></mat-label>
+                        <button mat-raised-button class="big-btn block-btn" color="primary"
+                          [disabled]="!DepartmentForm.valid">Save Department</button>
+                      </div>
+                    </div>
+                  </form>
+                </mat-card>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Document">
+
+            <div fxLayout="row" class="theme-setting-inner">
+              <div fxFlex="100">
+                <mat-toolbar color="light">
+                  <span class="mat-toolbar-title">All Document</span>
+                  <span class="spacer"></span>
+                  <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getDocType()">
+                    <mat-icon>sync</mat-icon>
+                  </button>
+                </mat-toolbar>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="50">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S.no</th>
+                      <th width="40%">Document</th>
+                      <th width="30%">Employee(M/O)</th>
+                      <th width="30%">Dependent(M/O)</th>
+                      <th width="30%">Expiry</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let d of docTypeData; let i= index;">
+                      <td>{{i+1}}</td>
+                      <td>{{d.document_Type}}</td>
+                      <td>
+                        <mat-slide-toggle class="example-margin" color="primary" [checked]="d.isCheck == 1?true:false"
+                          (change)="updateDocType($event, d,1)"></mat-slide-toggle>
+                      </td>
+                      <td>
+                        <mat-slide-toggle class="example-margin" color="primary" [checked]="d.dependent == 1?true:false"
+                          (change)="updateDocType($event, d,2)"></mat-slide-toggle>
+                      </td>
+                      <td>{{d.expires == 1?'Yes':'No'}}</td>
+                      <td>
+                        <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                          (click)="confirmDialogDoc(d.documentType_id)" matTooltip="Delete" color="light">
+                          <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div fxFlex="10"></div>
+              <div fxFlex="40" *ngIf="accessPermission">
+                <mat-card>
+                  <form name="DocForm" (ngSubmit)="addDocType()" #DocForm="ngForm">
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <mat-form-field class="form-fields">
+                          <input matInput type="text" list="documentTypeList" (ngModelChange)="setDocImage($event)"
+                            placeholder="Document Type" #documentType maxlength="50"
+                            [(ngModel)]="docTypeSet.documentType" name="documentType" required autocomplete="off" />
+                          <datalist id="documentTypeList">
+                            <option *ngFor="let item of getDocumentTypeData" [value]="item.DocType">
+                          </datalist>
+                        </mat-form-field>
+                        <div *ngIf="documentType.errors && documentType.touched">
+                          <span class="error" *ngIf="documentType.errors?.required">Document type is mandatory.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <section class="toggle-section">
+                          <mat-label>For Employee</mat-label>
+                          <mat-slide-toggle class="example-margin" color="primary" [checked]="isCheck"
+                            (change)="CheckDocmandat($event)">Mandatory
+                          </mat-slide-toggle>
+                        </section>
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <section class="toggle-section">
+                          <mat-label>For Dependent</mat-label>
+                          <mat-slide-toggle class="example-margin" color="primary" [checked]="isCheck1"
+                            (change)="CheckDocmandatdep($event)">Mandatory
+                          </mat-slide-toggle>
+                        </section>
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <section class="toggle-section">
+                          <mat-label>Expirable</mat-label>
+                          <mat-slide-toggle class="example-margin" color="primary" [checked]="isCheck2"
+                            (change)="CheckExpiry($event)">Yes
+                          </mat-slide-toggle>
+                        </section>
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner">
+                      <div fxFlex="100">
+                        <mat-label></mat-label>
+                        <button mat-raised-button class="big-btn block-btn" color="primary"
+                          [disabled]="!DocForm.valid">Save Document Type</button>
+                      </div>
+                    </div>
+                  </form>
+                </mat-card>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Holiday">
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="100">
+                <mat-toolbar color="light">
+                  <span class="mat-toolbar-title">All Holidays</span>
+                  <span class="spacer"></span>
+                  <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getHoliday()">
+                    <mat-icon>sync</mat-icon>
+                  </button>
+                </mat-toolbar>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner">
+              <div fxFlex="50">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S.no</th>
+                      <th width="30%">Event name</th>
+                      <th>From Date</th>
+                      <th>To Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let d of holidayData;let i = index">
+                      <td>{{i+1}}</td>
+                      <td>{{d.event_Title}}</td>
+                      <td>{{formatDate(d.event_StartDate)}}</td>
+                      <td>{{formatDate(d.event_EndDate)}}</td>
+                      <td>
+                        <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                          (click)="confirmDialogHoliday(d.calendarEvent_id)" matTooltip="Delete" color="light">
+                          <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div fxFlex="10"></div>
+              <div fxFlex="40" *ngIf="accessPermission">
+                <mat-card>
+                  <form name="holidayForm" (ngSubmit)="addHoliday()" #holidayForm="ngForm">
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <mat-form-field class="form-fields">
+                          <input matInput maxlength="40" list="holidayTypeList" placeholder="Holiday Title" type="text"
+                            #event_Title [(ngModel)]="holidaySet.event_Title" name="event_Title" required
+                            autocomplete="off" />
+                          <datalist id="holidayTypeList">
+                            <option value="Commemoration Day">
+                            <option value="Eid al-Adha">
+                            <option value="Eid al-Fitr">
+                            <option value="Islamic New Year">
+                            <option value="National Day">
+                            <option value="New Year's Day">
+                            <option value="Prophet's Birthday">
+                          </datalist>
+                        </mat-form-field>
+                        <div *ngIf="event_Title.errors && event_Title.touched">
+                          <span class="error" *ngIf="event_Title.errors?.required">Event name is mandatory.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <mat-form-field class="form-fields">
+                          <input matInput placeholder="Start Date" [matDatepicker]="pickerStart" [min]="currentDate"
+                            #event_StartDate [(ngModel)]="holidaySet.event_StartDate" name="event_StartDate" required
+                            autocomplete="off" />
+                          <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerStart></mat-datepicker>
+                        </mat-form-field>
+                        <div *ngIf="event_StartDate.errors && event_StartDate.touched">
+                          <span class="error" *ngIf="event_StartDate.errors?.required">Event Start Date is
+                            mandatory.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                      <div fxFlex="100">
+                        <mat-form-field class="form-fields">
+                          <input matInput placeholder="End Date" [matDatepicker]="pickerEnd" #event_EndDate
+                            [min]="currentDate" [(ngModel)]="holidaySet.event_EndDate" name="event_EndDate" required
+                            autocomplete="off" />
+                          <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerEnd></mat-datepicker>
+                        </mat-form-field>
+                        <div *ngIf="event_StartDate.errors && event_StartDate.touched">
+                          <span class="error" *ngIf="event_StartDate.errors?.required">Event End Date is
+                            mandatory.</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div fxLayout="row" class="theme-setting-inner">
+                      <div fxFlex="100">
+                        <mat-label></mat-label>
+                        <button mat-raised-button class="big-btn block-btn" color="primary"
+                          [disabled]="!holidayForm.valid">Save Holiday</button>
+                      </div>
+                    </div>
+                  </form>
+                </mat-card>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- <div class="container" fxLayout="column" fxLayout.md="row" fxLayoutGap="20px">
+  <div class="cardWrap" fxLayout.lt-md="column" fxLayout.md="column"  fxLayout="row" fxFlex.md="50" fxLayoutAligmnet="space-between center" fxLayoutGap="20px" >
+    <div fxFlex.lt-md="100" fxFlex="35" >Card</div>
+    <div fxFlex.lt-md="100" fxFlex="35" >Card</div>
+    <div fxFlex.lt-md="100" fxFlex="35" >Card</div>
+  </div>
+  <div class="cardWrap" fxLayout.lt-md="column" fxLayout.md="column" fxLayout="row" fxFlex.md="50" fxLayoutAligmnet="space-between center" fxLayoutGap="20px" >
+    <div fxFlex.lt-md="100" fxFlex="35" >Card</div>
+    <div fxFlex.lt-md="100" fxFlex="35" >Card</div>
+    <div fxFlex.lt-md="100" fxFlex="35" >Card</div>
+  </div>
+</div> -->

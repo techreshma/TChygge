@@ -1,0 +1,211 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Dashboard
+    </h3>
+    <ul class="breadcrumb">
+      <li>Dashboard</li>
+    </ul>
+  </div>
+</div>
+
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="'Open Actions'" [children]="children">
+      <ng-template #children>
+        <span class="sub-title">Task waiting for you</span>
+        <br /><br />
+        <div fxLayout="row" fxLayoutGap="10px grid">
+          <div fxFlex="50" class="center-txt pointer" routerLink="/leaves">
+            <span class="yellow-txt" rout>{{dashboardLeave}}</span>
+            <span><small>Leaves</small></span>
+          </div>
+          <div fxFlex="50" class="center-txt pointer" routerLink="/document-report">
+            <span class="purple-txt">{{dashboardDocument}}</span>
+            <span><small>Documents</small></span>
+          </div>
+          <!-- <div fxFlex="33" class="center-txt pointer" routerLink="/notification">
+            <span class="pink-txt">{{dashboardMessage}}</span>
+            <span><small>Messages</small></span>
+          </div> -->
+        </div>
+        <br />
+        <br />
+        <!-- <div fxLayout="row" >
+          <div fxFlex class="center-txt">
+            <button mat-raised-button color="primary">Take Action</button>
+          </div>
+        </div> -->
+        <br />
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="'Active Employees by Gender'" [children]="children" *ngIf="genEmpGraphData">
+      <ng-template #children>
+        <app-doughnut [data]="genEmpGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+                <span class="card-subtitle" style="padding-right: 10px;">Number of Active Challenges</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title">{{activeChallanges}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <br />
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+                <span class="card-subtitle">Number of Active Survey</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title">{{dashboardActiveSurvey}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="'Attendance'" [children]="children" *ngIf="genEmpGraphData">
+      <ng-template #children>
+        <div fxLayout="row" fxLayoutAlign="stretch" fxflexfill fxLayoutGap="10px grid">
+          <div fxFlex="60" style="text-align: left;">
+            <span class="card-title primary-txt">{{attendance_averagehour}}</span><br />
+            <span class="card-subtitle">Average hour/day</span>
+          </div>
+          <div fxFlex="40" style="text-align: right;">
+            <span class="card-title primary-txt">{{onewtimeArrival}}%</span><br />
+            <span class="card-subtitle">On time arrival</span>
+          </div>
+        </div>
+        <br />
+        <hr />
+        <br />
+        <div fxLayout="row" fxLayoutAlign="stretch" fxflexfill fxLayoutGap="10px grid">
+          <div fxFlex="60" style="text-align: left;">
+            <span class="time-head"><b>{{time}}</b></span><br />
+            <span class="card-subtitle">{{day}}</span>
+          </div>
+          <div fxFlex="40" style="text-align: right;">
+            <span class="time-head green-txt">Clock in</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+  <!--  -->
+  <div fxFlex="33" fxFlex.gt-xs="100" class="leav-card">
+    <app-card [title]="'On leave'" [children]="children" *ngIf="genEmpGraphData">
+      <ng-template #children>
+        <div class="imgs-holder">
+          <!-- <span class="sub-title" style="text-align: left;">Today</span><br /><br /> -->
+          <span *ngFor="let item of onleaveToday">
+            <img class="onleaveImg" src="http://20.74.180.163:4000/{{item.profile_picture}}" width='45' height='45' />
+            <b>{{item.name}}</b>
+            <small>21 mar</small>
+          </span>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+  <!--  -->
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="''" [footer]="'Company HRA Score'" [children]="children" *ngIf="challangeGuageData">
+      <ng-template #children>
+        <app-gauge [data]="challangeGuageData"></app-gauge>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutAlign="stretch" fxLayoutGap="10px grid">
+  <div fxFlex="33" fxFlex.gt-xs="100" class="leav-card">
+    <app-card [title]="'Celebrating Birthdays'" [children]="children" *ngIf="genEmpGraphData">
+      <ng-template #children>
+        <div class="imgs-holder">
+          <span *ngFor="let clbitem of celebrateBirthday">
+            <img class="onleaveImg" src="http://20.74.180.163:4000/{{clbitem.profile_picture}}" width='45'
+              height='45' />
+            <b>{{clbitem.name}}</b>
+            <small>{{clbitem.birthday}}</small>
+          </span>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33" fxFlex.gt-xs="100" class="leav-card">
+    <app-card [title]="'Celebrating work anniversaries'" [children]="children" *ngIf="genEmpGraphData">
+      <ng-template #children>
+        <div class="imgs-holder">
+          <span *ngFor="let clbitem of celebrateAnniversary">
+            <img class="onleaveImg" src="http://20.74.180.163:4000/{{clbitem.profile_picture}}" width='45'
+              height='45' />
+            <b>{{clbitem.name}}</b>
+            <small>{{clbitem.anniversary}}</small>
+          </span>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="''" [children]="children" *ngIf="hraRadarData">
+      <ng-template #children>
+        <app-radar [data]="hraRadarData"></app-radar>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+
+<br />
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card>
+      <ejs-schedule #scheduleObj width='100%' height='550px' currentView="month" [selectedDate]="selectedDate"
+        [eventSettings]="eventSettings">
+        <e-views>
+          <e-view option="Month"></e-view>
+        </e-views>
+      </ejs-schedule>
+    </mat-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <app-card [title]="'Participants per Challenge'" [children]="children" *ngIf="heatGraph">
+      <ng-template #children>
+        <app-heat-map *ngIf="heatGraph" [data]="heatGraph"></app-heat-map>
+        <p *ngIf="!heatGraph">No data found.</p>
+      </ng-template>
+    </app-card>
+  </div>
+</div><br />
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="70" fxFlex.gt-xs="70">
+    <app-card [title]="'Rewards redemmed'" [children]="children" *ngIf="heatGraph">
+      <ng-template #children>
+        <app-line class="wid-graph" *ngIf="rewardRedeemedGraphData" [data]="rewardRedeemedGraphData"></app-line>
+        <p *ngIf="!heatGraph">No data found.</p>
+      </ng-template>
+    </app-card>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+:root {
+  /* Colors: */
+  --unnamed-color-3d3d3d: #3D3D3D;
+  --unnamed-color-000000: #000000;
+  --unnamed-color-e0e0e0: #E0E0E0;
+  --unnamed-color-ffffff: #FFFFFF;
+  --unnamed-color-3f51b5: #3F51B5;
+  --unnamed-color-ffaa00: #FFAA00;
+  --unnamed-color-ff9b44: #ff9b44;
+  --unnamed-color-f44336: #F44336;
+  --unnamed-color-1ec41e: #1ec41e;
+  --unnamed-color-c86ce6: #C86CE6;
+  --unnamed-color-ff4081: #FF4081;
+  --unnamed-color-15C1DC: #15C1DC;
+  --unnamed-color-0190FF: #0190FF;
+
+  /* Font/text values */
+  --unnamed-font-family-poppins: Poppins;
+  --unnamed-font-style-normal: normal;
+  --unnamed-font-weight-600: 600px;
+  --unnamed-font-weight-normal: normal;
+  --unnamed-font-weight-medium: medium;
+  --unnamed-font-weight-bold: bold;
+  --unnamed-font-size-12: 12px;
+  --unnamed-font-size-15: 15px;
+  --unnamed-font-size-20: 20px;
+  --unnamed-font-size-24: 24px;
+  --unnamed-font-size-32: 32px;
+  --unnamed-font-size-44: 44px;
+  --unnamed-character-spacing-0: 0px;
+  --unnamed-line-spacing-18: 18px;
+  --unnamed-line-spacing-23: 23px;
+  --unnamed-line-spacing-30: 30px;
+  --unnamed-line-spacing-35: 35px;
+  --unnamed-line-spacing-48: 48px;
+  --unnamed-line-spacing-56: 56px;
+  --unnamed-line-spacing-65: 65px;
+  --unnamed-text-transform-titlecase: titlecase;
+  }
+
+  /* Character Styles */
+  @mixin character-style-1 {
+  font-family: var(--unnamed-font-family-poppins);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-600);
+  font-size: var(--unnamed-font-size-20);
+  line-height: var(--unnamed-line-spacing-30);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-transform: var(--unnamed-text-transform-titlecase);
+  }
+  @mixin character-style-2 {
+  font-family: var(--unnamed-font-family-poppins);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-600);
+  font-size: var(--unnamed-font-size-24);
+  line-height: var(--unnamed-line-spacing-35);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-transform: var(--unnamed-text-transform-titlecase);
+  }
+  @mixin character-style-3 {
+  font-family: var(--unnamed-font-family-poppins);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-600);
+  font-size: var(--unnamed-font-size-44);
+  line-height: var(--unnamed-line-spacing-65);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-transform: var(--unnamed-text-transform-titlecase);
+  }
+  @mixin character-style-4 {
+  font-family: var(--unnamed-font-family-poppins);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-12);
+  line-height: var(--unnamed-line-spacing-18);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-transform: var(--unnamed-text-transform-titlecase);
+  }
+  @mixin character-style-5 {
+  font-family: var(--unnamed-font-family-poppins);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-normal);
+  font-size: var(--unnamed-font-size-15);
+  line-height: var(--unnamed-line-spacing-23);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-transform: var(--unnamed-text-transform-titlecase);
+  }
+  @mixin character-style-6 {
+  font-family: var(--unnamed-font-family-poppins);
+  font-style: var(--unnamed-font-style-normal);
+  font-weight: var(--unnamed-font-weight-medium);
+  font-size: var(--unnamed-font-size-15);
+  line-height: var(--unnamed-line-spacing-56);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  text-transform: var(--unnamed-text-transform-titlecase);
+  }
+  @mixin character-style-7 {
+    font-family: var(--unnamed-font-family-poppins);
+    font-style: var(--unnamed-font-style-normal);
+    font-weight: var(--unnamed-font-weight-600);
+    font-size: var(--unnamed-font-size-18);
+    line-height: var(--unnamed-line-spacing-27);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    text-transform: var(--unnamed-text-transform-titlecase);
+  }
+  /* Character Styles */
+  @mixin character-style-8 {
+    font-family: var(--unnamed-font-family-poppins);
+    font-style: var(--unnamed-font-style-normal);
+    font-weight: var(--unnamed-font-weight-bold);
+    font-size: var(--unnamed-font-size-32);
+    line-height: var(--unnamed-line-spacing-48);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    text-transform: var(--unnamed-text-transform-titlecase);
+    }

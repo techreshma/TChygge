@@ -1,0 +1,107 @@
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail">
+      <div fxLayout="row">
+        <div fxFlex="20">
+          <h3 class="logo">
+            <span *ngIf="!userData && !userData.company_favicon">
+              Company <br /><span>Logo</span>
+            </span>
+            <img src="{{imgPath}}{{userData.company_favicon}}" *ngIf="userData && userData.company_favicon"
+              [alt]="userData && userData.company_favicon" />
+          </h3>
+        </div>
+        <div fxFlex="80">
+        </div>
+        <div fxFlex="20" class="pyslipbox">
+          <span class="pyslip1">
+            Pay Slip
+          </span><br>
+          <span class="pyslip2">
+            {{currentMonth}}
+          </span><br>
+          <span class="pyslip3">
+            Slip no 585545
+          </span>
+        </div>
+      </div>
+      <div fxLayout="row" class="header-bg">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="100">
+              <!-- <span class="header-heading">Payslip for the </span> -->
+            </div>
+          </div>
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="80">
+              <table class="table -main">
+                <tbody>
+                  <tr>
+                    <td class="desi-nation">Employee</td>
+                    <td class="boldd">{{demoData && demoData.first_name}} {{demoData && demoData.last_name}} </td>
+                  </tr>
+                  <tr *ngIf="data.designation">
+                    <td class="desi-nation">Designation</td>
+                    <td class="boldd">{{demoData && demoData.designation}} </td>
+                  </tr>
+                  <tr *ngIf="data.department">
+                    <td class="desi-nation">Department</td>
+                    <td class="boldd">{{demoData && demoData.department}} </td>
+                  </tr>
+                  <tr>
+                    <td class="desi-nation">Date Of Joining</td>
+                    <td class="boldd">{{demoData && getJoinDate(demoData.employee_joiningDate)}}</td>
+                  </tr>
+                  <tr *ngIf="data.address">
+                    <td class="desi-nation">Work Location </td>
+                    <td class="boldd">{{userData && userData.company_Address}}</td>
+                  </tr>
+                  <tr *ngIf="data.passport">
+                    <td class="desi-nation">Passport No. </td>
+                    <td class="boldd">{{demoData && demoData.passport}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div fxFlex="10" class="ff"> </div>
+            <div fxFlex="30" class="section-bg1">
+              <span class="net-salary-head1">
+                <h4> Total Salary</h4>
+              </span>
+              <span class="net-salary-amt1">
+                {{demoData.salary | currency:'AED'}}
+              </span>
+              <span class="net-salary-head1">
+                <h4>{{demoData.salary | amountToWord}}</h4>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" class="header-bg">
+        <div fxFlex="50" fxFlex.gt-sm="100">
+          <table class="table headings">
+            <thead>
+              <tr class="th-bg-1">
+                <th class="th-net-salary">Earning</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of demoData.salaryArray">
+                <th class="th-net-salary-1">{{item.label}}</th>
+                <td class="curr-ency">{{item.value | currency: 'AED'}}</td>
+              </tr>
+              <tr class="tr-data">
+                <th class="th-net-salary">Total Salary</th>
+                <td class="curr-ency">{{demoData && demoData.salary | currency:'AED'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div fxFlex="50" fxFlex.gt-sm="100"></div>
+      </div>
+    </mat-card>
+  </div>
+</div>

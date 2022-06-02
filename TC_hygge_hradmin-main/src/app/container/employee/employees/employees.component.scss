@@ -1,0 +1,13 @@
+@import './../../../../variable.scss';
+.card-count{
+  @include character-style-8;
+  text-align: center;
+  display: block;
+  padding: 30px 0;
+}
+tr.mat-row {
+  cursor: pointer;
+  &:hover{
+    box-shadow: -1px -11px 10px lightgrey;
+  }
+}

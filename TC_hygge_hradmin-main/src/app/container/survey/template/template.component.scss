@@ -1,0 +1,16 @@
+@import './../../../../variable.scss';
+.survery-select {
+  text-align: center;
+  img {
+    width: 250px;
+    height: 250px;
+    margin: 30px auto;
+  }
+  .mat-card-footer{
+    background: var(--unnamed-color-3f51b5);
+    cursor:pointer;
+    span{
+      color: var(--unnamed-color-ffffff) !important
+    }
+  }
+}

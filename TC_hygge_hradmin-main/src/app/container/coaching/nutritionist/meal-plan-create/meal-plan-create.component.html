@@ -1,0 +1,245 @@
+<!-- formGroup.meal_title -->
+
+<mat-toolbar color="primary">
+  <!-- <mat-icon class="closeModal" >keyboard_backspace</mat-icon> -->
+  <span class="spacer"></span>
+  <span class="mat-toolbar-title" style="color:#fff !important">Create Meal
+    Plans</span>
+  <span class="spacer"></span>
+  <mat-icon class="closeModal" [routerLink]="['/meal-plan']"
+    routerLinkActive="router-link-active">
+    close</mat-icon>
+</mat-toolbar>
+
+<div class="main-hra-form-container">
+  <form name="registerForm" #registerForm="ngForm">
+    <div class="sub-hra-form-container">
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Meal Plan<span class="red-txt">*</span> </mat-label>
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formGroup.meal_title" name="item"
+              [placeholder]="formGroup.meal_title">
+              <mat-option *ngFor="let item of dropDownList"
+                value="{{item.meal_title}}" (click)="addMealPlan(item)">
+                {{item}}
+              </mat-option>
+              <mat-option value="Other" (click)="addMealPlan('Other')">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="showInput">
+        <mat-label>Meal Plan<span class="red-txt">*</span> </mat-label>
+        <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+          <div fxFlex="100">
+            <div class="form-ques">
+              <mat-form-field>
+                <input class="other_style" matInput type="text"
+                  name="otherMealTitle" (keyup)="setOtherMeal($event)"
+                  required />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Description <span class="red-txt">*</span> </mat-label>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <div class="form-ques">
+            <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+            <ngx-editor [editor]="editor"
+              [(ngModel)]="formGroup.meal_description" name="meal_description"
+              #meal_description="ngModel" (ngModelChange)="changeEditor($event)"
+              [disabled]="false"
+              [placeholder]="'Type here...'"></ngx-editor>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Image / Video</mat-label>
+          <div class="dropzone">
+            <ngx-dropzone (change)="onSelect($event)"
+              accept="image/jpeg,image/jpg,image/png,image/gif,video/mp4">
+              <ngx-dropzone-label>
+                <mat-icon>note_add</mat-icon><br />
+                Upload Your Image/Video<br />
+                <small>drag & drop to upload the Image/Video (jpeg,png,jpg,gif
+                  and mp4 only)</small>
+              </ngx-dropzone-label>
+              <ngx-dropzone-preview *ngFor="let f of formGroup.meal_image"
+                [removable]="true" (removed)="onRemove(f)"
+                style="background-image: url({{f}});">
+                <ngx-dropzone-label></ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <span class="sub-title">Calorie Detail</span>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-label>Plan min Calorie <span class="red-txt">*</span>
+          </mat-label>
+          <div class="form-ques">
+            <mat-form-field>
+              <input matInput type="text" maxlength="100" name="from_calories"
+                [(ngModel)]="formGroup.from_calories"
+                required />
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxFlex="50">
+          <mat-label>Plan max Calorie <span class="red-txt">*</span>
+          </mat-label>
+          <div class="form-ques">
+            <mat-form-field>
+              <input matInput type="text" maxlength="100" name="to_calories"
+                [(ngModel)]="formGroup.to_calories"
+                required />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <span class="sub-header">Plan Days</span>
+        </div>
+      </div>
+      <br />
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <button mat-raised-button (click)="addOption()" style="height: 40px;"
+            color="primary">
+            <mat-icon>add</mat-icon> Add Day
+          </button>
+        </div>
+      </div>
+      <br />
+      <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" *ngFor="let item
+        of formGroup.days;let i= index;">
+        <div fxFlex="100">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+            <div fxFlex="60">
+              <span class="card-subtitle">Day {{i+1}} </span>
+              <button mat-raised-button *ngIf="i> 0" (click)="removeOption(i)"
+                style=" height: 40px;" color="warn">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+            <div fxFlex="40">
+              <button mat-raised-button (click)="addMore(i)" style="height:
+                40px;" color="primary">
+                <mat-icon>add</mat-icon> Add Meal
+              </button>
+            </div>
+          </div>
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class=""
+            *ngFor="let meal of item.day;let ix= index">
+            <div fxFlex="70">
+              <mat-label>Select Meal Type <span class="red-txt">*</span>
+              </mat-label>
+              <div class="form-ques">
+                <mat-form-field class="form-fields bgwhite">
+                  <mat-select [(ngModel)]="meal.type" name="type{{i}}_{{ix}}"
+                    #type required>
+                    <mat-option value="breakfast">Breakfast</mat-option>
+                    <mat-option value="lunch">Lunch</mat-option>
+                    <mat-option value="snacks">Snacks</mat-option>
+                    <mat-option value="dinner">Dinner</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br />
+              </div>
+              <button mat-raised-button (click)="addRecipe(i,ix)" style="height:
+                40px;" color="primary">
+                <mat-icon>add</mat-icon> Add Recipe
+              </button>
+              <br />
+              <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class=""
+                *ngFor="let rec of meal.recipes; let ixo= index">
+                <div fxFlex="70">
+
+                  <button mat-raised-button color="primary"
+                    (click)="openRecipeFilter(i , ix , ixo)"
+                    class="filter-btn">
+                    <mat-icon>filter_list</mat-icon> Filter
+                  </button>
+                  <mat-label>Select From Already Added Recipe
+                    <span class="red-txt">*</span>
+                  </mat-label>
+                  <div class="form-ques">
+                    <mat-form-field>
+                      <mat-select [(ngModel)]="meal.recipes[ixo]"
+                        name="meal{{i}}_{{ix}}_{{ixo}}" required>
+                        <mat-option *ngFor="let recD of meal.recipeArray"
+                          [value]="recD.recipes_id">
+                          {{recD.recipe_title}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <br />
+                </div>
+                <div fxFlex="10">
+                  <br />
+                  <mat-label></mat-label>
+                  <button mat-raised-button *ngIf="ixo> 0"
+                    (click)="removeRecipe(i, ix, ixo)" style="height: 40px"
+                    color="warn">
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+                <div fxFlex="20">
+                  <br />
+                  <mat-label></mat-label>
+                  <button mat-raised-button (click)="newRecipe(i, ix)"
+                    style="height: 40px" color="primary">
+                    <mat-icon>add</mat-icon> Add New Recipe
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div fxFlex="30">
+              <br />
+              <mat-label></mat-label>
+              <button mat-raised-button *ngIf="ix> 0" (click)="removeMeal(i,ix)"
+                style="height: 40px;" color="warn">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <hr />
+      </div>
+    </div>
+    <div class="short-container">
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="100">
+          <mat-label></mat-label>
+          <button mat-raised-button class="big-btn block-btn" (click)="addHra()"
+            color="primary">
+            Save & Publish
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

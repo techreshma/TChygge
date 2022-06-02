@@ -1,0 +1,6 @@
+tr.mat-row {
+  cursor: pointer;
+  &:hover{
+    box-shadow: -1px -11px 10px lightgrey;
+  }
+}

@@ -1,0 +1,37 @@
+@import './../../../../variable.scss';
+button.employee-view-btn {
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    margin-left: 14px;
+}
+button.calendar-view-btn {
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    background: #3f51b51a;
+    border-color: #3f51b50d;
+}
+.pdf-head-button{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-bottom: 25px;
+}
+.custom-selection {
+    @include character-style-5;
+    max-width: 175px;
+    border: 1px solid var(--unnamed-color-3F51B5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+    background: #eaedf8;
+    color: var(--unnamed-color-3F51B5);
+  }
+  ::ng-deep .mat-chip-list-wrapper {
+    background-color: #f5f5f5;
+  }
+  ::ng-deep .mat-chip-list-wrapper .mat-standard-chip {
+    margin: 4px !important;
+    background-color: white;
+    padding: 1.6em !important;
+  }

@@ -1,0 +1,112 @@
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <mat-toolbar color="light">
+        <span class="card-title">Check your Data</span>
+        <span class="actionDetail-ok"><b>{{fillCount}}</b> Correct rows</span>
+        <span class="actionDetail-err"><b>{{emptyCount}}</b> Empty rows</span>
+        <span class="spacer"></span>
+        <button mat-mini-fab  class="cal-button" #tooltip="matTooltip" matTooltip="Delete"   color="light" (click)="confirmDialog()"><mat-icon color="warn">delete</mat-icon></button>
+
+        <mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+      </mat-toolbar>
+    </div>
+  </div>
+
+  <form name="registerForm"  #registerForm="ngForm">
+    <mat-dialog-content class="mat-typography">
+      <table class="csvDataTable">
+        <thead>
+          <tr style="text-align: left;">
+            <th></th>
+            <th><b>First name</b></th>
+            <th><b>Last name</b></th>
+            <th><b>Email</b></th>
+            <th><b>Department</b></th>
+            <th><b>Designation</b></th>
+            <th><b>Reporting Manager</b></th>
+            <th><b>Date of Joining</b></th>
+            <th><b>Insurance Plan</b></th>
+            <th><b>Branch</b></th>
+            <th colspan="2">
+              <b>Working Hours</b>
+            </th>
+            <th *ngFor="let l of leaveData"><b>{{l}}</b></th>
+            <th *ngFor="let s of salaryData"><b>{{s}}</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of employeeData; let i = index;" [ngClass]="item.chk == 1?'okTr':'errTr'">
+            <td>
+              <mat-checkbox class="example-margin" [checked]="item.selected == 'check'"   (change)="check(i)" ></mat-checkbox>
+            </td>
+            <td>
+              <input matInput  maxlength="250" type="text"  name="First_Name{{i}}" [(ngModel)]="item.First_Name" disabled  required autocomplete="off"  />
+            </td>
+            <td>
+              <input matInput maxlength="250"  type="text"   name="Last_Name{{i}}" [(ngModel)]="item.Last_Name" disabled  required autocomplete="off"  />
+            </td>
+            <td>
+              <input matInput maxlength="250"  type="email"  name="Email{{i}}" [(ngModel)]="item.Email" disabled  required autocomplete="off"  />
+            </td>
+            <td>
+              <mat-select  [(ngModel)]="item.Department" name="Department{{i}}" (ngModelChange)="detectChange($event,i,'Department')" required>
+                <mat-option *ngFor="let d of departmentData" [value]="d">{{d}}</mat-option>
+              </mat-select>
+            </td>
+            <td>
+              <mat-select  [(ngModel)]="item.Designation" name="Designation{{i}}" (ngModelChange)="detectChange($event,i,'Designation')" required>
+                <mat-option *ngFor="let d of designationData" [value]="d">{{d}}</mat-option>
+              </mat-select>
+              <!-- <input matInput list="desig"  placeholder="Designation" (ngModelChange)="detectChange($event,i,'Designation')" />
+              <datalist id="desig">
+                <option *ngFor="let d of designationData" [value]="d">
+              </datalist> -->
+            </td>
+            <td>
+              <mat-select [(ngModel)]="item['Reporting Manager']" name="reporting_Manager{{i}}" (ngModelChange)="detectChange($event,i,'reporting_Manager')"  >
+                <mat-option [value]="item.First_Name" >No manager</mat-option>
+                <mat-option *ngFor="let emp of employeeList" value="{{emp.first_name}} {{emp.last_name}}">{{emp.first_name}} {{emp.last_name}}</mat-option>
+              </mat-select>
+            </td>
+            <td style="display: flex;">
+              <input matInput placeholder="Employee Joining Date" [matDatepicker]="picker" format="DD/MM/YYYY"  name="Employement_Date{{i}}" [(ngModel)]="item.Employement_Date" (ngModelChange)="detectChange($event,i,'Employement_Date')" autocomplete="off"  />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker></td>
+            <td>
+              <mat-select [(ngModel)]="item.Insurance_PlanName" name="Insurance_PlanName{{i}}" (ngModelChange)="detectChange($event,i,'Insurance_PlanName')">
+                <mat-option *ngFor="let emp of insuranceData" [value]="emp.Insurance_PlanName">{{emp.insurance_Plan}} ({{emp.insurance_Name}})</mat-option>
+              </mat-select>
+            </td>
+            <td>
+              <mat-select [(ngModel)]="item.branch_Id" name="branch_Id{{i}}"  (ngModelChange)="detectChange($event,i,'branch_Id')">
+                <mat-option *ngFor="let emp of branchData" [value]="emp">{{emp}}</mat-option>
+              </mat-select>
+            </td>
+            <td>
+              <input matInput  type="time"  name="working_HoursFrom{{i}}" [(ngModel)]="item.working_HoursFrom" (ngModelChange)="detectChange($event,i,'working_HoursFrom')" autocomplete="off"  />
+            </td>
+            <td>
+              <input matInput  type="time"   name="working_HoursTo{{i}}" [(ngModel)]="item.working_HoursTo" (ngModelChange)="detectChange($event,i,'working_HoursTo')" autocomplete="off"  />
+            </td>
+            <ng-container *ngFor="let l of leaveData">
+              <td>
+                <input matInput min="0" type="number"  (ngModelChange)="detectChange($event,i,'Leave_'+l)"  name="Leave_{{l}}{{i}}" [(ngModel)]="item['Leave_'+l]" autocomplete="off"  />
+              </td>
+            </ng-container>
+            <ng-container *ngFor="let s of salaryData">
+              <td>
+                <input matInput min="0" type="number"   name="Salary_{{s}}{{i}}" [(ngModel)]="item['Salary_'+s]"   (ngModelChange)="detectChange($event,i,'Salary_'+s)" autocomplete="off"  />
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button mat-dialog-close>Cancel</button>
+      <!-- <button mat-raised-button (click)="updateSheet()" [disabled]="!registerForm.valid && !validate" color="primary">Submit</button> -->
+      <button mat-raised-button (click)="updateSheet()" color="primary">Submit</button>
+    </mat-dialog-actions>
+  </form>
+</div>

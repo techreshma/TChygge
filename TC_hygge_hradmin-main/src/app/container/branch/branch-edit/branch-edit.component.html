@@ -1,0 +1,216 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Edit Branch</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+<form name="registerForm" (ngSubmit)="editBranch()" #registerForm="ngForm">
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Branch Name" maxlength="50" type="text" #branch_Name="ngModel"  name="branch_Name" [(ngModel)]="formData.branch_Name"  required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="branch_Name.valid || branch_Name.untouched">
+        <span class="error" *ngIf="branch_Name.errors?.required">Branch Name is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <mat-select placeholder="Industry Type" [(ngModel)]="formData.company_Industry" name="company_Industry" #company_Industry required>
+          <mat-optgroup *ngFor="let item of industryData" [label]="item.title"  >
+            <mat-option *ngFor="let sub of item.child" [value]="sub">{{sub}}</mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Contact Number" maxlength="16" type="number" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" #company_Contact="ngModel"  name="company_Contact" [(ngModel)]="formData.company_Contact"  required autocomplete="off" />
+
+      </mat-form-field>
+      <div [hidden]="company_Contact.valid || company_Contact.untouched">
+        <span class="error" *ngIf="company_Contact.errors?.required">Corporate Contact is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Corporate Email ID" maxlength="50" type="email" #corporate_email="ngModel" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="formData.corporate_email"  name="corporate_email" required autocomplete="off" />
+      </mat-form-field>
+
+      <div [hidden]="corporate_email.valid || corporate_email.untouched">
+        <span class="error" *ngIf="corporate_email.errors?.required">Corparate Email is mandatory.</span>
+        <span class="error"  *ngIf="corporate_email.errors?.pattern">Email is invalid</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Year of estblished" maxlength="16" type="number" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" #company_YearEstablished="ngModel"  name="company_YearEstablished" [(ngModel)]="formData.company_YearEstablished"  required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="company_YearEstablished.valid || company_YearEstablished.untouched">
+        <span class="error" *ngIf="company_YearEstablished.errors?.required">Branch year of established is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <mat-select placeholder="Business Type" [(ngModel)]="formData.company_BusinessType" name="company_BusinessType" #company_BusinessType required>
+          <mat-option  value="Corporation">Corporation</mat-option>
+          <mat-option  value="Limited Liability Company">Limited Liability Company</mat-option>
+          <mat-option  value="Publicly Listed">Publicly Listed</mat-option>
+          <mat-option  value="Multi-national corporations">Multi-national corporations</mat-option>
+          <mat-option  value="Not for profit organizations">Not for profit organizations</mat-option>
+          <mat-option  value="Partnership">Partnership</mat-option>
+          <mat-option  value="Sole proprietorship">Sole proprietorship</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="First Name" maxlength="50" type="text" #P_firstName="ngModel"  name="P_firstName" [(ngModel)]="formData.P_firstName"  required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="P_firstName.valid || P_firstName.untouched">
+        <span class="error" *ngIf="P_firstName.errors?.required">First Name is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Last Name" maxlength="50" type="text" #P_lastName="ngModel" [(ngModel)]="formData.P_lastName"  name="P_lastName" required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="P_lastName.valid || P_lastName.untouched">
+        <span class="error" *ngIf="P_lastName.errors?.required">Last Name is mandatory.</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Person Contact Number" maxlength="16" type="number" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" #P_Contact="ngModel"  name="P_Contact" [(ngModel)]="formData.P_Contact"  required autocomplete="off" />
+
+      </mat-form-field>
+      <div [hidden]="P_Contact.valid || P_Contact.untouched">
+        <span class="error" *ngIf="P_Contact.errors?.required">Corporate Contact is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Person Email" maxlength="50" type="email" #PC_Email="ngModel" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [(ngModel)]="formData.PC_Email"  name="PC_Email" required autocomplete="off" />
+      </mat-form-field>
+
+      <div [hidden]="PC_Email.valid || PC_Email.untouched">
+        <span class="error" *ngIf="PC_Email.errors?.required">Person Email is mandatory.</span>
+        <span class="error"  *ngIf="PC_Email.errors?.pattern">Email is invalid</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input type="text" matInput list="design" placeholder="Person Designation"  [(ngModel)]="formData.PC_Designation" name="PC_Designation" #PC_Designation required />
+        <datalist id="design">
+          <option *ngFor="let d of designationList">{{d}}</option>
+        </datalist>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Building Name & Office no" maxlength="50" type="text" #building_name="ngModel"  [(ngModel)]="addressData.building_name"  name="building_name" required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="building_name.valid || building_name.untouched">
+        <span class="error" *ngIf="building_name.errors?.required">Building name is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="Street" maxlength="100" type="text" #street="ngModel"  [(ngModel)]="addressData.street"  name="street" required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="street.valid || street.untouched">
+        <span class="error" *ngIf="street.errors?.required">Street name is mandatory.</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput maxlength="50" placeholder="District" type="text" #office_number="ngModel"  [(ngModel)]="addressData.office_number"  name="office_number" required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="office_number.valid || office_number.untouched">
+        <span class="error" *ngIf="street.errors?.required">District is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="P. O. Box" maxlength="10" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" type="number" #po_box="ngModel"  [(ngModel)]="addressData.po_box"  name="po_box" required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="po_box.valid || po_box.untouched">
+        <span class="error" *ngIf="po_box.errors?.required">P.O. Box Number is mandatory.</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput placeholder="City" maxlength="50" type="text" #city="ngModel"  [(ngModel)]="addressData.city"  name="city" required autocomplete="off" />
+      </mat-form-field>
+      <div [hidden]="city.valid || city.untouched">
+        <span class="error" *ngIf="city.errors?.required">City is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <mat-select placeholder="Emirates" [(ngModel)]="addressData.emirates" name="emirates" #emirates required>
+          <mat-option  value="Dubai">Dubai</mat-option>
+          <mat-option  value="Sharjah">Sharjah</mat-option>
+          <mat-option  value="Abu Dhabi">Abu Dhabi</mat-option>
+          <mat-option  value="Ras Al Khaimah">Ras Al Khaimah</mat-option>
+          <mat-option  value="Umm Al Quwain">Umm Al Quwain</mat-option>
+          <mat-option  value="Fujairah">Fujairah</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Access</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of formData.access;let i = index">
+          <th>{{item.module}}</th>
+          <td style="display: flex;
+          justify-content: center;
+          align-items: center;"><span class="toggle-title">Local</span>
+            <mat-slide-toggle
+                class="example-margin portal"
+                color="primary"
+                (change)="changePermission($event,i)"
+                [checked]="item.permission == 1?true:false"
+            >
+            </mat-slide-toggle>
+            <span class="toggle-title">Global</span>
+          </td>
+        </tr>
+        <tr>
+
+        </tr>
+      </tbody>
+    </table>
+    <div fxLayout="row" class="" >
+      <div fxFlex="100">
+        <mat-label></mat-label>
+        <button mat-raised-button class="big-btn block-btn"  [disabled]="!registerForm.valid"  color="primary">Edit Branch</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+</div>

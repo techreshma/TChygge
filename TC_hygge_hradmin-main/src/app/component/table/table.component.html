@@ -1,0 +1,92 @@
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+  <!-- Position Column -->
+  <ng-container *ngFor="let columns of displayedColumns;let i= index"
+    [matColumnDef]="columns">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> <b>{{displayedTitles[i]}}</b></th>
+    <ng-container *ngIf="columns == 'image'">
+      <td mat-cell *matCellDef="let element"
+        (click)="getDetail($event,element)">
+        <!-- <img [src]="element.challenge_Image"/> -->
+
+        <img src="{{imgPath}}{{element.challenge_image}}" />
+      </td>
+    </ng-container>
+    <ng-container *ngIf="columns == 'Action Required'">
+      <td mat-cell *matCellDef="let element" class="data">
+        <mat-slide-toggle class="example-margin portal" color="primary"
+          (change)="updateData($event,element)"
+          [checked]="element.actin_Required ==0?false:true">
+        </mat-slide-toggle>
+      </td>
+    </ng-container>
+    
+    <ng-container *ngIf="columns == 'status'">
+      <td mat-cell *matCellDef="let element" class="data">
+        <button mat-flat-button class="round-btn ty" *ngIf="element.status == 1"
+          color="light">Active</button>
+        <button mat-flat-button class="round-btn ty" *ngIf="element.status == 0"
+          color="warn">Lock</button>
+      </td>
+    </ng-container>
+    <ng-container *ngIf="columns == 'branch_Type'">
+      <td mat-cell *matCellDef="let element" class="data">
+        <button mat-flat-button class="round-btn ty" *ngIf="element.branch_Type
+          == 1" color="primary">Main</button>
+        <button mat-flat-button class="round-btn ty" *ngIf="element.branch_Type
+          == 0" color="accent">Sub</button>
+      </td>
+    </ng-container>
+    <ng-container *ngIf="columns == 'action'">
+      <td mat-cell *matCellDef="let element" class="data">
+        <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+          matTooltip="Locked"
+          *ngIf="element.status == 1 && accessPermission &&
+          checkColumn('status')" color="light"
+          (click)="updateStatus($event,element,'0')">
+          <mat-icon color="primary">lock</mat-icon>
+        </button>
+        <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+          matTooltip="Activate"
+          *ngIf="element.status == 0 && accessPermission &&
+          checkColumn('status')" color="light"
+          (click)="updateStatus($event,element,'1')">
+          <mat-icon color="primary">lock_open</mat-icon>
+        </button>
+
+        <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+          *ngIf="accessPermission && checkColumn('delete')"
+          matTooltip="Delete" color="light"
+          (click)="confirmDialog($event,element)">
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
+        <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+          (click)="updateData($event,element)"
+          *ngIf="accessPermission && checkColumn('update')" matTooltip="Edit"
+          color="light">
+          <mat-icon color="green">edit</mat-icon>
+        </button>
+        <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+          (click)="invitationLink(element.id)"
+          *ngIf="accessPermission && checkColumn('send')" matTooltip="Invitation
+          Link" color="light">
+          <mat-icon color="accent">send</mat-icon>
+        </button>
+        <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+          (click)="previewData($event,element)"
+          *ngIf="accessPermission" matTooltip="Preview" color="light">
+          <mat-icon color="green">preview</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <td mat-cell *matCellDef="let element" class="data"
+      (click)="getDetail($event,element)"> {{element[columns]}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; Columns: displayedColumns;"></tr>
+  <!-- Row shown when there is no matching data. -->
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data Found.</td>
+  </tr>
+</table>

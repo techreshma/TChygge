@@ -1,0 +1,48 @@
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Filter</span>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <form name="filterForm" (ngSubmit)="filter()" #filterForm="ngForm">
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+
+          <mat-form-field class="form-fields">
+            <input type="text" placeholder="By Date Range" matInput ngxDaterangepickerMd [(ngModel)]="formData.byWhich"
+              name="dateRange" [ranges]="ranges" [alwaysShowCalendars]="keepOpen"
+              [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}" startKey="start" endKey="end" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.department" name="role" placeholder="By Department">
+              <mat-option value="">ALL</mat-option>
+              <mat-option *ngFor="let d of departmentData" [value]="d.department_Type">{{d.department_Type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.employee" name="employee" placeholder="Perticular Employee">
+              <mat-option value="">ALL</mat-option>
+              <mat-option *ngFor="let emp of employeeList" [value]="emp.user_id">{{emp.first_name}} {{emp.last_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" class="">
+        <div fxFlex="100">
+          <mat-label></mat-label>
+          <button mat-raised-button class="big-btn block-btn" color="primary">APPLY FILTERS</button>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

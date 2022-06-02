@@ -1,0 +1,178 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Calendar
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Calendar</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" class="mid-graph">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card>
+      <mat-toolbar color="light">
+        <span class="mat-toolbar-title">Calendar</span>
+        <span class="spacer"></span>
+        <mat-form-field class="search-field" appearance="standard">
+          <mat-icon matSuffix>search</mat-icon>
+          <input matInput placeholder="Search" #input (keyup)="applyFilter($event)" />
+        </mat-form-field>
+        <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getEvent()">
+          <mat-icon>sync</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="cal-button" aria-label="Filter">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="cal-button" aria-label="Add new" #addButton ejs-button
+          id="addButton" (click)="addNew()">
+          <mat-icon>add</mat-icon>
+        </button>
+        <!-- <mat-icon>filter_list</mat-icon> -->
+      </mat-toolbar>
+      <ejs-schedule #scheduleObj width='100%' height='550px' currentView="month" [selectedDate]="selectedDate"
+        [eventSettings]="eventSettings" (popupOpen)="onPopupOpen($event)" (eventRendered)="oneventRendered($event)"
+        (actionBegin)=onActionBegin($event) (actionComplete)="onActionComplete($event)"
+        (eventClick)="onEventClick($event.event)">
+        <e-views>
+          <e-view option="Month"></e-view>
+          <e-view option="Week"></e-view>
+          <e-view option="Day"></e-view>
+        </e-views>
+      </ejs-schedule>
+      <br />
+      <br />
+      <div *ngIf="istodayEvent">
+        <div class="todayevent">
+          Event list for {{currentDate}}
+        </div><br />
+       
+
+        <mat-card *ngFor="let item of todayEeventDetail">
+          <label class="eventcard_labels">{{item.event_Title}}</label><br /><br />
+          <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="50">
+              <div style="display: flex;">
+                <span class="tiggeron">Tigger On</span>&nbsp;&nbsp;
+                <span class="tiggeron blue">{{item.tiggerOnDate}}</span>&nbsp;&nbsp;
+                <span class="tiggeron">At</span>&nbsp;&nbsp;
+                <span class="tiggeron blue">{{item.tiggerOnTime}}</span>
+
+              </div>
+            </div>
+            <div fxFlex="30">
+              <span class="tiggeron">Target Audience</span>&nbsp;
+              <span class="tiggeron blue">{{item.target_Audeince}}</span>
+            </div>
+            <div fxFlex="20">
+              <span class="tiggeron">Tag</span>&nbsp;
+              <span class="tiggeron red">{{item.tiggerOnDate}}</span>
+            </div>
+          </div><br /><br />
+          <mat-divider></mat-divider>
+          <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="10">
+              <div>
+                <span style="font-size:15px;font-weight:500">Icon</span>
+              </div><br />
+              <div>
+
+              </div>
+            </div>
+            <div fxFlex="90">
+              <div>
+                <span style="font-size:15px;font-weight:500">Description</span>
+              </div><br />
+              <div style="font-size:15px;">
+                {{item.event_Description}}
+              </div>
+            </div>
+          </div><br /><br />
+          <mat-divider></mat-divider>
+          <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="70">
+              <div style="display:flex">
+                <button mat-stroked-button class="btn-round rounded blueborder">
+                  Edit
+                </button>&nbsp;
+                <button mat-stroked-button class="btn-round rounded blueborder">
+                  Preview
+                </button>
+              </div>
+            </div>
+            <div fxFlex="30">
+              <button mat-stroked-button class="btn-round yellow">
+                Reschedule
+              </button>
+            </div>
+          </div>
+        </mat-card>
+
+      </div>
+      <!-- <mat-card class="event-detail" *ngFor="let item of selectedEvent">
+        <mat-card-header>
+          <mat-card-title >{{item.Subject}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="row" fxLayoutAlign="space-around left" class="heading-calendar-detail">
+            <div fxFlex="33">
+              <span class="target_title">
+                On
+              </span>
+              <span class="target-detail">
+                <span class="blue-txt">
+                  {{item.StartTime | date:'dd MMM yyyy'}}
+                </span>
+                At
+                <span class="blue-txt">
+                  {{item.StartTime | date:'HH:mm a'}}
+                </span>
+              </span>
+            </div>
+            <div fxFlex="33">
+              <span class="target_title">
+                Target Audience
+              </span>
+              <span class="target-detail">
+                <span *ngIf="item.department !=''">
+                  <b>Department:&nbsp;&nbsp;</b> <span class="blue-txt">{{item.department}} &nbsp;&nbsp;</span>
+                </span>
+                <span *ngIf="item.ageFrom !=''">
+                  <b>Age:&nbsp;&nbsp;</b> <span class="blue-txt">{{item.ageFrom}} - {{item.ageTo}}&nbsp;&nbsp;</span>
+                </span>
+                <span *ngIf="item.gender !=''">
+                  <b>Gender:&nbsp;&nbsp;</b> <span class="blue-txt">{{item.gender}}</span>
+                </span>
+              </span>
+            </div>
+            <div fxFlex="33">
+              <span class="target_title">
+                Type
+              </span>
+              <span class="target-detail">
+                <span class="red-txt">
+                  {{item.EventType}}
+                </span>
+              </span>
+            </div>
+          </div>
+          <div fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+            <div fxFlex="10">
+              <div class="icon-cont" *ngIf="item.icon == ''">
+                <mat-icon>camera</mat-icon>
+              </div>
+              <img *ngIf="item.icon != ''" [src]="item.icon" />
+            </div>
+            <div fxFlex="90">
+              <span class="desc-heading">Description</span>
+              <p>{{item.Description}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-footer>
+        </mat-card-footer>
+      </mat-card> -->
+    </mat-card>
+  </div>
+</div>

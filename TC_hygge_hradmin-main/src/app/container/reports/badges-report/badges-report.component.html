@@ -1,0 +1,216 @@
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="70">
+    <h3 class="page-title">
+      Badges Report
+      <button mat-raised-button class="employee-view-btn" color="primary" (click)="showTab()">Employee View</button>
+      <button mat-stroked-button class="calendar-view-btn" color="primary" (click)="showCal()">Calendar View</button>
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/reports">Reports</a></li>
+      <li>Leaves</li>
+    </ul>
+  </div>
+  <div fxFlex="30" class="pdf-head-button">
+    <button mat-raised-button color="primary" (click)="downloadAsPDF()">Export Report as PDF</button>
+  </div>
+</div>
+
+<div id="pdfTable" #pdfTable fxLayout="row wrap" fxflexfill fxLayoutGap="30px grid">
+  <div fxFlex="33">
+    <mat-card class="remove-bottom">
+      <mat-card-content>
+        <div fxLayoutAlign="space-around center">
+          <span class="total-number">Total Badges Earned</span> <br />
+        </div> <br />
+        <button mat-stroked-button class="view-more-2 btn-round" color="primary">{{total_badges}}</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="33">
+    <mat-card class="dashboard-count">
+      <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div fxFlex>
+          <span class="card-subtitle middle">Top 5 Employees</span>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex>
+          <app-horizontal-bar *ngIf="lateEmployeeGraph" [data]="lateEmployeeGraph"></app-horizontal-bar>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="33">
+    <mat-card class="dashboard-count">
+      <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div fxFlex>
+          <span class="card-subtitle middle-bad">Top 5 Badges</span>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex>
+          <app-horizontal-bar *ngIf="lateEmployeeGraph" [data]="lateEmployeeGraph"></app-horizontal-bar>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div> <br>
+
+<div class="scroller">
+  <div class="scroll-x">
+    <div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-card class="dashboard-detail">
+          <mat-card-content>
+            <div class="header11">
+              <mat-toolbar color="grey">
+                <mat-form-field class="search-field" appearance="standard">
+                  <mat-icon matSuffix>search</mat-icon>
+                  <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+                </mat-form-field>
+                <span class="spacer"></span>
+
+
+                <mat-select class="custom-selection" [(ngModel)]="customizeData"
+                  (ngModelChange)="addRemoveColumn($event)" multiple>
+                  <mat-select-trigger>
+                    <span class="example-additional-selection">
+                      Customize Table
+                    </span>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let item of displayedColumnsTitleDemo;let i = index" [value]="item.value">
+                    {{item.title}}</mat-option>
+                </mat-select>
+
+                <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Export Table <mat-icon>expand_more
+                  </mat-icon></button>&nbsp;&nbsp;
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="exportExcel()">AS EXCEL</button>
+                  <button mat-menu-item (click)="export()">AS CSV</button>
+                </mat-menu>&nbsp;&nbsp;
+              </mat-toolbar>
+              <mat-toolbar class="top-mar" color="grey">
+                <button mat-raised-button color="primary" (click)="openFilterModal()">Filter <mat-icon>filter_list
+                  </mat-icon></button>
+              </mat-toolbar>
+
+              <mat-chip-list #chipList>
+                <mat-chip
+                  *ngFor="let module of modulename"
+                  [selectable]="selectable"
+                  [removable]="removable"
+                  (removed)="remove(module)"
+                >
+                  {{ module.name }}&nbsp;&nbsp; {{ module.value }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input
+                  style="display: none"
+                  placeholder="New fruit..."
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event)"
+                />
+              </mat-chip-list>
+            </div>
+
+            <table id="csvTable" *ngIf="tableFirst" mat-table [dataSource]="dataSource" matSort
+              class="mat-elevation-z8 top-mar">
+
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Name</th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="department">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Department </th>
+                <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="reporting">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting Manager </th>
+                <td mat-cell *matCellDef="let element"> {{element.reporting_Manager}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="badges_earned">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Badges Earned </th>
+                <td mat-cell *matCellDef="let element"> {{element.badges_earn}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="maritial_status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Maritial Status</th>
+                <td mat-cell *matCellDef="let element"> {{element.marital_Status}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+              </tr>
+            </table>
+
+            <table *ngIf="tableSecond" mat-table [dataSource]="dataSourceNew" matSort class="mat-elevation-z8 top-mar">
+
+              <ng-container matColumnDef="badge_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Badge Name</th>
+                <td mat-cell *matCellDef="let element"> {{element.badge_name}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="earned">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Earned </th>
+                <td mat-cell *matCellDef="let element"> {{element.earned}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsNew"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsNew;"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+              </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div> <br> <br>
+
+<div style="display: none;">
+  <!-- csvTableExp -->
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort class="mat-elevation-z8 top-mar">
+      
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Department </th>
+      <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="reporting">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting Manager </th>
+      <td mat-cell *matCellDef="let element"> {{element.reporting_Manager}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="badges_earned">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Badges Earned </th>
+      <td mat-cell *matCellDef="let element"> {{element.badges_earn}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="maritial_status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Maritial Status</th>
+      <td mat-cell *matCellDef="let element"> {{element.marital_Status}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+    </tr>
+  </table>
+</div>

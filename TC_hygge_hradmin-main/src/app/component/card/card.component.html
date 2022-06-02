@@ -1,0 +1,18 @@
+<mat-card class="dashboard-count New-Change default_height {{isDefault ? CardHeight : 'default_height'}}">
+  <mat-card-header *ngIf="title != ''">
+    <mat-card-title>
+      <span class="{{isLineChart ? 'mat-card-header-left':'mat-card-header-center'}}">
+        {{title}}
+      </span>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content *ngIf="centertext != ''">
+    <span style="display:table;margin:auto">
+      {{centertext}}
+    </span>
+  </mat-card-content>
+  <ng-container [ngTemplateOutlet]="children"></ng-container>
+  <mat-card-actions *ngIf="footer != ''">
+    <span>{{footer}}</span>
+  </mat-card-actions>
+</mat-card>

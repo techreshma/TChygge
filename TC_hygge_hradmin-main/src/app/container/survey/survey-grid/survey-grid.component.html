@@ -1,0 +1,31 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Survey
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/list-survey">Survey</a></li>
+      <li>Create new</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around
+  center" fxLayoutGap="25px">
+  <mat-card *ngFor="let item of responseData" fxFlex="calc(33%-25px)"
+    fxFlex.sm="calc(50%-25px)"
+    routerLink="/template-detail/{{item.surveyQuestions_Id}}">
+
+    <img mat-card-image [src]="copyPastImage" alt="Photo">
+    <mat-card-content style="text-align:center!important" routerLink="/template-detail/{{item.surveyQuestions_Id}}"
+      color="primary">
+      <span class="card-title">{{item.survey_Description}}</span>
+    </mat-card-content>
+  </mat-card>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

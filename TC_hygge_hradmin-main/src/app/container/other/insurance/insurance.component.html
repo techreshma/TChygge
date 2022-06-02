@@ -1,0 +1,69 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Insurance
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Insurance</li>
+    </ul>
+  </div>
+</div>
+
+<mat-card>
+  <mat-toolbar color="dark" class="tool" *ngIf="responseData.length == 0">
+    <span class="mat-toolbar-title icic"> Add Insurance </span>
+    <span class="spacer"></span>
+    <button mat-mini-fab color="primary" class="cal-button" aria-label="Add new" (click)="openSubAddModal('','')">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div fxLayout="row" class="mid-graph" *ngFor="let item of responseData;let i = index;">
+    <div fxFlex="100" fxFlex.gt-xs="100">
+      <mat-toolbar color="light" class="tool">
+        <span class="mat-toolbar-title icic"> <b class="head"> {{item.insuranceName}}</b> </span>
+        <span class="mat-toolbar-title icici date"> {{item.date}} </span>
+        <span class="spacer"></span>
+        <button mat-mini-fab color="primary" class="cal-button" aria-label="Add new"
+          (click)="openSubAddModal(item.insuranceName,item.date)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-toolbar>
+      <table class="table">
+        <thead>
+          <tr>
+            <th width="10%" class="as">Plan Id</th>
+            <th width="10%" class="as">Name of Plan</th>
+            <th width="10%" class="as">Members</th>
+            <th width="15%" class="as">Table of benefits</th>
+            <th width="15%" class="as">Network</th>
+            <th width="25%" class="as">Action Required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sub of item.data">
+            <td class="sa">{{sub.insuranceDetail_id}}</td>
+            <td class="sa">{{sub.insurance_Plan}}</td>
+            <td class="sa">{{sub.member}}</td>
+            <td><a class="sa"
+                [href]="chkHttp(sub.insurance_Benefit) == 'http:'?sub.insurance_Benefit:imgPath+''+sub.insurance_Benefit"
+                target="_blank">View Benifits</a></td>
+            <td><a class="sa" [href]="chkHttp(sub.insurance_Benefit) == 'http:'?sub.network:imgPath+''+sub.network"
+                target="_blank">View Network</a></td>
+            <td>
+              <button mat-mini-fab class="cal-button" #tooltip="matTooltip" matTooltip="Delete" color="light"
+                (click)="confirmDialog(sub.insuranceDetail_id)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+              <button mat-mini-fab class="cal-button" #tooltip="matTooltip" matTooltip="Edit" color="light"
+                (click)="openSubEditModal(item,sub)">
+                <mat-icon color="green">edit</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>

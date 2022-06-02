@@ -1,0 +1,103 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Challenges
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>
+        <a routerLink="/challange-list">
+          Challenges
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="65">
+    <app-card [title]="'Participants'" [children]="children" *ngIf="graphData && departmentGraph">
+      <ng-template #children>
+        <div fxLayout="row">
+          <div fxFlex="50">
+            <app-doughnut *ngIf="graphData" [data]="graphData"></app-doughnut>
+            <span class="card-subtitle" style="display: block;
+            margin-top: 10px;">Gender</span>
+          </div>
+          <div fxFlex="50">
+            <app-doughnut *ngIf="departmentGraph" [data]="departmentGraph"></app-doughnut>
+            <span class="card-subtitle" style="display: block;
+            margin-top: 10px;">Department</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="35">
+    <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+                <span class="card-subtitle" style="padding-right: 10px;">Number of Active Challenges</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title">{{activeChallanges}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <br />
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+                <span class="card-subtitle">Number of Participants in all Challenges</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title">{{totalParticipant}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <app-card [title]="'Participants per Challenge'" [children]="children" *ngIf="heatGraph">
+      <ng-template #children>
+        <app-heat-map *ngIf="heatGraph" [data]="heatGraph"></app-heat-map>
+        <p *ngIf="!heatGraph">No data found.</p>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div class="scroller">
+  <div class="scroll-x">
+    <div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-card class="dashboard-detail">
+          <mat-card-content>
+            <mat-toolbar color="grey">
+              <span class="mat-toolbar-title fnt">Challenge list</span>&nbsp;&nbsp;
+              <span class="spacer"></span>
+              <mat-form-field class="search-field" appearance="standard">
+                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+              </mat-form-field>
+            </mat-toolbar>
+            <app-table *ngIf="data" [isChallenge]="isChallenge" [filter]="applyFilter" [column]="displayedColumns" [titles]="displayedColumns"
+              [data]="data" (update)="goToUpdate($event.event,$event.data)"
+              (detail)="openDetailModal($event.event,$event.data)"></app-table>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

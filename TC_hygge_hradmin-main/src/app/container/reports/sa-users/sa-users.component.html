@@ -1,0 +1,501 @@
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="70">
+    <h3 class="page-title">Users Report</h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/reports">Reports</a></li>
+      <li>User Report</li>
+    </ul>
+  </div>
+  <div fxFlex="30" class="pdf-head-button">
+    <button mat-raised-button (click)="downloadAsPDF()" color="primary">
+      Export Report as PDF
+    </button>
+  </div>
+</div>
+
+<div id="pdfTable" #pdfTable>
+  <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+    <div fxFlex="33">
+      <app-card [title]="''" [children]="children4">
+        <ng-template #children4>
+          <div class="xy_centeric">
+            <span class="titleOF_card">Total Users</span>
+            <span class="big-number">{{total_users}}</span>
+          </div>
+        </ng-template>
+      </app-card>
+    </div>
+
+    <div fxFlex="33">
+      <app-card [title]="'User Based On Gender'" [children]="children10">
+        <ng-template #children10>
+          <app-doughnut class="wid-graph" *ngIf="genderGraphData" [data]="genderGraphData"></app-doughnut>
+        </ng-template>
+      </app-card>
+    </div>
+
+    <div fxFlex="33">
+      <app-card [title]="'Top 10 Company'" [children]="children11">
+        <ng-template #children11>
+          <app-horizontal-bar *ngIf="companyGraphData" [data]="companyGraphData"></app-horizontal-bar>
+        </ng-template>
+      </app-card>
+    </div>
+  </div>
+  <br />
+
+  <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+    <div fxFlex="33">
+      <mat-card class="dashboard-count" style="height:calc(100% - 60px) !important">
+        <div fxLayout="row wrap" style="margin-top:0.4em!important">
+          <div fxFlex="100">
+            <span class="head-chart">User Age Based On</span>
+          </div>
+        </div>
+        <div fxLayout="row wrap">
+          <div fxFlex="50">
+            <button mat-raised-button color="primary" class="{{ageRange ? 'filled_btn_blue':'strok_btn_blue'}}"
+              (click)="ageRange = true">Average Age</button>
+          </div>
+          <div fxFlex="50">
+            <button mat-raised-button class="{{!ageRange ? 'filled_btn_blue':'strok_btn_blue'}}"
+              (click)="ageRange = false">Age Categories</button>
+          </div>
+        </div>
+        <div *ngIf="ageRange" style="height:15em !important;">
+
+          <button mat-stroked-button class="btn-round" color="primary">
+            {{age_average}}
+          </button>
+        </div>
+        <div *ngIf="!ageRange">
+          <app-horizontal-bar *ngIf="averageAgeCriteriaGraphData" [data]="averageAgeCriteriaGraphData">
+          </app-horizontal-bar>
+        </div>
+      </mat-card>
+    </div>
+
+    <div fxFlex="33">
+      <app-card [title]="'Nationality'" [children]="children15">
+        <ng-template #children15>
+          <app-doughnut *ngIf="nationaltyGraphData" [data]="nationaltyGraphData"></app-doughnut>
+        </ng-template>
+      </app-card>
+    </div>
+
+    <div fxFlex="33">
+      <app-card [title]="'Marital Status'" [children]="children16">
+        <ng-template #children16>
+          <app-doughnut *ngIf="maritalGraphData" [data]="maritalGraphData"></app-doughnut>
+        </ng-template>
+      </app-card>
+    </div>
+
+  </div>
+</div>
+<br />
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [title]="'Platform'" [children]="children17">
+      <ng-template #children17>
+        <app-doughnut *ngIf="userOnPlatformsGraphData" [data]="userOnPlatformsGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="66">
+    <app-card [title]="'Top 10 Work Location'" [children]="children18">
+      <ng-template #children18>
+        <app-horizontal-bar *ngIf="workLocationsGraphData" [data]="workLocationsGraphData"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [title]="'Average Login Count Per User'" [children]="children19">
+      <ng-template #children19>
+        <button mat-stroked-button class="btn-round" color="primary">
+          {{average_login_count}}
+        </button>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="66">
+    <app-card [title]="'Top 10 Home Location (Locality)'" [children]="children20">
+      <ng-template #children20>
+        <app-horizontal-bar *ngIf="homeLocationGraphData" [data]="homeLocationGraphData"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [title]="'Total Login Count'" [children]="children22">
+      <ng-template #children22>
+        <button mat-stroked-button class="btn-round" color="primary">
+          {{login_counts}}
+        </button>
+      </ng-template>
+    </app-card>
+  </div>
+
+  
+  <div fxFlex="33">
+    <app-card [title]="'Avg Usage duration/user'" [children]="children27">
+      <ng-template #children27>
+        <button mat-stroked-button class="btn-round" color="primary">
+          {{average_usage_duration}}
+        </button>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="33">
+    <app-card [title]="''" [children]="children45">
+      <ng-template #children45>
+        <div class="xy_centeric">
+          <span class="titleOF_card">Total usage duration (mins)</span>
+          <span class="big-number-report-users">{{total_usage_duration}}</span>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+
+
+
+<!-- User Detail Table-->
+<div fxLayout="row" fxflexfill class="mid-graph tab-top" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail">
+      <mat-card-content>
+        <mat-toolbar color="light">
+          <mat-form-field class="search-field" appearance="standard">
+            <mat-icon matSuffix>search</mat-icon>
+            <input matInput placeholder="Search" #input (keyup)="applyFilter($event)" />
+          </mat-form-field>
+          <span class="spacer"></span>
+
+          <mat-select class="custom-selection" [(ngModel)]="customizeData" (ngModelChange)="addRemoveColumn($event)"
+            multiple>
+            <mat-select-trigger>
+              <span class="example-additional-selection">
+                Customize Table
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let item of displayedColumnsTitleDemo; let i = index" [value]="item.value">
+              {{ item.title }}</mat-option>
+          </mat-select>
+
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">
+            Export Table <mat-icon>expand_more </mat-icon></button>&nbsp;&nbsp;
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="exportExcel()">As EXCEL</button>
+            <button mat-menu-item (click)="export()">
+              As CSV
+            </button>
+          </mat-menu>&nbsp;&nbsp;
+          <button mat-raised-button color="primary" (click)="openFilterModal()" class="filter-btn">
+            <mat-icon>filter_list</mat-icon> Filter
+          </button>
+        </mat-toolbar>
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let module of modulename" [selectable]="selectable" [removable]="removable"
+            (removed)="remove(module)">
+            {{ module.name }}&nbsp;&nbsp; {{ module.value }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input style="display: none" placeholder="New fruit..." [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)" />
+        </mat-chip-list>
+        <table id="csvTable" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="userId">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              User Id
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              
+              {{element.userId}} 
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Age
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.age}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="averageDurationPerlogin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Average Duration Per login
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.averageDurationPerlogin}}
+            </td>
+          </ng-container>
+
+
+          <ng-container matColumnDef="averageLoginPermonth">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Average Login Per Month
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.averageLoginPermonth}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="company">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Company
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.company}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Gender
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.gender}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="homeLocation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Home Location
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.homeLocation}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastLogin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Last Login
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.lastLogin}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastThirtyDaysLogin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Last Thirty Days Login
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.lastThirtyDaysLogin}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nationality">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Nationality
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.nationality}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="platform">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Platform
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.platform}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalLifetimeDurationUsed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Total Life Time Duration Used
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.totalLifetimeDurationUsed}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="workLocation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold">
+              Work Location
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.workLocation}}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height:7em !important"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data found</td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div style="display: none" *ngIf="data.length > 0">
+  <table>
+    <thead>
+      <tr style="text-align: left">
+        <th *ngFor="let c of displayedColumnsTitleDemo">
+          <b>{{ c.title }}</b>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let itemData of data; let i = index">
+        <ng-container *ngFor="let c of displayedColumnsTitleDemo">
+          <td>{{ itemData[c.value] }}</td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Export CSV and EXCEL -->
+<div style="display: none">
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="userId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        User Id
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.userId}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="age">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Age
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.age}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="averageDurationPerlogin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Average Duration Per login
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.averageDurationPerlogin}}
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="averageLoginPermonth">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Average Login Per Month
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.averageLoginPermonth}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="company">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Company
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.company}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Gender
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.gender}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="homeLocation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Home Location
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.homeLocation}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastLogin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Last Login
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.lastLogin}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastThirtyDaysLogin">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Last Thirty Days Login
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.lastThirtyDaysLogin}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nationality">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Nationality
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.nationality}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="platform">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Platform
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.platform}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalLifetimeDurationUsed">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Total Life Time Duration Used
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.totalLifetimeDurationUsed}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="workLocation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Work Location
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.workLocation}}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data found</td>
+    </tr>
+  </table>
+</div>
+<!-- Export CSV and EXCEL -->

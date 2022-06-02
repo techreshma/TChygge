@@ -1,0 +1,111 @@
+@import "./../auth.scss";
+
+.fgetpass {
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    padding: 15px 0;
+    text-decoration: none;
+    color: #333;
+
+    font-size: 1rem;
+}
+.login-form-links {
+    display: none !important;
+}
+.login-button {
+    margin: 3% 0 0 0;
+    width: 100%;
+    max-width: 445px;
+}
+
+.terms {
+    padding: 10% 0 0 0;
+}
+
+// Responsive
+@media (max-width: 414px) {
+    .top {
+        margin: 9% 13% 0 4%;
+    }
+    .welhide {
+        display: none;
+    }
+}
+
+.position {
+    display: table !important;
+    margin: auto !important;
+}
+
+.back-bg-1 {
+    padding: 44px;
+}
+
+.mat-card:not([class*="mat-elevation-z"]) {
+    box-shadow: none;
+    background: #fafafa;
+}
+
+mat-card-title.title_mat {
+    font-size: 26px !important;
+    color: #5c5c5c !important;
+}
+
+.df {
+    display: flex;
+    justify-content: center;
+}
+
+img.logo-live {
+    width: 16%;
+    margin: 0;
+}
+
+mat-card-title.title_mat {
+    letter-spacing: 1px !important;
+}
+
+mat-label {
+    padding: 0 0 10px;
+}
+
+h5.hygge {
+    font-size: 30px;
+    margin: 9px 0 29px 0;
+    font-family: "Material Icons";
+    color: #5c5c5c;
+}
+
+mat-form-field.top-mar {
+    margin-top: 21px;
+    height: 52px;
+}
+mat-form-field.top-mar .mat-form-field-infix {
+    padding: 0 !important;
+}
+
+.loing-card .mat-form-field-infix::placeholder {
+    padding: 0 0 0 0 !important;
+}
+
+.mat-form-field {
+    background: #fff;
+}
+
+#loginform .mat-form-field-appearance-standard .mat-form-field-flex::placeholder {
+    padding-top: 0;
+}
+
+.mat-form-field-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    width: 180px;
+    padding: 0px 0 0px 0;
+}
+
+::ng-deep .mat-form-field {
+    height: 41px;
+}

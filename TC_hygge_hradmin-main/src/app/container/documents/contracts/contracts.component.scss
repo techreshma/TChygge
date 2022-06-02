@@ -1,0 +1,17 @@
+
+@import './../../../../variable.scss';
+
+.upload-box{
+  margin-bottom:30px;
+}
+
+tr.mat-row.selected {
+    box-shadow: 0px 2px 20px #00000029;
+    border-radius: 10px;
+    td:first-child{
+      border-radius: 10px 0 0 10px;
+    }
+    td:last-child{
+      border-radius: 0 10px 10px 0;
+    }
+}

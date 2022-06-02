@@ -1,0 +1,84 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Score Detail
+    </h3>
+    <ul class="breadcrumb">
+      <li>Dashboard</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid"  >
+  <div fxFlex="33">
+    <app-card [title]="''" [children]="children">
+      <ng-template #children>
+        <div fxLayout="column" fxFlexAlign="center center" >
+          <div fxFlex class="user-detail">
+            <img src="{{imgPath}}{{user.profile_picture}}" />
+            <span class="big-title">{{user.name}}</span><br />
+            <span class="card-title">{{user.gender}},{{user.age}} Years</span><br />
+            <p>This report highlights your health risks. Your overall
+              wellness score is 48, which means that you need to
+              immediately make some big changes in your food
+              and lifestyle habits.
+            </p>
+            <br />
+            <app-gauge [data]="overAllPercetange" *ngIf="overAllPercetange"></app-gauge>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="67">
+    <app-card [title]="'OverAll'" [children]="children4">
+      <ng-template #children4>
+        <span class="big-title">Devendra parihar</span>
+        <span class="card-title">Male,42 Years</span>
+        <p>This report highlights your health risks. Your overall
+          wellness score is 48, which means that you need to
+          immediately make some big changes in your food
+          and lifestyle habits.
+        </p>
+        <br />
+        <app-gauge [data]="overAllPercetange" *ngIf="overAllPercetange"></app-gauge>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+  <div fxFlex="100">
+    <app-card [title]="'Body'" [children]="children3">
+      <ng-template #children3>
+        <div fxLayout="row" fxLayoutGap="10px grid">
+          <div fxFlex="60">
+
+          </div>
+          <div fxFlex="40">
+            <app-gauge [data]="HraBodyGauge" *ngIf="HraBodyGauge"></app-gauge>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+  <div fxFlex="33">
+    <app-card [title]="'Mind'" [children]="children2">
+      <ng-template #children2>
+        <app-gauge [data]="HraMindGauge" *ngIf="HraMindGauge"></app-gauge>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+  <div fxFlex="33">
+    <app-card [title]="'Lifestyle'" [children]="children1">
+      <ng-template #children1>
+        <app-gauge [data]="HraLifeGauge" *ngIf="HraLifeGauge"></app-gauge>
+      </ng-template>
+    </app-card>
+  </div>
+</div>

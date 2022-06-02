@@ -1,0 +1,240 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Employee Salary
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a>Salary Management</a></li>
+      <li>Employee Salary</li>
+    </ul>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutGap="10px grid" fxflexfill>
+  <div fxFlex="33">
+    <app-card [title]="'Salary by Department'" [children]="children1">
+      <ng-template #children1>
+        <app-doughnut [data]="salByDepartment" *ngIf="salByDepartment"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="'Salary by Type'" [children]="children2" [centertext]="''">
+      <ng-template #children2>
+        <app-horizontal-bar [data]="salaryByType" *ngIf="salaryByType"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="'Total Salary'" [children]="children3">
+      <ng-template #children3>
+        <span class="total_salary">
+          {{employeesTotalSalary | currency: 'AED'}}
+        </span>
+      </ng-template>
+    </app-card>
+  </div>
+</div><br/>
+
+<div fxLayout="row" fxLayoutGap="10px grid" fxflexfill fxLayoutAlign="space-between center">
+  <div fxFlex="60">
+    <app-card [title]="'Salary by Department'" [children]="children4">
+      <ng-template #children4>
+        <app-line [data]="salaryChangeGraphData" *ngIf="salaryChangeGraphData"></app-line>
+      </ng-template>
+    </app-card>
+  </div>
+</div><br/>
+
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail" style="margin: 2px 0px 2px 0px">
+      <mat-card-content>
+        <mat-toolbar color="light">
+          <span class="mat-toolbar-title">Employee Salary</span>&nbsp;&nbsp;
+          <span class="spacer"></span>
+          <mat-form-field class="search-field" appearance="standard">
+            <mat-icon matSuffix>search</mat-icon>
+            <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+          </mat-form-field>
+
+          <button mat-mini-fab color="light" class="cal-button" aria-label="Download" [matMenuTriggerFor]="menu">
+            <mat-icon color="primary">vertical_align_bottom</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="exportExcel()">As EXCEL</button>
+            <button mat-menu-item (click)="export()">
+              As CSV
+            </button>
+          </mat-menu>&nbsp;&nbsp;
+
+          <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="showDepartmentSalary()">
+            <mat-icon>sync</mat-icon>
+          </button>
+          <button mat-mini-fab color="light" class="cal-button" aria-label="Filter">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" class="cal-button" aria-label="Add new" *ngIf="accessPermission">
+            <mat-icon>add</mat-icon>
+          </button>
+
+        </mat-toolbar>
+
+        <div class="scroller">
+          <div class="scroll-x">
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+              <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- profile_picture Column -->
+              <ng-container matColumnDef="profile_picture">
+                <th mat-header-cell *matHeaderCellDef style="font-weight: 800;text-align: center;"> # </th>
+                <td mat-cell *matCellDef="let element">
+                  <!-- ./assets/img/Ellipse_1.png -->
+                  <img src="{{filePath}}{{element.profile_picture}}" *ngIf="element.profile_picture != ''" />
+                  <img src="./assets/img/Ellipse_1.png" *ngIf="element.profile_picture == ''" />
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="first_name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.first_name}} {{element.last_name}}</td>
+              </ng-container>
+
+              <!-- Department Column -->
+              <ng-container matColumnDef="department">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+                <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+              </ng-container>
+
+              <!-- Designation Column -->
+              <ng-container matColumnDef="designation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+                <td mat-cell *matCellDef="let element"> {{element.designation}} </td>
+              </ng-container>
+
+              <!-- Salary Column -->
+              <ng-container matColumnDef="salary">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Salary&nbsp;
+                  <a *ngIf="showsalary" style="color:#3F51B5" (click)="showsalary = false">Hide</a>
+                  <a *ngIf="!showsalary" style="color:#3F51B5" (click)="showsalary = true">Show</a>
+                </th>
+                <td mat-cell *matCellDef="let element"><b *ngIf="showsalary">{{element.totalsalary | currency: 'AED'}}
+                  </b></td>
+              </ng-container>
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Action Required </th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                  <span class="actiontext">Notification area</span>
+                  <!-- <span *ngIf="accessPermission && percentData.length == 0" class="blue-txt" [routerLink]="'/payslip-generate'">Generate Salary</span> -->
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns" style="font-weight: 600;"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <!-- Row shown when there is no matching data. -->
+            </table>
+          </div>
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div><br/>
+
+<div id="sampleCsv" style="display:none" *ngIf="reportData.length > 0">
+  <table>
+    <thead>
+      <tr>
+        <td colspan="13">
+          <h5 class="mb-0" style="font-size: 13px;">
+            Salary Report
+          </h5>
+        </td>
+      </tr>
+      <tr style="text-align: left;">
+        <th><b>Sno</b></th>
+        <th><b>Payslip Id</b></th>
+        <th><b>Department</b></th>
+        <th *ngFor="let user of reportData[0].userDetail"><b>{{user.key}}</b></th>
+        <th *ngFor="let sal of reportData[0].userEarning"><b>{{sal.label}}</b></th>
+        <th><b>Net Salary</b></th>
+        <th><b>Month</b></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of reportData;let i = index">
+        <td>{{i+1}}</td>
+        <td>{{item.paySlipId}}</td>
+        <td>{{item.department}}</td>
+        <td *ngFor="let user of item.userDetail">{{user.value}}</td>
+        <td *ngFor="let sal of item.userEarning">{{sal.value}}</td>
+        <td>{{item.netSalary}}</td>
+        <td>{{getDate(item.salaryDate)}}</td>
+        <td>joh@gmail.com</td>
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div style="display: none">
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort class="mat-elevation-z8">
+
+    <!-- profile_picture Column -->
+    <ng-container matColumnDef="profile_picture">
+      <th mat-header-cell *matHeaderCellDef style="font-weight: 800;text-align: center;"> # </th>
+      <td mat-cell *matCellDef="let element">
+        <!-- ./assets/img/Ellipse_1.png -->
+        <img src="{{filePath}}{{element.profile_picture}}" *ngIf="element.profile_picture != ''" />
+        <img src="./assets/img/Ellipse_1.png" *ngIf="element.profile_picture == ''" />
+      </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="first_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.first_name}} {{element.last_name}}</td>
+    </ng-container>
+
+    <!-- Department Column -->
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+      <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+    </ng-container>
+
+    <!-- Designation Column -->
+    <ng-container matColumnDef="designation">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+      <td mat-cell *matCellDef="let element"> {{element.designation}} </td>
+    </ng-container>
+
+    <!-- Salary Column -->
+    <ng-container matColumnDef="salary">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Salary&nbsp;
+        <a *ngIf="showsalary" style="color:#3F51B5" (click)="showsalary = false">Hide</a>
+        <a *ngIf="!showsalary" style="color:#3F51B5" (click)="showsalary = true">Show</a>
+      </th>
+      <td mat-cell *matCellDef="let element"><b *ngIf="showsalary">{{element.totalsalary | currency: 'AED'}}
+        </b></td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <!-- <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Action Required </th>
+      <td mat-cell *matCellDef="let element; let i = index">
+        <span class="actiontext">Notification area</span>
+      
+      </td>
+    </ng-container> -->
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" style="font-weight: 600;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

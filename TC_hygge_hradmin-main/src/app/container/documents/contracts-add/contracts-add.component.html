@@ -1,0 +1,77 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Upload Documents</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+<form name="registerForm" (ngSubmit)="addDoc()" #registerForm="ngForm">
+
+    <div fxLayout="row" class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields" >
+          <mat-select [(ngModel)]="formData.userId" name="userId" #userId required placeholder="Employee">
+            <mat-option *ngFor="let roled of roleData" [value]="roled.user_id">{{roled.name}}</mat-option>
+          </mat-select></mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="row"  class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields" >
+          <mat-select [(ngModel)]="formData.DocType" name="DocType" (ngModelChange)="docCheck($event)" #file_Type required placeholder="Document Type">
+            <mat-option *ngFor="let d of docData" [value]="d.documentType_id">{{d.document_Type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <br />
+    <div fxLayout="row"  class="">
+      <div fxFlex="100">
+        <label>Document For</label><br />
+        <mat-button-toggle-group color="accent" appearance="legacy" name="dependentType" [(ngModel)]="formData.dependentType" aria-label="Font Style">
+          <mat-button-toggle value="0">Self</mat-button-toggle>
+          <mat-button-toggle value="1">Dependent</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+    <br />
+    <div fxLayout="row"  class="" *ngIf="isExpire">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields" >
+          <input matInput placeholder="Expiry Date" [matDatepicker]="picker" [min]="currentDate" #expiry_Date  name="expiry_Date" [(ngModel)]="formData.expiry_Date"  required autocomplete="off"  />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row"  class="">
+      <div fxFlex="100">
+        <mat-label></mat-label>
+        <div class="dropzone">
+          <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,application/pdf, application/vnd.ms-excel">
+            <ngx-dropzone-label><mat-icon>note_add</mat-icon><br />
+              Upload Your Document<br />
+              <small>drag & drop to upload the document (Pdf, jpeg, png, doc, xlsx )</small>
+            </ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)" style="background-image: url({{filePath}}{{formData.file_Path}});">
+                <ngx-dropzone-label >{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+            <ngx-dropzone-preview *ngIf="files.length == 0 && formData.file_Path != ''" [removable]="true"  style="background-image: url({{filePath}}{{formData.file_Path}});">
+              <ngx-dropzone-label >{{formData.file_Path}}</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" class="" >
+      <div fxFlex="100">
+        <mat-label></mat-label>
+        <button mat-raised-button class="big-btn block-btn"  [disabled]="!registerForm.valid || formData.file_Path == ''"  color="primary">Add Document</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+</div>

@@ -1,0 +1,302 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Employees
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Employees</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [children]="children" [title]="'Number of Employee by Department'" *ngIf="depEmpGraphData">
+      <ng-template #children>
+        <app-doughnut [data]="depEmpGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="'Employee based on Gender'" [children]="children" *ngIf="genEmpGraphData">
+      <ng-template #children>
+        <app-doughnut [data]="genEmpGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="33">
+    <app-card [title]="'Employee based on Age Group'" [children]="children" *ngIf="ageEmpGraphData">
+      <ng-template #children>
+        <app-horizontal-bar [data]="ageEmpGraphData"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [title]="'Total Employee'" [children]="children" *ngIf="ageEmpGraphData">
+      <ng-template #children>
+        <span class="card-count">{{totalEmployee}}</span>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="33">
+    <app-card [title]="'Number of Employee Late Each Day'" [children]="children" *ngIf="ageEmpGraphData">
+      <ng-template #children>
+        <span class="card-count">{{lateEmployeeToday}}</span>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="33">
+    <app-card [title]="'Number of Employee on Leave Today'" [children]="children" *ngIf="ageEmpGraphData">
+      <ng-template #children>
+        <span class="card-count">{{lateEmployee}}</span>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="50">
+    <app-card [title]="'New Employees'" [children]="children" *ngIf="ageEmpGraphData">
+      <ng-template #children>
+        <app-line [data]="newemployeeGraphData"></app-line>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="50">
+    <app-card [title]="'Average working hour per employee by Department'" [children]="children" *ngIf="ageEmpGraphData">
+      <ng-template #children>
+        <app-line [data]="averageworkingGraphData"></app-line>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" style="margin:0.6em 0em !important">
+  <div fxFlex="50" style="margin:1em 0em">
+    <div fxLayout="row" style="height: auto;" fxLayoutAlign="stretch">
+      <mat-card fxFlex class="dashboard-count">
+        <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+          <span class="card-subtitle" style="padding-right: 10px;">Total License:</span> {{totalLicense}}
+        </div>
+        <div fxFlex="40" style="text-align: center;">
+          <span class="card-subtitle" style="padding-right: 10px;">Available License:</span> {{remainLicense}}
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<div class="scroller">
+  <div class="scroll-x">
+
+    <div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-card class="dashboard-detail">
+          <mat-card-content>
+            <mat-toolbar color="light">
+              <span class="mat-toolbar-title fnt">All Employees</span>&nbsp;&nbsp;
+              <button mat-mini-fab color="light" class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                matTooltip="Get Sample Csv" aria-label="Sync" (click)="sampleCsv()">
+                <mat-icon>file_copy</mat-icon>
+              </button>
+              <span class="spacer"></span>
+              <mat-form-field class="search-field" appearance="standard">
+                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+              </mat-form-field>
+              <button mat-mini-fab color="light" class="cal-button" aria-label="Download"
+                (click)="export_table_to_csv()">
+                <mat-icon color="primary">vertical_align_bottom</mat-icon>
+              </button>
+              <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getList()">
+                <mat-icon>sync</mat-icon>
+              </button>
+              <button mat-mini-fab color="light" class="cal-button" aria-label="Filter" (click)="openfilterModal()">
+                <mat-icon>filter_list</mat-icon>
+              </button>
+              <button mat-mini-fab color="primary" class="cal-button" (click)="openSubAddModal()" aria-label="Add new"
+                *ngIf="accessPermission">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button mat-mini-fab color="primary" class="cal-button" (click)="uploadCsv()" aria-label="Add new"
+                *ngIf="accessPermission">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+            </mat-toolbar>
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+              <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element" routerLink="/employees-detail/{{element.user_id}}">
+                  <!-- ./assets/img/Ellipse_1.png -->
+                  <img [src]="element.position" *ngIf="element.position != ''" />
+                  <img src="./assets/img/Ellipse_1.png" *ngIf="element.position == ''" />
+
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Name </th>
+                <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{element.user_id}}">
+                  {{element.name}} </td>
+              </ng-container>
+
+              <!-- Email Column -->
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{element.user_id}}">
+                  {{element.email}} </td>
+              </ng-container>
+
+              <!-- Designation Column -->
+              <ng-container matColumnDef="designation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+                <td mat-cell *matCellDef="let element" class="data" routerLink="/employees-detail/{{element.user_id}}">
+                  {{element.designation}} </td>
+              </ng-container>
+
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let element" class="data">
+                  <button mat-flat-button class="round-btn ty" *ngIf="element.status == 1" color="light">Active</button>
+                  <button mat-flat-button class="round-btn ty" *ngIf="element.status == 0" color="warn">Lock</button>
+                </td>
+              </ng-container>
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action Required </th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="!accessPermission">No Permission</span>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip" matTooltip="Locked"
+                    *ngIf="element.status == 1 && element.role != 1 && accessPermission" color="light"
+                    (click)="updateEmployeeStatus(element.id,'0')">
+                    <mat-icon color="primary">lock</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip" matTooltip="Activate"
+                    *ngIf="element.status == 0 && element.role != 1 && accessPermission" color="light"
+                    (click)="updateEmployeeStatus(element.id,'1')">
+                    <mat-icon color="primary">lock_open</mat-icon>
+                  </button>
+
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    *ngIf="element.role != 1 && accessPermission" matTooltip="Delete" color="light"
+                    (click)="confirmDialog(element.id)">
+                    <mat-icon color="warn">delete</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip" (click)="openSubEditModal(element)"
+                    *ngIf="accessPermission" matTooltip="Edit" color="light">
+                    <mat-icon color="green">edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip" (click)="invitationLink(element.id)"
+                    *ngIf="accessPermission" matTooltip="Invitation Link" color="light">
+                    <mat-icon color="accent">send</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div id="sampleCsv" style="display:none">
+      <table>
+        <thead>
+          <tr style="text-align: left;">
+            <th *ngFor="let c of csvFile"><b>{{c}}</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>john</td>
+            <td>doe</td>
+            <td>joh@gmail.com</td>
+            <td>set department name here from setting panel</td>
+            <td>set designation(choose from President / Chairman Chief / Executive Officer / Managing Director / General
+              Manager / Director / Vice President / Asst General Manager / Chief Operating Officer / Chief Markeing
+              Officer / Chief Technology Officer / Chief People Officer / Chief Innovation Officer / Asst General
+              Manager / Asst Director / Asst Vice President / Finance Manager / Purchasing Manager / Operating Manager /
+              HR & Admin Manager / Sales Manager / Marketing Manager / Business Development Manager / Transformation
+              Officer / Manager / Head of the Department / Team Leader / Asst Manager / Asst Manager Finance / Asst
+              Manager HR & Admin / Senior Engineer / Accountant / Senior Accountant / HR & Admin Executive / Personal
+              Assistant / Executive)</td>
+            <td>Name here</td>
+            <td>YYYY-MM-DD HH:mm:ss</td>
+            <td>Plan name (select from isurance plan table)</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+            <td>type in number</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div id="csvTable" style="display:none" *ngIf="responseData.length > 0">
+      <table>
+        <thead>
+          <tr style="text-align: left;">
+            <th *ngFor="let c of csvFile"><b>{{c}}</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let itemData of responseData; let i=index">
+            <ng-container *ngIf="itemData.role != 1">
+              <td>{{i+1}}</td>
+              <td>{{itemData.first_name}}</td>
+              <td>{{itemData.last_name}}</td>
+              <td>{{itemData.email}}</td>
+              <td>{{itemData.department}}</td>
+              <td>{{itemData.designation}}</td>
+              <td>{{itemData.reporting_Manager}}</td>
+              <td>{{itemData.employee_joiningDate}}</td>
+              <td>{{itemData.insurance_plan_name}}</td>
+              <td>{{itemData.working_HoursFrom}}</td>
+              <td>{{itemData.working_HoursTo}}</td>
+              <td>{{itemData.branch_Id}}</td>
+              <ng-container *ngFor="let l of itemData.leaves">
+                <th><b>{{l.value}}</b></th>
+              </ng-container>
+              <ng-container *ngFor="let s of itemData.salarys">
+                <th><b>{{s.value}}</b></th>
+              </ng-container>
+            </ng-container>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Employees Salary
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a>Employees Salary</a></li>
+      <li>Payslip Preview</li>
+    </ul>
+
+    <span class="back-link" routerLink="/payslip">
+      <mat-icon matSuffix>keyboard_backspace</mat-icon>
+      Back
+    </span>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid" >
+  <div fxFlex="100"  fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail" >
+      <mat-card-content>
+        <div style="width:100%" #screen>
+          <app-payslip-one *ngIf="id == 1" [data]="data" ></app-payslip-one>
+          <app-payslip-two *ngIf="id == 2" [data]="data" ></app-payslip-two>
+          <app-payslip-three *ngIf="id == 3" [data]="data" ></app-payslip-three>
+          <app-payslip-four *ngIf="id == 4" [data]="data" ></app-payslip-four>
+          <app-payslip-five *ngIf="id == 5" [data]="data" ></app-payslip-five>
+          <app-payslip-six *ngIf="id == 6" [data]="data" ></app-payslip-six>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

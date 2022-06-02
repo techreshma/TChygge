@@ -1,0 +1,164 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Chat
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Chat</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+  <div fxFlex="20"  fxFlex.gt-xs="25">
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex>
+        <mat-tab-group class="chat-contact-tabs">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">insert_comment</mat-icon>
+            </ng-template>
+            <mat-list class="user-contact">
+              <mat-list-item>
+                <div class="list-img"><img src="../../../assets/img/Ellipse_1_g.png"/></div>
+                <div mat-line class="list-name">Romika gupta</div>
+                <div mat-line class="list-desc">lorem ipsome simply...</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <div class="list-img"><img src="../../../assets/img/Ellipse_1_g.png"/></div>
+                <div mat-line class="list-name">Romika gupta</div>
+                <div mat-line class="list-desc">lorem ipsome simply...</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <div class="list-img"><img src="../../../assets/img/Ellipse_1_g.png"/></div>
+                <div mat-line class="list-name">Romika gupta</div>
+                <div mat-line class="list-desc">lorem ipsome simply...</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <div class="list-img"><img src="../../../assets/img/Ellipse_1_g.png"/></div>
+                <div mat-line class="list-name">Romika gupta</div>
+                <div mat-line class="list-desc">lorem ipsome simply...</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <div class="list-img"><img src="../../../assets/img/Ellipse_1_g.png"/></div>
+                <div mat-line class="list-name">Romika gupta</div>
+                <div mat-line class="list-desc">lorem ipsome simply...</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <div class="list-img"><img src="../../../assets/img/Ellipse_1_g.png"/></div>
+                <div mat-line class="list-name">Romika gupta</div>
+                <div mat-line class="list-desc">lorem ipsome simply...</div>
+              </mat-list-item>
+
+            </mat-list>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">phone</mat-icon>
+            </ng-template>
+            Content 2
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">search</mat-icon>
+            </ng-template>
+
+            Content 3
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">portrait</mat-icon>
+            </ng-template>
+
+            Content 4
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="example-tab-icon">add</mat-icon>
+            </ng-template>
+
+            Content 5
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+
+  </div>
+  <div fxFlex="75" fxFlex.gt-xs="75">
+      <mat-toolbar color="primary">
+        <img src="assets/img/Ellipse_1_b.png" />
+        <span class="mat-toolbar-title">
+          Ryan Sandival <br />
+          <small>Manager</small>
+        </span>
+        <span class="spacer"></span>
+        <button mat-mini-fab color="primary" class="cal-button"  aria-label="Add new" >
+          <mat-icon>description</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="cal-button"  aria-label="Add new" >
+          <mat-icon>videocam</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="cal-button"  aria-label="Filter">
+          <mat-icon>local_phone</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="cal-button" aria-label="Sync">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-toolbar>
+      <mat-card class="chat-box">
+        <mat-card-content>
+          <div class="chat-box-inner">
+            <div class="message-in-div">
+              <span class="in-message">
+                Hi Isha! How are you???
+              </span>
+            </div>
+            <div class="message-in-div">
+              <span class="in-message">
+                Dear! need your help to complete Healthcare project.
+              </span>
+            </div>
+            <div class="message-in-div">
+              <span class="in-time">
+                12:30 PM
+              </span>
+            </div>
+            <div class="message-out-div">
+              <span class="out-message">
+                Hi Isha! How are you???
+              </span>
+            </div>
+            <div class="message-out-div">
+              <span class="out-message">
+                Dear! need your help to complete Healthcare project.
+              </span>
+            </div>
+            <div class="message-out-div">
+              <span class="out-time">
+                12:31 PM
+              </span>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-footer class="chat-footer">
+          <mat-form-field class="chat-message">
+            <mat-icon matPreffix>sentiment_very_satisfied</mat-icon>
+            <input matInput placeholder="Write message....">
+            <mat-icon matSuffix>camera_alt</mat-icon>
+          </mat-form-field>
+          <button mat-mini-fab color="primary" class="cal-button"  aria-label="Add new" >
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-card-footer>
+      </mat-card>
+  </div>
+</div>

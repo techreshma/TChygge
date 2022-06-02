@@ -1,0 +1,144 @@
+
+
+<mat-dialog-content class="mat-typography">
+<mat-toolbar color="dark">
+  <mat-icon class="closeModal" (click)="prev()"  *ngIf="tab > 0">keyboard_backspace</mat-icon>
+  <span class="spacer"></span>
+  <span class="mat-toolbar-title">Preview</span>
+  <span class="spacer"></span>
+  <mat-icon class="closeModal" >help</mat-icon>
+  <mat-icon class="closeModal"  mat-dialog-close>close</mat-icon>
+</mat-toolbar>
+  <div class="main-hra-form-container">
+    <form name="registerForm" #registerForm="ngForm">
+      <div class="sub-hra-form-container" >
+        <ng-container *ngFor="let q of question;let i = index;">
+          <div class="ques-tab" *ngIf="tab == i">
+            <span class="card-mid-title responsive">Q {{i+1}}. {{q.title}}</span><br />
+            <span class="card-subtitle">Type: <b>{{q.type}}</b></span><br />
+            <span class="card-subtitle">Category: <b>{{q.category}}</b></span><br />
+            <span class="card-subtitle">Segment: <b>{{q.segments}}</b></span><br />
+            <p>{{q.description}}</p>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'dropdown'">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Question's Option</mat-label>
+                  <mat-form-field>
+                    <mat-select name="title" [(ngModel)]="q.answer"  name="answer" #answer required>
+                      <mat-option  *ngFor="let o of q.optionArray;let io = index;" [value]="o.value">{{o.value}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'multiSelect'">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Question's Option</mat-label> <br>
+                    <!-- <mat-select name="title" [(ngModel)]="q.answer" multiple  name="answer" #answer required>
+                      <mat-option  *ngFor="let o of q.optionArray;let io = index;" [value]="o.value">{{o.value}}</mat-option>
+                    </mat-select> -->
+
+                  <mat-checkbox class="example-margin"
+                    color="primary"
+                    *ngFor="let o of q.optionArray;let io = index;">
+                    {{o.value}}
+                    </mat-checkbox>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'slider'">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>{{q.sliderOption.label}}</mat-label>
+                    <mat-slider
+                    tickInterval="1000"
+                    [min]="q.sliderOption.left"
+                    [max]="q.sliderOption.right">
+                  </mat-slider>
+                  <span> {{q.sliderOption.left}}</span>
+                  <span class="right"> {{q.sliderOption.right}}</span>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'rating'">
+              <!-- <star-rating [value]="q.optionArray.length" [totalstars]="q.optionArray.length" checkedcolor="yellow" uncheckedcolor="black" size="24px" readonly="false" (rate)="onRate($event)"></star-rating> -->
+              <div fxFlex="100">
+                <div fxLayout="row">
+                  <div fxFlex  *ngFor="let o of q.optionArray;let io = index;">
+                    <div class="form-ques">
+                      <div fxLayout="column" class="quesOption">
+                        <div fxFlex>
+                            <p style="text-align: center;">{{o.value}}</p>
+                        </div>
+                        <div fxFlex style="text-align: center;">
+                          <mat-icon color="accent" *ngFor="let item of arrayOne(o.label)">star</mat-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'radio'">
+              <mat-label>Question's Option</mat-label>
+              <div fxFlex="100"  class="form-ques" *ngFor="let o of q.optionArray;let io = index;" style="padding:10px">
+                  <mat-radio-button  value="o.value">{{o.value}}</mat-radio-button>
+              </div>
+            </div>
+
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'linkert'">
+              <mat-label>Question's Option</mat-label>
+              <div fxFlex="100"  class="form-ques" *ngFor="let o of q.optionArray;let io = index;" style="padding:10px">
+                  <mat-radio-button  value="o.value">{{o.value}}</mat-radio-button>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.type == 'text' || q.type == 'textarea'">
+              <div fxFlex="100" >
+                <div class="form-ques">
+                  <mat-label>Write Answer</mat-label>
+                  <mat-form-field>
+                    <textarea matInput   name="answer" [(ngModel)]="q.answer"  ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div *ngIf=" q.type == 'matrix'">
+              <div class="form-ques" style="width: 100%;overflow: auto;"
+                ms-responsive-table *ngIf="q.columnArray.length > 0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th *ngFor="let sub of q.columnArray; let valueIndex=index;">{{sub.label}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let sub of q.rowArray; let rawIndex=index;">
+                      <td>{{sub.label}}</td>
+                      <td *ngFor="let sub of q.columnArray;let ia=index"><mat-radio-button  value="sub.label"></mat-radio-button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+              <div fxFlex="33">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" *ngIf="tab > 0" (click)="prev()" color="warn">Back</button>
+              </div>
+              <div fxFlex="33">
+              </div>
+              <div fxFlex="33">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" (click)="next()" *ngIf="(question.length -1) > tab" color="primary">Next</button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

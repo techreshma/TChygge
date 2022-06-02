@@ -1,0 +1,124 @@
+<div class="back" fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100" class="back">
+    <mat-card class="dashboard-detail ">
+      <div fxLayout="row">
+        <div fxFlex="40"> </div>
+        <div fxFlex="40">
+          <h5 class="com-logo">
+            <span *ngIf="!userData && !userData.company_favicon">
+              Company <br /><span>Logo</span>
+            </span>
+            <img src="{{imgPath}}{{userData.company_favicon}}" *ngIf="userData && userData.company_favicon"
+              [alt]="userData && userData.company_favicon" />
+
+          </h5>
+          <p class="attich-finch">Attich Finch Lze</p>
+          <!--<p class="nw-dl-in">New Delhi, 100021 India</p>-->
+          <p class="nw-dl-in">{{userData.company_Address}}</p>
+        </div>
+        <div fxFlex="40"></div>
+      </div>
+
+      <div fxLayout="row" class="back-ground">
+        <div fxFlex="30">
+          <p class="pay-logo">Pay Slip</p>
+          <p class="pay-attit">{{currentMonth}}</p>
+          <p class="new-delhi">Slip No. 213452</p>
+        </div>
+        <div fxFlex="50">
+        </div>
+        <div fxFlex="20">
+          <p class="net-slary">Total Salary :</p>
+          <p class="dollar-5k">{{demoData.salary | currency:'AED'}}</p>
+          <p class="fifty-only">{{demoData.salary | amountToWord}}</p>
+        </div>
+      </div>
+      <div fxLayout="row" class="header-bg">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="100">
+              <table class="table headings">
+                <thead>
+                  <tr class="th-bg">
+                    <th class="profile">Profile</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody class="first">
+                  <tr>
+                    <th class="profile">Employee</th>
+                    <td class="jai-ho">{{demoData && demoData.first_name}} {{demoData && demoData.last_name}}</td>
+                  </tr>
+                  <tr *ngIf="data.designation">
+                    <th class="profile">Designation</th>
+                    <td class="jai-ho">{{demoData && demoData.designation}}</td>
+                  </tr>
+                  <tr *ngIf="data.department">
+                    <th class="profile">Department</th>
+                    <td class="jai-ho">{{demoData && demoData.department}}</td>
+                  </tr>
+                  <tr>
+                    <th class="profile">Joining Date</th>
+                    <td class="jai-ho">{{demoData && getJoinDate(demoData.employee_joiningDate)}}</td>
+                  </tr>
+                  <tr *ngIf="data.address">
+                    <th class="profile">work location</th>
+                    <td class="jai-ho">{{userData && userData.company_Address}}</td>
+                  </tr>
+                  <tr *ngIf="data.passport">
+                    <th class="profile">Passport No.</th>
+                    <td class="jai-ho">{{demoData && demoData.passport}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" class="header-bg">
+        <div fxFlex="100" fxFlex.gt-sm="100">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="100">
+              <table class="table headings">
+                <thead>
+                  <tr class="th-bg-1">
+                    <th class="profile">Profile</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th class="profile">Basic Salary</th>
+                    <td class="jai-ho">{{demoData.salary | currency:'AED'}}</td>
+                  </tr>
+                  <tr>
+                    <th class="profile">Direct Allowance</th>
+                    <td class="jai-ho">{{demoData.salary | currency:'AED'}}</td>
+                  </tr>
+                  <tr>
+                    <th class="profile">Hra</th>
+                    <td class="jai-ho">{{demoData.salary | currency:'AED'}}</td>
+                  </tr>
+                  <tr>
+                    <th class="profile">Conveyance</th>
+                    <td class="jai-ho">{{demoData.salary | currency:'AED'}}</td>
+                  </tr>
+                  <tr>
+                    <th class="profile">Conveyance</th>
+                    <td class="jai-ho">{{demoData.salary | currency:'AED'}}</td>
+                  </tr>
+                  <tr class="tr-back">
+                    <th class="profile pro-net-sal-navi">Total Salary</th>
+                    <td class="jai-ho fifty-navi">{{demoData.salary | currency:'AED'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

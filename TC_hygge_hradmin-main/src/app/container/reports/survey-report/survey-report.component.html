@@ -1,0 +1,255 @@
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="70">
+    <h3 class="page-title">
+      Survey Reports
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/reports">Reports</a></li>
+      <li>Survey</li>
+    </ul>
+  </div>
+  <div fxFlex="30" class="pdf-head-button">
+    <button mat-raised-button color="primary" (click)="downloadAsPDF()">Export Report as PDF</button>
+  </div>
+</div>
+
+<div id="pdfTable" #pdfTable fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxflexfill
+  fxLayoutGap="10px grid">
+  <div fxFlex>
+    <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                <span class="card-subtitle">Total Surveys</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title yellow-txt">{{total_survey}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <br />
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                <span class="card-subtitle">Completed Surveys</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title blue-txt">{{completed_survey}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxFlex>
+    <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+                <span class="card-subtitle">Open Surveys</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title purpul-txt">{{open_survey}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <br />
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+                <span class="card-subtitle">Completion Rate</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title pink-txt">{{completed_survey}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxFlex>
+    <mat-card class="dashboard-count">
+      <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div fxFlex>
+          <span class="card-subtitle" style="margin: 0 !important;">Top 5 Finishers</span>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex>
+          <app-horizontal-bar *ngIf="lateEmployeeGraph" [data]="lateEmployeeGraph"></app-horizontal-bar>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div> 
+
+<div class="scroller">
+  <div class="scroll-x">
+    <div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-card class="dashboard-detail">
+          <mat-card-content>
+            <div class="header11">
+              <mat-toolbar color="grey">
+                <mat-form-field class="search-field" appearance="standard">
+                  <mat-icon matSuffix>search</mat-icon>
+                  <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+                </mat-form-field>
+                <span class="spacer"></span>
+
+                <mat-select class="custom-selection" [(ngModel)]="customizeData"
+                  (ngModelChange)="addRemoveColumn($event)" multiple>
+                  <mat-select-trigger>
+                    <span class="example-additional-selection">
+                      Customize Table
+                    </span>
+                  </mat-select-trigger>
+                  <mat-option color="primary" *ngFor="let item of displayedColumnsTitleDemo;let i = index"
+                    [value]="item.value">
+                    {{item.title}}</mat-option>
+                </mat-select>
+
+                <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Export Table <mat-icon>expand_more
+                  </mat-icon></button>&nbsp;&nbsp;
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="exportExcel()">As EXCEL</button>
+                  <button mat-menu-item (click)="export()">As CSV</button>
+                </mat-menu>&nbsp;&nbsp;
+              </mat-toolbar>
+              <mat-toolbar class="top-mar" color="grey">
+                <button mat-raised-button color="primary" (click)="openFilterModal()">Filter <mat-icon>filter_list
+                  </mat-icon></button>
+              </mat-toolbar>
+
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let module of modulename" [selectable]="selectable" [removable]="removable"
+                  (removed)="remove(module)">
+                  {{ module.name }}&nbsp;&nbsp; {{ module.value }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input style="display: none" placeholder="New fruit..." [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event)" />
+              </mat-chip-list>
+            </div>
+
+            <table id="csvTable" class="exeTable" *ngIf="tableFirst" mat-table [dataSource]="dataSource" matSort
+              class="mat-elevation-z8 top-mar">
+
+              <ng-container matColumnDef="name_of_survey">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Name of Survey</th>
+                <td mat-cell *matCellDef="let element"> {{element.surveyName}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="start_date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Start Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'dd-MM-yyyy'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="end_date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.endDate | date: 'dd-MM-yyyy'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="questions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Questions </th>
+                <td mat-cell *matCellDef="let element"> {{element.questionCount}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="eligible_participants">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Eligible Participants </th>
+                <td mat-cell *matCellDef="let element"> {{element.elligibleUser}} </td>
+              </ng-container>
+              <ng-container matColumnDef="submissions_completion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Submissions/ Completion </th>
+                <!-- <td mat-cell *matCellDef="let element"> {{element.submission}} / {{element.completion}}</td> -->
+                <td mat-cell *matCellDef="let element"> {{element.submissions}}</td>
+              </ng-container>
+              <ng-container matColumnDef="survey_started">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Survey Started </th>
+                <td mat-cell *matCellDef="let element"> {{element.surveyStarted}} </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+              </tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+
+  </div>
+</div> <br> <br>
+
+<div style="display:none;">
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name_of_survey">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Name of Survey</th>
+      <td mat-cell *matCellDef="let element"> {{element.name_survey}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="start_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Start Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="end_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.end_date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="questions">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Questions </th>
+      <td mat-cell *matCellDef="let element"> {{element.question}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="eligible_participants">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Eligible Participants </th>
+      <td mat-cell *matCellDef="let element"> {{element.eligible_participant}} </td>
+    </ng-container>
+    <ng-container matColumnDef="submissions_completion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Submissions/ Completion </th>
+      <td mat-cell *matCellDef="let element"> {{element.submission}} / {{element.completion}}</td>
+    </ng-container>
+    <ng-container matColumnDef="survey_started">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Survey Started </th>
+      <td mat-cell *matCellDef="let element"> {{element.survey_started}} </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+    </tr>
+  </table>
+</div>

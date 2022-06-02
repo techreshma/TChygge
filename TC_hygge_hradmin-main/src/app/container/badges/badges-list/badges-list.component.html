@@ -1,0 +1,35 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Badges
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Badges</li>
+    </ul>
+  </div>
+</div>
+  <div fxLayout="row wrap" fxflexfill fxLayoutGap="30px grid">
+      <div fxFlex="33" *ngFor="let item of list">
+        <mat-card routerLink="/badges-detail/{{item.badges_id}}">
+          <span class="card-title">
+            {{item.badges_Name}}
+          </span>
+          <mat-card-content>
+            <img src="{{imgPath}}{{item.badges_ImagePath}}" /><br /><br />
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  {{item.GetBadges_User}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  Got this Badge
+                </span>
+              </div>
+            </div>
+          </mat-card-content>
+				</mat-card>
+      </div>
+    </div>

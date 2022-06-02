@@ -1,0 +1,598 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Employees
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/employees">Employee</a></li>
+      <!-- <li>Romika Gupta</li> -->
+      <li *ngIf="employeeDetail">{{employeeDetail.first_name}}
+        {{employeeDetail.last_name}}</li>
+    </ul>
+    <span class="back-link" routerLink="/employees">
+      <mat-icon matSuffix>keyboard_backspace</mat-icon>
+      Back
+    </span>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="25">
+    <mat-card class="intro-card" *ngIf="employeeDetail">
+      <mat-card-content>
+        <span class="card-title">{{employeeDetail.first_name}}
+          {{employeeDetail.last_name}}</span>
+        <span class="card-subtitle">{{employeeDetail.designation}}</span>
+        <!-- <img src="assets/img/Ellipse_1_b.png" /> -->
+        <img class="img" src="{{imgPath}}{{employeeDetail.profile_picture}}" />
+        <ul class="contact-list">
+          <li>
+            <mat-icon>phone</mat-icon> {{employeeDetail.mobile}}
+          </li>
+          <li class="mobile-data">
+            <mat-icon>email</mat-icon> {{employeeDetail.email}}
+          </li>
+          <li class="mobile-data">
+            <mat-icon>place</mat-icon> {{employeeDetail.home_Location}}
+          </li>
+        </ul>
+        <button mat-raised-button class="round-btn" color="primary"
+          routerLink="/chat">Message</button>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="intro-card" *ngIf="challenges">
+      <mat-card-content>
+        <span class="card-title">Challange's Detail</span>
+        <app-doughnut *ngIf="challangeGraphData" [data]="challangeGraphData"></app-doughnut>
+        <span class="average">Average</span>
+        <span class="average-score">{{challenges.completeChallenge}}/{{challenges.totalChallenge}}
+          Completed</span><br />
+        <button mat-raised-button class="round-btn" color="primary"
+          routerLink="/challange-list">View Details</button>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="intro-card">
+      <mat-card-content>
+
+        <span class="card-title">Badge Won</span>
+
+        <div style="width:104%" *ngFor="let item of badgesDetail">
+          <img class="img_centric" src="{{imgPath + item.badges_doc_Path}}" alt="">
+          <span class="badges_name_earned badges-name">
+            Badges Name - {{item.badges_Name}}
+          </span><br/>
+          <span class="badges_name_earned badges-earned">
+            Badges Earned - {{item.badges_earned}}
+          </span>
+        </div>
+
+
+        <button mat-raised-button class="round-btn" color="primary">Message</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="75">
+    <mat-card class="employee-tab" *ngIf="employeeDetail">
+      <mat-card-content>
+        <mat-tab-group mat-align-tabs="start">
+
+          <mat-tab label="Profile">
+            <div class="profile-detail">
+              <span class="card-title">Personal Info</span>
+              <div>
+                <div fxLayout="row" class="rowBottom" *ngFor="let item of
+                  personalInfo">
+                  <div fxFlex="50" class="rowbg">
+                    {{item.title}}
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    {{item.value}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- proffesionalInfo -->
+            <div class="profile-detail">
+              <span class="card-title">Professional Info</span>
+
+              <div>
+                <div fxLayout="row" class="rowBottom">
+                  <div fxFlex="50" class="rowbg">
+                    Department
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    {{employeeDetail.department}}
+                  </div>
+                </div>
+                <div fxLayout="row" class="rowBottom">
+                  <div fxFlex="50" class="rowbg">
+                    Designation
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    {{employeeDetail.designation}}
+                  </div>
+                </div>
+                <div fxLayout="row" class="rowBottom">
+                  <div fxFlex="50" class="rowbg">
+                    Joining Date
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    {{employeeDetail.employee_joiningDate | date:'dd/MM/yyyy'}}
+                  </div>
+                </div>
+                <div fxLayout="row" class="rowBottom">
+                  <div fxFlex="50" class="rowbg">
+                    Insurance Plan
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    {{employeeDetail.insurance_plan_name}}
+                  </div>
+                </div>
+                <div fxLayout="row" class="rowBottom">
+                  <div fxFlex="50" class="rowbg">
+                    Reporting Manager
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    {{employeeDetail.reporting_Manager !== '' ?
+                    employeeDetail.reporting_Manager: 'No Manager'}}
+                  </div>
+                </div>
+                <div fxLayout="row" class="rowBottom">
+                  <div fxFlex="50" class="rowbg">
+                    Work Location
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    {{employeeDetail.work_location}}
+                  </div>
+                </div>
+                <div fxLayout="row" class="rowBottom">
+                  <div fxFlex="50" class="rowbg">
+                    Working Hours
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    From {{employeeDetail.working_HoursFrom}} to
+                    {{employeeDetail.working_HoursTo}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="profile-detail">
+              <span class="card-title">Leave Detail</span>
+              <br />
+              <div class="">
+
+              </div>
+
+              <div *ngFor="let item of leaveBalance">
+                <div fxLayout="row" class="rowBottom" *ngFor="let data of item |
+                  keyvalue">
+                  <div fxFlex="50" class="rowbg">
+                    {{data.key}}
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    <span *ngIf="data.key === 'Compassionate'">
+                      {{data.value | currency}}
+                    </span>
+                    <span *ngIf="data.key !== 'Compassionate'">
+                      {{(data.value)}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="profile-detail">
+              <span class="card-title">Salary Detail</span>
+              <br />
+
+              <div *ngFor="let item of salaryBalance">
+                <div fxLayout="row" class="rowBottom" *ngFor="let data of item |
+                  keyvalue">
+                  <div fxFlex="50" class="rowbg">
+                    {{data.key}}
+                  </div>
+                  <div fxFlex="50" class="recorddata">
+                    AED {{data.value}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Attandance">
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="30" *ngIf="currntDate.length> 0">
+                <span class="card-title" style="font-size: 20px;">Today's
+                  Activity</span>
+                <h3 class="puch-in-1">Punch In At</h3>
+                <p class="date-time">{{currntDate[0].date | date: 'EEEE, MMM dd
+                  yyyy'}} {{currntDate[0].check_In}}</p>
+                <h3 class="puch-in">Punch Out</h3>
+                <p class="date-time">{{currntDate[0].date | date: 'EEEE, MMM dd
+                  yyyy'}} {{currntDate[currntDate.length -
+                  1].check_Out}}</p>
+                <app-doughnut *ngIf="graphData" [data]="graphData"></app-doughnut>
+              </div>
+              <div fxFlex="30" *ngIf="currntDate.length> 0">
+                <ul class="todays-attendanc-list">
+                  <ng-container *ngFor="let item of currntDate">
+                    <li>
+                      <b>Punch In at</b>
+                      <span>{{item.check_In}}</span>
+                    </li>
+                    <li>
+                      <b>Punch Out at</b>
+                      <span>{{item.check_Out}}</span>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+              <div fxFlex="40">
+                <span class="card-title">Stats</span>
+                <mat-card>
+                  <div class="stats today">
+                    <span>Today</span>
+                    <span><b>{{todaysHour}}</b>/{{todaysTotalHour}}hrs</span>
+                  </div>
+                  <mat-progress-bar color="primary" mode="determinate"
+                    value="{{roundFigure((todaysHour*100)/(todaysTotalHour))}}"></mat-progress-bar>
+                </mat-card>
+                <br />
+                <mat-card>
+                  <div class="stats week">
+                    <span>Week</span>
+                    <span><b>{{weeksHour}}</b>/{{workingDayWeekTime}}hrs</span>
+                  </div>
+                  <mat-progress-bar color="accent" mode="determinate"
+                    value="{{roundFigure((weeksHour*100)/(workingDayWeekTime))}}"></mat-progress-bar>
+                </mat-card>
+                <br />
+                <mat-card>
+                  <div class="stats month">
+                    <span>Month</span>
+                    <span><b>{{monthHour}}</b>/{{workingDayMonthTime}}hrs</span>
+                  </div>
+                  <mat-progress-bar color="warn" mode="determinate"
+                    value="{{roundFigure((monthHour*100)/(workingDayMonthTime))}}"></mat-progress-bar>
+                </mat-card>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Documents">
+
+            <div fxLayout="row">
+              <div fxFlex="100">
+                <span class="card-title">Employee Documents</span>
+              </div>
+            </div>
+            <div fxLayout="row" class="back-ground-1" *ngFor="let item of
+              personalDocument">
+              <div fxFlex="10">
+                <div class="img-b">
+                  <img src="./assets/img/docs.png" width="100%" alt="">
+                </div>
+              </div>
+              <div fxFlex="60">
+                <p class="tar-nam">{{item.document_Title}}</p>
+                <p class="upload">{{formatDate(item.created_At) }} <Span
+                    class="start">*</Span> Uploaded by {{empId ==
+                  item.updated_By?'you':'admin'}} <Span class="start">*</Span>
+                  <span
+                    *ngIf="getNegative(item.Action_Required) == 1"
+                    class="blue-txt">Expiring in
+                    {{removeChar(item.Action_Required)}} days</span>
+                  <span *ngIf="getNegative(item.Action_Required) == -1 ||
+                    item.Action_Required == 0"
+                    class="red-txt">Expired {{removeChar(item.Action_Required)}}
+                    days ago</span>
+                  <span *ngIf="item.Action_Required == '-'" class="green-txt">Not
+                    Expirable</span>
+                </p>
+              </div>
+              <div fxFlex="30">
+              </div>
+            </div>
+
+            <div fxLayout="row" *ngIf="dependentDocument.length> 0">
+              <div fxFlex="40">
+                <span class="card-title">Family Documents</span>
+              </div>
+              <div fxFlex="60"></div>
+            </div>
+            <div fxLayout="row" class="back-ground-1" *ngFor="let item of
+              dependentDocument">
+              <div fxFlex="10">
+                <div class="img-b">
+                  dsa
+                </div>
+              </div>
+              <div fxFlex="60">
+                <p class="tar-nam">{{item.document_Title}}</p>
+                <p class="upload">{{formatDate(item.created_At)}} <Span
+                    class="start">*</Span> Uploaded by {{empId ==
+                  item.updated_By?'you':'admin'}} <Span class="start">*</Span>
+                  <span
+                    *ngIf="getNegative(item.Action_Required) == 1"
+                    class="blue-txt">Expiring in
+                    {{removeChar(item.Action_Required)}} days</span>
+                  <span *ngIf="getNegative(item.Action_Required) == -1 ||
+                    item.Action_Required == 0"
+                    class="red-txt">Expired {{removeChar(item.Action_Required)}}
+                    days ago</span>
+                  <span *ngIf="item.Action_Required == '-'" class="green-txt">Not
+                    Expirable</span> and various
+                </p>
+              </div>
+              <div fxFlex="30">
+              </div>
+            </div>
+
+          </mat-tab>
+
+          <mat-tab label="Insurance">
+            <mat-card class="intro-card">
+              <mat-card-content>
+                <span class="card-title">Insurance Detail</span><br />
+                <div *ngIf="insurance">
+                  <div fxLayout="row" class="rowBottom">
+                    <div fxFlex="45" class="rowbg">
+                      Insurance Company
+                    </div>
+                    <div fxFlex="55" class="recorddata">
+                      {{insurance.insurance_Name}}
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="rowBottom">
+                    <div fxFlex="45" class="rowbg">
+                      Date
+                    </div>
+                    <div fxFlex="55" class="recorddata">
+                      {{formatDate(insurance.updated_At)}}
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="rowBottom">
+                    <div fxFlex="45" class="rowbg">
+                      Expire at
+                    </div>
+                    <div fxFlex="55" class="recorddata">
+                      {{formatDate(insurance.expiry_Date)}}
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="rowBottom">
+                    <div fxFlex="45" class="rowbg">
+                      Plan Id
+                    </div>
+                    <div fxFlex="55" class="recorddata">
+                      {{insurance.insuranceDetail_id}}
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="rowBottom">
+                    <div fxFlex="45" class="rowbg">
+                      Plan Name
+                    </div>
+                    <div fxFlex="55" class="recorddata">
+                      {{insurance.insurance_Plan}}
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="rowBottom">
+                    <div fxFlex="45" class="rowbg">
+                      Table of benefits
+                    </div>
+                    <div fxFlex="55" class="recorddata">
+                      <a class="sa"
+                        [href]="chkHttp(insurance.insurance_Benefit) ==
+                        'http:'?insurance.insurance_Benefit:imgPath+''+insurance.insurance_Benefit"
+                        target="_blank">View Benifits</a>
+                    </div>
+                  </div>
+                  <div fxLayout="row" class="rowBottom">
+                    <div fxFlex="45" class="rowbg">
+                      Network
+                    </div>
+                    <div fxFlex="55" class="recorddata">
+                      <a class="sa"
+                        [href]="chkHttp(insurance.insurance_Benefit) ==
+                        'http:'?insurance.network:imgPath+''+insurance.network"
+                        target="_blank">View Network</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- <table class="table" *ngIf="insurance">
+                  <tbody>
+                    <tr>
+                      <th></th>
+                      <td>{{insurance.insurance_Name}}</td>
+                    </tr>
+                    <tr>
+                      <th>Date</th>
+                      <td>{{formatDate(insurance.updated_At)}}</td>
+                    </tr>
+                    <tr>
+                      <th>Expire at</th>
+                      <td>{{formatDate(insurance.expiry_Date)}}</td>
+                    </tr>
+                    <tr>
+                      <th>Plan Id</th>
+                      <td class="sa">{{insurance.insuranceDetail_id}}</td>
+                    </tr>
+                    <tr>
+                      <th>Plan Name</th>
+                      <td class="sa">{{insurance.insurance_Plan}}</td>
+                    </tr>
+                    <tr>
+                      <th>Table of benefits</th>
+                      <td><a class="sa"
+                          [href]="chkHttp(insurance.insurance_Benefit) == 'http:'?insurance.insurance_Benefit:imgPath+''+insurance.insurance_Benefit"
+                          target="_blank">View Benifits</a></td>
+                    </tr>
+                    <tr>
+                      <th>Network</th>
+                      <td><a class="sa"
+                          [href]="chkHttp(insurance.insurance_Benefit) == 'http:'?insurance.network:imgPath+''+insurance.network"
+                          target="_blank">View Network</a></td>
+                    </tr>
+                  </tbody>
+                </table> -->
+              </mat-card-content>
+            </mat-card>
+
+          </mat-tab>
+
+          <mat-tab label="Salaries">
+            <mat-toolbar color="light" class="tolbr">
+              <span class="mat-toolbar-title"> <b> Salaries </b> </span>
+              <span class="spacer"></span>
+              <mat-form-field class="search-field inp" appearance="standard">
+                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Search" #input
+                  (keyup)="applySalaryFilter($event)">
+              </mat-form-field>
+              <button mat-mini-fab color="primary" class="cal-button but_plus"
+                routerLink="/employee-salary"
+                aria-label="Add new">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-toolbar>
+            <table class="table">
+              <tr>
+                <th>Description</th>
+                <th>Amount</th>
+              </tr>
+              <tr *ngFor="let item of salaryObj | keyvalue">
+                <td>{{item.key}}</td>
+                <td style="text-align:center!important">{{item.value |
+                  currency:'AED'}}</td>
+              </tr>
+
+              <!-- 
+              <ng-container matColumnDef="date">   
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f"> Date </b> </th>
+                <td mat-cell *matCellDef="let element" class="equ"> {{formatDate(element.updated_At)}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="ref">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f"> Ref. ID </b> </th>
+                <td mat-cell *matCellDef="let element"> {{element.salary_id}} </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> <b class="status_f"> Status </b> </th>
+
+                <td mat-cell *matCellDef="let element">
+                  <button mat-raised-button class="round-btn fir" *ngIf="element.status == 0"
+                    color="warn">Pending</button>
+                  <button mat-raised-button class="round-btn sec" *ngIf="element.status == 1"
+                    color="light">Credited</button>
+                </td>
+
+              </ng-container>
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef class="head_status"> <b class="status_f"> Amount </b> </th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="!accessPermission"> ${{element.netSalary}}</span>
+
+                </td>
+              </ng-container> -->
+              <!-- Action Column -->
+              <!-- <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action Required </th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    (click)="showTemplate(element.salaryDate)" matTooltip="Preview" color="light">
+                    <mat-icon color="green">preview</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    (click)="mailPaySlip(element.salaryDate)" matTooltip="Send salary slip" color="light">
+                    <mat-icon color="accent">send</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    (click)="downloadSlip(element.salaryDate)" matTooltip="Download" color="light">
+                    <mat-icon color="primary">download</mat-icon>
+                  </button>
+
+                </td>
+              </ng-container> -->
+              <!-- <tr mat-header-row *matHeaderRowDef="salaryColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: salaryColumns;"></tr> -->
+              <!-- Row shown when there is no matching data. -->
+              <!-- <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+              </tr> -->
+            </table>
+          </mat-tab>
+
+          <mat-tab label="Leave">
+            <mat-toolbar color="light" class="tolbr">
+              <span class="mat-toolbar-title"> <b> Leave Detail </b> </span>
+              <span class="spacer"></span>
+              <mat-form-field class="search-field inp" appearance="standard">
+                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Search" #input
+                  (keyup)="applyLeaveFilter($event)">
+              </mat-form-field>
+              <button mat-mini-fab color="primary" class="cal-button but_plus"
+                routerLink="/leaves"
+                aria-label="Add new">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-toolbar>
+            <table mat-table [dataSource]="roleLeaveData" matSort
+              class="mat-elevation-z8" class="tab_le">
+
+              <ng-container matColumnDef="leavType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> <b
+                    class="status_f"> Leave Type </b> </th>
+                <td mat-cell *matCellDef="let element"> {{element.leave_Name}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="reqDur">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="rt"> <b class="status_f"> Request Duration
+                  </b> </th>
+                <td mat-cell *matCellDef="let element" class="head_access rt">
+                  {{formatDate(element.leave_From)}} to
+                  {{formatDate(element.leave_To)}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="appliedOn">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="rt"> <b class="status_f"> Applied On </b>
+                </th>
+                <td mat-cell *matCellDef="let element" class="head_access rt">
+                  {{formatDate(element.created_At)}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="rt"> <b class="status_f"> Status </b> </th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-flat-button class="round-btn"
+                    *ngIf="element.is_leave == 1"
+                    color="light">Approved</button>
+                  <button mat-flat-button class="round-btn"
+                    *ngIf="element.is_leave == 0"
+                    color="accent">Pending</button>
+                  <button mat-flat-button class="round-btn"
+                    *ngIf="element.is_leave == 2" color="warn">Rejected</button>
+                  <button mat-flat-button class="round-btn"
+                    *ngIf="element.is_leave == 3"
+                    color="warn">Cancelled</button>
+                </td>
+
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="leaveColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: leaveColumns;"></tr>
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data found</td>
+              </tr>
+            </table>
+          </mat-tab>
+
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

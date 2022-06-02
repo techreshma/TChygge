@@ -1,0 +1,27 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Access Module</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Access</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="accessData">
+        <tr *ngFor="let item of accessData">
+          <th>{{item.module}}</th>
+          <td>
+            <button mat-flat-button class="round-btn ty" *ngIf="item.permission == 1" color="primary">Global</button>
+            <button mat-flat-button class="round-btn ty" *ngIf="item.permission == 0" color="accent">Local</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-dialog-content>
+</div>

@@ -1,0 +1,28 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Manage Leave</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+<form name="filterForm" (ngSubmit)="manageEmployeeleaveBalance()" #filterForm="ngForm">
+    <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="" *ngFor="let item of leaveBalance;let i = index;">
+        <div fxFlex="30">
+          <mat-label>{{item.label}}</mat-label>
+        </div>
+        <div fxFlex="70">
+          <mat-form-field class="form-fields">
+            <input matInput  type="text" name="salary{{i}}"  [(ngModel)]="item.value" autocomplete="off" [placeholder]="item.label" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" />
+          </mat-form-field>
+        </div>
+    </div>
+    <div fxLayout="row" class="" >
+      <div fxFlex="100">
+        <mat-label></mat-label>
+        <button mat-raised-button class="big-btn block-btn"  color="primary">SUBMIT</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+</div>

@@ -1,0 +1,188 @@
+.mid-graph{
+  margin-top:10px !important;
+  .comp-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .plan-info {
+    display: flex;
+    img{
+      margin-right:10px;
+    }
+  }
+}
+.mat-toolbar-title{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-000000);
+text-align: center;
+font: normal normal 600 18px/27px Poppins;
+letter-spacing: 0px;
+color: #000000;
+text-transform: capitalize;
+opacity: 1;
+justify-content: center ;
+}
+.emp-img img {
+    margin-right: -10px;
+    border: 4px solid #fff;
+    border-radius: 100%;
+}
+span.emp-img-count {
+  background: var(--unnamed-color-f5f6fb) 0% 0% no-repeat padding-box;
+  border: 1px solid var(--unnamed-color-ffffff);
+  background: #F5F6FB 0% 0% no-repeat padding-box;
+  border: 1px solid #FFFFFF;
+  opacity: 1;
+  display: table-caption;
+  height: 45px;
+  width: 45px;
+  border-radius: 100%;
+  text-align: center;
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 13px/34px var(--unnamed-font-family-poppins);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-3f51b5);
+  font: normal normal normal 13px/45px Poppins;
+  letter-spacing: 0px;
+  color: #3F51B5;
+  text-transform: capitalize;
+  opacity: 1;
+}
+.imgSectionEmp {
+  padding-left: 25px !important;
+}
+
+.comp-info {
+  text-align: left;
+}
+span.kl {
+  text-align: left !important;
+}
+
+@media (max-width:414px){
+  img.img1 {
+    height: 100%;
+    width: 100%;
+  }
+  mat-card-content.scroll {
+    overflow-x: scroll;
+  }
+  .cal-button {
+    margin-left: 10px !important;
+  }
+  .mat-form-field {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .search-field {
+    width: 127px;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 959px){
+  img.img1{
+    height: 100%;
+    width: 100%;
+  }
+  mat-card-content.scroll {
+    overflow-x: scroll;
+  }
+}
+.active-row {
+  background: #ffeb3b70;
+}
+
+
+
+//----------------------------New dashboard css-----------------//
+.main_healthwellness .mat-card {
+  width: 73vw;
+}
+.tool {
+  background-color: white;
+}
+mat-card {
+  margin: 0.2em;
+}
+.cardbackground {
+  background-color: #3f51b5 !important;
+  opacity: 5% !important;
+}
+.donut-style {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  border-radius: 0.4em;
+  margin: 0.3em;
+  background-color: white;
+  padding: 0.6em;
+}
+
+.cardText {
+  color: #3d3d3d !important;
+  font-size: 18px !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  padding: 0.4em !important;
+}
+
+.carddescrip {
+  color: #000000 !important;
+  font-size: 9px !important;
+  text-align: center !important;
+  padding: 0.4em !important;
+}
+
+.circle_style {
+  padding: 1.2em;
+  border-radius: 34px;
+  height: 0.1em !important;
+  width: 0.1em !important;
+  padding: 1.2em;
+}
+
+//Circle
+.circle_lightred {
+  background-color: #f43733;
+  opacity: 0.9;
+}
+.circle_red {
+  background-color: #f43733;
+}
+.circle_yellow {
+  background-color: #ffa114;
+}
+.circle_lightgreen {
+  background-color: #19952c;
+  opacity: 0.9;
+}
+.circle_green {
+  background-color: #19952c;
+}
+
+.circle_text {
+  position: absolute;
+  color: #000000;
+  font-family: "poppins", regular;
+  font-size: 0.5em;
+  font-weight: bold;
+}
+.readiness_number {
+  text-align: center;
+  font-weight: 700;
+}
+
+.activeBtn {
+  background-color: #3f51b5;
+  border: 0.1em solid #3f51b5;
+  color:white;
+}
+
+.inactiveBtn {
+  border: 0.1em solid #3f51b5;
+  color:#3f51b5
+}
+
+.boldtext{
+  font-weight: 900;
+}

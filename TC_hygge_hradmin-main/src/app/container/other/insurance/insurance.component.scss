@@ -1,0 +1,16 @@
+@import './../../../../variable.scss';
+span.icici {
+    padding: 0 0 0 35px;
+    color: var(--unnamed-color-3f51b5);
+    @include character-style-7;
+}
+
+.mat-toolbar-title{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-000000);
+text-align: left;
+text-transform: capitalize;
+opacity: 1;
+}
+

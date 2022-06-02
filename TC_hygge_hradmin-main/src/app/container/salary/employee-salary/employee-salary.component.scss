@@ -1,0 +1,42 @@
+span.bar {
+  width: 30px;
+  height: 5px;
+  display: block;
+}
+.mid-graph {
+  margin-bottom: 30px !important;
+}
+
+// responsive 414px
+
+.scroller {
+  width: 100%;
+  overflow: auto;
+  .scroll-x {
+    display: flex;
+    // flex-direction: column;
+    .department-detail-separation {
+      min-width: 150px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+#chart {
+  margin: 0 auto !important;
+}
+
+.total_salary {
+  color: #000000;
+  font-size: 32px;
+}
+
+.flex-item {
+  margin: 1em;
+}
+
+
+.actiontext {
+  color: #e0e0e0;
+  font-size: 13px;
+}

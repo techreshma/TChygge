@@ -1,0 +1,10 @@
+@import './../../../../variable.scss';
+@media (max-width: 414px){
+    span.faq {
+        font-size: var(--unnamed-font-size-15);
+    }
+    mat-form-field.input {
+        height: 37px;
+        width: 150px;
+    }
+}

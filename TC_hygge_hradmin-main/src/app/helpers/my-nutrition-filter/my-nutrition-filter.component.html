@@ -1,0 +1,56 @@
+<div class="main_popup">
+  <div class="header_content">
+    <div class="modulesearch">
+      <mat-form-field class="search-field blue-search" appearance="standard">
+        <mat-icon matSuffix id="icon-color">search</mat-icon>
+        <input matInput placeholder="Search" id="search-color" #input
+          (keyup)="searchModule($event)">
+      </mat-form-field>
+    </div>
+    <span class="cancel-dialoge" (click)="closeDialog()">
+      <mat-icon>clear</mat-icon>
+    </span>
+  </div>
+  <div fxLayout="row" fxflexfill>
+    <div fxFlex="50" style="width:100% !important">
+      <div class="keyword_main_panel">
+        <div *ngFor="let item of keywordArray;let i=index"
+          (click)="keywordClick(item.title, item.show , i)" class="{{item.show
+          ?
+          'active':'inactive'}} keyword_capsule keyword_child_panel">
+
+          <a>{{item.title}}</a>
+
+        </div>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <div *ngFor="let childitem of filteredRecipe;let
+        io=index" (click)="recipeClickFun(childitem.recipename,
+        childitem.childShow , io)"
+        class="{{childitem.childShow
+        ?
+        'active':'inactive'}} keyword_capsule recipestyling">
+        {{childitem.recipename}}
+      </div>
+    </div>
+  </div>
+  <div class="footer_content">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <div fxFlex="55">
+      </div>
+      <div fxFlex="45">
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <div fxFlex="50">
+            <button class="filter_action_left" (click)="resetFilter()"
+              mat-button>Reset</button>
+          </div>
+          <div fxFlex="50">
+            <button class="filter_action_right" (click)="applyFilter()"
+              mat-button [disabled]="recipeCountCheck">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

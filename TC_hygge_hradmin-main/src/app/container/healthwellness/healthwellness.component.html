@@ -1,0 +1,2851 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Health & Wellness
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Survey</a></li>
+      <li><a routerLink="/challange-list">Health & Wellness</a></li>
+    </ul>
+  </div>
+</div>
+
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [title]="'User Wellness Distribution'" [children]="children1">
+      <ng-template #children1>
+        <app-doughnut [data]="wellnessDistributionGraphData"
+          *ngIf="wellnessDistributionGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="'Responded based on Gender'" [children]="children2">
+      <ng-template #children2>
+        <app-doughnut [data]="genderBasedGraphData"
+          *ngIf="genderBasedGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="''" [footer]="'HRA Score'" [children]="children3">
+      <ng-template #children3>
+        <app-gauge [data]="hraScoreGuageData" *ngIf="hraScoreGuageData"></app-gauge>
+        <div style="display:table;margin:auto">
+          <button mat-raised-button color="primary" aria-label="Download"
+            (click)="downloadAsPDF()">
+            Agreegated Report
+          </button>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="50">
+    <mat-card class="dashboard-count">
+      <div fxLayout="row" fxLayoutAlign="center center" fxflexfill
+        fxLayoutGap="10px grid">
+        <div fxFlex="60" style="border-right: 1px solid lightgray; text-align:
+          center;">
+          <span class="card-subtitle" style="padding-right: 10px;">Average HRA
+            Score Improvement</span>
+        </div>
+        <div fxFlex="40" style="text-align: center;">
+          <span class="card-title">{{hraScoreImprovement}}</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="50">
+    <mat-card class="dashboard-count">
+      <div fxLayout="row" fxLayoutAlign="center center" fxflexfill
+        fxLayoutGap="10px grid">
+        <div fxFlex="60" style="border-right: 1px solid lightgray; text-align:
+          center;">
+          <span class="card-subtitle">Employees participating in program</span>
+        </div>
+        <div fxFlex="40" style="text-align: center;">
+          <span class="card-title">{{empParticipatingProgram}}</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="33">
+    <app-card [title]="'Aggregated Risk Score'" [children]="children4">
+      <ng-template #children4>
+        <app-horizontal-bar [data]="aggreegateCategoriesGraphata"
+          *ngIf="aggreegateCategoriesGraphata">
+        </app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="'Aggregated Category Score'" [children]="children5">
+      <ng-template #children5>
+        <app-horizontal-bar [data]="agreegatedRiskGraphata"
+          *ngIf="agreegatedRiskGraphata"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+
+  </div>
+
+  <div fxFlex="33">
+    <app-card [title]="''" [children]="children6">
+      <ng-template #children6>
+        <app-radar [data]="hraRadarData" *ngIf="hraRadarData"></app-radar>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="66">
+    <app-card [title]="'BMI'" [children]="children7">
+      <ng-template #children7>
+        <div fxLayout="row">
+          <div fxFlex="60"></div>
+          <div fxFlex="20">
+            <button mat-raised-button class="block-btn login-button {{bmiType
+              === 'age' ? 'activeBtn': 'inactiveBtn'}}"
+              style="margin:0.5em 1em" (click)="bmiType= 'age'">
+              Age
+            </button>
+          </div>
+          <div fxFlex="20">
+            <button mat-raised-button
+              class="block-btn login-button {{bmiType === 'gender' ?
+              'activeBtn': 'inactiveBtn'}}"
+              style="margin:0.5em 1em" (click)="bmiType= 'gender'">
+              Gender
+            </button>
+          </div>
+        </div>
+        <div *ngIf="bmiType === 'age'">
+          <app-horizontal-bar [data]="bmiAgeGraphdata" *ngIf="bmiAgeGraphdata">
+          </app-horizontal-bar>
+        </div>
+        <div *ngIf="bmiType === 'gender'">
+
+          <app-horizontal-bar [data]="bmiGenderGraphdata"
+            *ngIf="bmiGenderGraphdata">
+          </app-horizontal-bar>
+        </div>
+
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="33">
+    <app-card [title]="'Employee Readiness'" [children]="children8">
+      <ng-template #children8>
+        <div fxLayout="row">
+          <div fxFlex="20" *ngFor="let item of redinessArray">
+            <span class="readiness_number">{{item.number}}</span>
+            <div class="circle_style rounded {{readinessObj[item.type]}}"></div>
+            <span class="circle_text">{{item.type}}</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+
+<!-- Report PDF HTML -->
+<div id="pdfTable" style="z-index: 2000;" #pdfTable>
+
+
+
+  <div style="display:table; margin:auto; align-items:center; width:100%;
+    background-color: #fff;">
+    <img style="width:100%; height: fit-content; position: relative;
+      opacity: 0.7;" src="{{imageUrl_health}}">
+    <p style="position: absolute; top: 108px; left: 272px; color: rgb(255,
+      255, 255); font-size: 30px; font-family: system-ui; font-weight:
+      bolder;">SUMMARY OF RESULTS</p>
+    <p style="position: absolute; top: 323px; left: 272px; color: rgb(255,
+      255, 255); font-size: 130px; font-family: sans-serif; font-weight:
+      bolder;">HEALTH WELLNESS</p>
+    <p style="position: absolute; top: 623px; left: 272px; color: #FFD93B;
+      font-size: 130px; font-family: sans-serif; font-weight: bolder;">PROFILER</p>
+  </div>
+
+  <div style="display:table; margin:auto; align-items:center; width:100%;
+    background-color: #fff; padding-bottom: 15px; margin-bottom: 20px;">
+    <div style="display: flex; margin-top: 15px;">
+      <div><p style="font-size: 15px; margin: 30px 0px 0px 50px;
+          font-family: system-ui; color: rgb(176,139,250); font-family:
+          sans-serif; font-weight: 800;">OCTOBER 2021</p></div>
+      <img style="width:10%; height: fit-content; margin-left: 10px;
+        position: relative;" src="{{imageUrl_health}}"></div>
+    <div style="width: 66%; float: right; margin-top: -41px; color:
+      #E1D9F3;"><hr></div>
+
+  </div>
+
+
+  <div style="display:table; margin:auto; align-items:center; width:100%;
+    background-color: #fff;">
+    <div
+      style="height: 30px; width: 100%; border: 1px solid rgb(193, 175, 230);
+      background-color: rgb(193, 175, 230); margin: auto;">
+    </div>
+    <div>
+      <h1
+        style="display: flex; justify-content: center; margin-top: 50px;
+        color: rgb(255, 205, 102); font-size: 42px; font-family: Bebas Neue;
+        margin-bottom: 20px;">
+        PARTICIPANTS' ANALYTICS</h1>
+    </div>
+    <div style="display: flex; width:92%; margin: auto; margin-top: 40px;">
+      <div style="align-items: center; width: 100%;">
+        <!-- #ab7dfa
+        -->
+        <h2 style="font-size: 30px; color: #ab7dfa;">Male</h2>
+        <app-vertical-bar *ngIf="maleGraphData" [data]="maleGraphData"></app-vertical-bar>
+<!-- 
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            20 y - 35 y
+          </div>
+
+
+          <div style="display: flex; width: 30%; height: 38px; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 38px;
+              background: #c1afe6;">
+            </div>
+            <div
+              style="width: 25%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            36 y - 50 y
+          </div>
+
+          <div style="display: flex; width:50%; height: 40px; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 25%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            51 y - 65 y
+          </div>
+
+          <div style="width: 65%; height: 40px; display: flex; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            65 y +
+          </div>
+
+          <div style="border-radius: 0px 5px 5px 0px; display: flex; width:
+            80%; height: 40px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;">
+          </div>
+
+          <div style="display: flex; justify-content: space-between; width:
+            81%; font-weight: 600;">
+            <div>0</div>
+            <div>20</div>
+            <div>40</div>
+            <div>60</div>
+          </div>
+        </div> -->
+      </div>
+
+      <div style="width: 100%;">
+        <h2 style="font-size: 30px; color: #ab7dfa;">Female</h2>
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            20 y - 35 y
+          </div>
+          <div style="display: flex; width: 30%; height: 40px; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 38px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 25%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <!-- SECOND ROW OF 36Y -50Y -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            36 y - 50 y
+          </div>
+          <div style="display: flex; width:50%; height: 40px; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <!-- THIRD ROW OF 51Y-60Y -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            51 y - 65 y
+          </div>
+          <div style="width: 65%; height: 40px; display: flex; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <!-- FOURTH ROW -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            65 y +
+          </div>
+          <div style="border-radius: 0px 5px 5px 0px; display: flex; width:
+            80%; height: 40px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;">
+          </div>
+          <div style="display: flex; justify-content: space-between; width:
+            81%; font-weight: 600;">
+            <div>0</div>
+            <div>20</div>
+            <div>40</div>
+            <div>60</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; width: 92%; margin: auto; margin-top: 40px;">
+      <div style="width: 100%; align-items: center;">
+
+        <div style="margin-top: 30px; margin-bottom: 10px;">
+          <h2 style="font-size: 30px; color: #ab7dfa;">HRA ENGAGEMENT</h2>
+        </div>
+
+        <!-- SECOND ROW OF 36Y -50Y -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            Not started
+          </div>
+          <div style="display: flex; width:50%; height: 40px; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <!-- THIRD ROW OF 51Y-60Y -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            Incomplete
+          </div>
+          <div style="width: 65%; height: 40px; display: flex; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <!-- FOURTH ROW -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            Completed
+          </div>
+          <div style="border-radius: 0px 5px 5px 0px; display: flex; width:
+            80%; height: 40px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;">
+          </div>
+          <div style="display: flex; justify-content: space-between; width:
+            81%; font-weight: 600;">
+            <div>0</div>
+            <div>10</div>
+            <div>20</div>
+            <div>30</div>
+            <div>40</div>
+            <div>50</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div style="width: 100%;">
+        <div style="margin-top: 30px; margin-bottom: 10px;">
+          <h2 style="font-size: 30px; color: #ab7dfa;">HRA Retake</h2>
+        </div>
+
+        <!-- SECOND ROW OF 36Y -50Y -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            My Body
+          </div>
+          <div style="display: flex; width:50%; height: 40px; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <!-- THIRD ROW OF 51Y-60Y -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            My Lifestyle
+          </div>
+          <div style="width: 65%; height: 40px; display: flex; border-radius:
+            0px 5px 5px 0px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <!-- FOURTH ROW -->
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+            My Mind
+          </div>
+          <div style="border-radius: 0px 5px 5px 0px; display: flex; width:
+            80%; height: 40px;">
+            <div style="border: 1px solid #c1afe6; width: 300px; height: 40px;
+              background-color: #c1afe6;">
+            </div>
+            <div
+              style="width: 20%; height: 40px; border-radius: 0px 5px 5px 0px;
+              background-color: #a6a6a6;">
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; width: 100%; padding: 5px 0px 6px 0px;">
+          <div style="width: 16%; margin-top: 10px; font-size: 15px;
+            font-weight: 600;">
+          </div>
+
+          <div style="display: flex; justify-content: space-between; width:
+            81%; font-weight: 600;">
+            <div>0</div>
+            <div>10</div>
+            <div>20</div>
+            <div>30</div>
+            <div>40</div>
+            <div>50</div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- WRITING CONTENT -->
+    <div>
+
+      <div>
+        <h2 style="color: #ab7dfa; margin: 33px 0px 10px 30px;">IMPORTANT
+          MESSAGE</h2>
+      </div>
+
+      <div style="font-size: 22px; margin: 20px 28px;">
+        <p style="margin-top: 10px;">This report is based on the total number
+          of responders who have completed
+          their HRA. Hence we
+          use the term 'responders' and not 'employees' with in the report.<br>
+          This report has been analysed based on the evidence based parameters
+          measured via the HRA.
+          This report is a guiding tool to build a healthy workforce
+          eco-system and to improve corporate
+          wellness strategies. HRA individual and company report does not
+          discourage medical visits or
+          clinical intervention and is purely intended to support a mindful &
+          healthy way of life.<br>
+          Kindly note that the HRA aggregate report does not disclose
+          responder's identity at any point; it
+          only produces an aggregate total in % to indicate the values for
+          each segment.</p>
+      </div>
+      <div style="margin-top: 20px; font-size: 22px; margin-left: 28px;">
+
+        <p style="margin-top: 10px;">Should you need any further
+          clarifications then please write to us:</p>
+        <p style="margin-top: 10px;"><a href="#">hello@myhygge.io</a></p>
+      </div>
+
+      <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px
+        28px;">
+        <p style="margin-top: 10px; font-family: monospace;">COMPANY NAME<br>
+          HRA GROUP REPORT/ MONTH/ YEAR
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- SECOND PAGE -->
+
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 102px;">
+      <h1>BMI</h1>
+    </div>
+
+    <div style="font-size: 22px; margin-left: 10px;">
+      <p style="margin-top: 10px;">Body Mass Index (BMI) is the measure of a
+        person's height and weight which
+        reveals whether the
+        individual's weight is healthy or not. Studies have revealed that
+        obesity impacts employee productivity
+        and costs, although the impact can vary according to the industry.
+        Supporting employees to manage
+        weight can reduce the risk of many chronic conditions.</p>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+
+      <div style="height: 200px; width: 50%; margin-top: 50px;">
+        <h2 style="margin-left: 10px; color: #00addd;">EATING BEHAVIOR</h2>
+
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 20px;">x no.
+          of employees who have abnormal
+          BMI have reported various
+          factors that contribute largely to their weight gain.
+          These factors are around their food choices and eating behaviour.
+          Habits of eating junk food, stress or binge eating, or unmindful
+          eating
+          of larger portion sizes are mostly the reasons mentioned.
+        </p>
+
+      </div>
+      <div style="width: 50%;">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+
+    <div style="display: flex; margin-top: 20px; margin-bottom: 95px;">
+
+      <div style="height: 0px; width: 50%;">
+        <h2 style="margin-left: 10px; color: #00addd;">ACTIVITY</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 20px;">% of
+          people need to work on
+          improving their level of
+          physical activity. The no. of employees who have abnormal
+          BMI have reported lower level of physical activity than
+          required to manage their weight effectively.
+        </p>
+      </div>
+
+      <div style="width: 50%; margin-top: 0px; margin-right: 15px;">
+        <h2 style="margin-left: 10px; color: #00addd;">ALCOHOL</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 20px;">x% of
+          employees with abnormal BMI
+          have an unusually
+          high alcohol consumption</p>
+      </div>
+    </div>
+    <div>
+      <table style="width: 70%; border: 1px solid black; border-collapse:
+        collapse; margin-top: 10px; margin: auto">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Anorexia</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Underweight</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">50%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">16.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">25%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">12</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Healthy</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">18.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">38.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">3.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">366</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Overweight</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">7.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">30.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">52.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">255</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Obese</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">9.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">51.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">41</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Morbid Obese</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0</td>
+        </tr>
+
+
+      </table>
+    </div>
+    <!-- padding: 17px 0px 6px 30px  !important; -->
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;
+      margin-top: 20px;">
+      <h3 style="padding: 17px 0px 6px 45px; font-size: 23px">RECOMMENDATIONS
+        / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li style="font-size: 17px;">Keep weighing scales in the premises</li>
+        <li style="font-size: 17px;">Onsite wellness screening for weight
+          management</li>
+        <li style="font-size: 17px;">Onsite wellbeing consultation with
+          dieticians</li>
+        <li style="font-size: 17px;">Network and partner with fitness centers
+          for subsidised rates and employee
+          discounts</li>
+        <li style="font-size: 17px;">Identify and partner with healthy food
+          joints for subsidized
+          rates/discounts and delivery</li>
+        <li style="font-size: 17px;">Enable employees to participate in
+          marathons and fun walks.</li>
+        <li style="font-size: 17px;">Team health activity: 3 times in the
+          premises, like Zumba, Yoga or pilates.
+        </li>
+        <li style="font-size: 17px;">Team walk and run sessions</li>
+        <li style="font-size: 17px;">Engage in reward based programs and
+          challenges</li>
+        <li style="font-size: 17px;">Support group for employees with weight
+          control concerns</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT/ MONTH/ YEAR
+      </p>
+    </div>
+  </div>
+  <!-- SECOND PAGE END HERE -->
+
+  <!-- <THIRD PAGE CONTENT STARTS FROM HERE> -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Preventive Health</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="height: 200px; width: 50%; margin-top: 17px;">
+
+        <p style="font-size: 22px; margin:10px -5px 0px 65px;">Prevention is
+          always better than cure! By
+          ensuring that all your team members get
+          regular health check ups, screenings,
+          vaccinations, etc. you can help with the early
+          detection of any health conditions, and as a
+          result, also reduce absenteeism, decrease
+          costs and boost productivity and profitability.
+        </p>
+
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+
+    <div style="display: flex; margin-top: 75px;">
+      <div style="height: 0px; width: 83%;">
+        <h2 style="margin-left: 75px; color: #00addd;">HEALTH SCREENING</h2>
+        <div style="font-size: 20px; margin-top: 20px; margin-left: 40px;">
+          <ul style="font-size: 20px; margin-left: 110px;">
+            <li>x % of people are between 36 y-65 y &
+              must have a health screening at least
+              once a year.</li>
+            <li>x % are not doing any regular health
+              check-up.
+            </li>
+            <li>X % have not done any dental, eye or
+              screening blood test in the last one
+              year.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="width: 50%; margin-right: 15px;">
+        <h2 style="margin-left: 42px; color: #00addd;">VACCINE </h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">x% of
+          your employees
+          are not adequately
+          vaccinated and are
+          at probable risk of a
+          communicable
+          disease.
+        </p>
+      </div>
+      <div style="width: 59%; margin-right: 15px;">
+        <h2 style="margin-left: 42px; color: #00addd;">RIK OF CHRONIC
+          CONDITION</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">x %
+          of people have 1 or more
+          chronic metabolic complaint such
+          as blood. Glucose, cholesterol, blood
+          pressure etc. This puts them at
+          higher risk of chronic lifestyle
+          related condition. Addressing this
+          improves your company’s overall
+          health score</p>
+      </div>
+    </div>
+    <div style="margin-top: 80px;">
+      <table style="width: 70%; border: 1px solid black; border-collapse:
+        collapse; margin-top: 10px; margin: auto">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Low Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">15.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">9.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">30.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">40.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">394%</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Moderate Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">14.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">31%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">44.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">216</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">High Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">6.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">17.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">64.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">7.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">64</td>
+        </tr>
+
+      </table>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;
+      margin-top: 20px;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Onsite health screening</li>
+        <li>Health Risk assessments</li>
+        <li>Quarterly health awareness programs</li>
+        <li>Immunisation camps</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT/ MONTH/ YEAR
+      </p>
+    </div>
+  </div>
+  <!-- <THIRD PAGE CONTENT END HERE> -->
+
+  <!-- FOURTH PAGE CONTENT STARTS FROM HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>TOBACCO</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="height: 200px; width: 50%; margin-top: 15px;">
+
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 90px;">Smoking
+          can cause stroke, coronary
+          heart
+          disease and lung cancer. It is still an issue
+          in workplaces. It leads to loss of valuable
+          time due to sick leaves and also lowers
+          productivity of employees. This is why it's
+          important companies to raise awareness of
+          the harmful effects of smoking and help
+          employees quit this bad habit.
+        </p>
+
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+    <div style="display: flex; margin-top: 120px;">
+      <div style="height: 0px; width: 35%;">
+        <h2 style="margin-left: 94px; color: #00addd;">SMOKING</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 88px;">
+          % of employees in the
+          organisation are smokers.
+        </p>
+      </div>
+
+      <div style="width: 70%; margin-right: 15px;">
+        <h2 style="margin-left: 42px; color: #00addd;">SMOKING AND CESSATION</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">% of
+          people in your organisation have
+          expressed their interest
+          to seek support in a smoking cessation program.
+        </p>
+      </div>
+
+    </div>
+
+    <table style="width:90%; margin-top: 50px !important; margin: auto;
+      border: 1px solid black; border-collapse: collapse;">
+      <tr>
+        <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+        <th colspan="4" style="border: 1px solid black; border-collapse:
+          collapse;">Female</th>
+        <th colspan="4" style="border: 1px solid black; border-collapse:
+          collapse;">Male</th>
+        <th rowspan="2" style="border: 1px solid black; border-collapse:
+          collapse;">Total</th>
+      </tr>
+      <tr>
+        <th style="border: 1px solid black; border-collapse: collapse;">Age
+          Group</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+        <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">Low Risk</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">15.5%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">9.6%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0.8%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">30.5%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">40.9%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">2.3%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0.5%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">394%</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">Moderate Risk</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">14.4%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">8.3%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">31%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">44.4%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">1.4%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0.5%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">216</td>
+      </tr>
+      <tr>
+
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">High Risk</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">6.2%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">4.7%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">17.2%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">64.1%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">7.8%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">0%</td>
+        <td style="border: 1px solid black; border-collapse: collapse;
+          text-align: center;">64</td>
+      </tr>
+
+    </table>
+
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;
+      margin-top: 20px;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Onsite health screening</li>
+        <li>Health Risk assessments</li>
+        <li>Quarterly health awareness programs</li>
+        <li>Immunisation camps</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT/ MONTH/ YEAR
+      </p>
+    </div>
+  </div>
+  <!-- <FOURTH PAGE CONTENT END HERE> -->
+
+  <!-- <FIFTH PAGE CONTENT STARTS HERE> -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Alcohol</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="height: 200px; width: 50%; margin-top: 20px;">
+
+        <p style="font-size: 22px; margin:20px 0px 0px 70px;">An excessive
+          consumption of alcohol can
+          lead to the development of chronic
+          diseases and other serious health
+          problems such as high blood pressure,
+          heart disease, stroke, liver disease, and
+          digestive issues, etc. It can drastically affect
+          a individual's personal as well as
+          professional life, and the company needs
+          to have a strong policy to counter this as
+          well as counseling support for employees.
+
+        </p>
+
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+
+    <div style="display: flex; margin-top: 115px;">
+      <div style="height: 0px; width: 50%;">
+        <h2 style="margin-left: 70px; color: #00addd;">CONSUMPTION</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 67px;">
+          % of responders in the organisation
+          are habitually consuming alcohol
+          almost everyday.
+
+        </p>
+      </div>
+
+      <div style="width: 50%; margin-right: 15px;">
+        <h2 style="margin-left: 42px; color: #00addd;">STRESS</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">% of
+          people in your organization who
+          are consuming daily alcohol, have also
+          reported drinking behavior as a
+          coping mechanism for stress.
+
+        </p>
+      </div>
+
+      <div style="width: 50%; margin-right: 15px;">
+        <h2 style="margin-left: 42px; color: #00addd">HEALTH</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">% of
+          employees, who reported a behavior
+          of
+          daily alcohol consumption have also been
+          diagnosed with one of the lifestyle metabolic
+          conditions. This behavior puts them at a higher
+          risk for further health concerns.
+        </p>
+      </div>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;
+      margin-top: 100px;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Policies for non-tolerance at the workplace</li>
+        <li>Support groups</li>
+        <li>Therapy with CBT workplace sessions</li>
+        <li>Expert talks on how to manage alcohol misuse</li>
+        <li>Stress management program initiatives</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT OCTOBER 2021
+      </p>
+    </div>
+  </div>
+  <!-- <FIFTH PAGE CONTENT END HERE> -->
+
+  <!-- SIX PAGE CONTENT START HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Diet and Nutrition</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="height: 200px; width: 50%; margin-top: 50px;">
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">Food
+          is one of the key factors
+          affecting our
+          health. A nutritious and well-balanced diet
+          can go a long in not only helping with
+          weight management but also with
+          prevention and treatment of different
+          diseases. Based on the user response we
+          have analysed dietary practices that is
+          given below in detail.
+        </p>
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+    <div style="display: flex; margin-top: 25px;">
+      <div style="height: 0px; width: 50%;">
+        <h2 style="margin-left: 42px; color: #00addd;">BALANCE ACT</h2>
+        <p style="font-size: 20px; margin-top: 10px; margin-left: 40px;">
+          % of employees have reported that their
+          diet is not balanced and nutritious.
+
+        </p>
+      </div>
+
+      <div style="width: 50%; margin-top: 0px;">
+        <h2 style="margin-left: 42px; color: #00addd;">PORTIONS</h2>
+        <p style="font-size: 20px; margin-top: 10px; margin-left: 40px;">% of
+          employees aren’t consuming
+          enough fruits and vegetables.
+        </p>
+      </div>
+    </div>
+
+    <div style="display: flex; margin-top: 20px; margin-bottom: 20px;">
+      <div style="height: 0px; width: 50%;">
+        <h2 style="margin-left: 42px; color: #00addd;">READINESS</h2>
+        <p style="font-size: 20px; margin-top: 10px; margin-left: 40px;">
+          % of employees are willing to put
+          efforts and bring improvement in
+          their eating habits and food choices.
+
+        </p>
+      </div>
+      <div style="width: 50%; margin-right: 15px;">
+        <h2 style="margin-left: 42px; color: #00addd;">EMOTIONAL EATING</h2>
+        <p style="font-size: 20px; margin-top: 10px; margin-left: 40px;">% of
+          employees report emotional eating
+          habit. Consuming food to seek emotional
+          comfort may negatively impact healthy
+          range of weight.
+
+
+        </p>
+      </div>
+    </div>
+
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Meal planning sessions with experts</li>
+        <li>Nutrition initiatives</li>
+        <li>Cooking classes for beginners</li>
+        <li>Partner with healthy food joints with subsidised offers</li>
+        <li>Collaborate with healthy meal companies who offer meals catered to
+          one’s health needs like weight
+          management or heart health</li>
+        <li>Conduct reward based healthy eating challenges</li>
+        <li>Facilitate healthy food options</li>
+        <li>Fresh fruits in meeting rooms etc</li>
+        <li>Healthy herbal teas and decaf options in pantry</li>
+        <li>Motivational messages on healthy eating in and around dining areas</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT OCTOBER 2021
+      </p>
+    </div>
+  </div>
+  <!-- SIX PAGE CONTENT END HERE -->
+
+  <!-- SEVEN PAGE CONTENT START HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Physical Activity</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="height: 200px; width: 50%; margin-top: 50px;">
+
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">The
+          level of physical activity has a
+          great
+          impact on a person's physical as well as
+          mental health. It's important to make your
+          team members aware of the benefits of
+          exercising regularly, and to give them
+          opportunities to leave their sedentary
+          routine/lifestyle.
+        </p>
+
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+
+    <div style="display: flex; margin-top: 25px;">
+      <div style="height: 16opx; width: 100%;">
+        <h2 style="margin-left: 42px; color:#00addd;">LEVEL OF ACTIVITY</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">
+          x no. of employees are in the range of sedentary to moderately
+          active.
+          Some of them are unaware of their level of activity. One of the
+          pillars
+          of sustainable health is adequate level of activity and hence this
+          needs
+          to be improved.
+        </p>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 0px; margin-bottom: 20px;">
+      <table style="width: 70%; border: 1px solid black; border-collapse:
+        collapse; margin-top: 10px; margin: auto">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Low Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">16.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">3.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">31.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">44.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">206</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Moderate Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">31.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">43.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">3.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">265</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">High Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">16.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">12.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">25.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">43.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">197</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Conduct reward based activity challenges</li>
+        <li>Charity runs/ fun walks</li>
+        <li>Onsite or virtual fitness classes</li>
+        <li>Timed walking breaks for desk workers</li>
+        <li>Onsite or virutal weekly yoga sessions</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT OCTOBER 2021
+      </p>
+    </div>
+  </div>
+  <!-- SEVEN PAGE CONTENT END HERE -->
+
+  <!-- EIGHT PAGE CONTENT STARTS HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Sleep</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="height: 200px; width: 50%; margin-top: 50px;">
+
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">Sleep
+          is essential to good health and
+          is a
+          fundamental pillar of a sustainable
+          wellbeing. Sleep deprivation and lack of
+          good quality sleep can impact a person's
+          productivity, cognitive health and much
+          more
+        </p>
+
+        <div style="margin: 35px 0px 0px 40px;">
+          <h2 style="color:#00addd;">QUALITY OF SLEEP</h2>
+          <p style="font-size: 20px; margin-top: 10px;">%of responders are
+            unsatisfied with the
+            quality of their sleep.
+          </p>
+        </div>
+
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+    <div style="display: flex; margin-top: 100px;">
+      <div style="height: 16opx; width: 100%;">
+        <h2 style="margin: 0px 0px 0px 42px; color: #00addd;">SLEEP & STRESS</h2>
+        <p style="font-size: 20px; margin-top: 10px; margin-left: 40px;">
+          % of responders have stress induced sleeplessness
+        </p>
+        <h2 style="margin: 20px 0px 0px 42px; color: #00addd;">SLEEP & HEALTH
+          CONDITIONS</h2>
+        <p style="font-size: 20px; margin-top: 10px; margin-left: 40px;">
+          % of them have clinical reasons that are
+          keeping them from getting deep sound
+          sleep.
+
+        </p>
+      </div>
+      <div style="height: 16opx; width: 100%;">
+        <h2 style="margin-left: 42px; color: #00addd;">SLEEP ROUTINE</h2>
+        <p style="font-size: 20px; margin:10px 40px 0px 40px">
+          % of them feel that their sleep problems
+          are partly stress-induced and partly due
+          to a poor sleep routine.
+
+        </p>
+      </div>
+
+
+    </div>
+    <div style="margin-top: 50px; margin-bottom: 20px;">
+      <table style="width: 70%; border: 1px solid black; border-collapse:
+        collapse; margin-top: 10px; margin: auto">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Low Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">50.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">3.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">186</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Moderate Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">15.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">42%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">483</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">High Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">25%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">75%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Sleep hygiene awareness program</li>
+        <li>Expert talks for better sleep</li>
+        <li>Stress reduction initiatives at workplace</li>
+        <li>Onsite or virtual meditation classes</li>
+
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT OCTOBER 2021
+      </p>
+    </div>
+  </div>
+  <!-- EIGHT PAGE CONTENT END HERE -->
+
+  <!-- NINTH PAGE CONTENT STARTS HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Occupational Health</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="height: 200px; width: 50%; margin-top: 50px;">
+
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">Occupational
+          health is related to the
+          physical, mental and emotional wellbeing
+          of people at work. People in certain
+          occupations or departments within a
+          company might be at greater risk than
+          others. Every company needs to review it's
+          healthy and safety measures as well as
+          working arrangements in order to provide
+          all employees with a safe environment.
+        </p>
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+    <div style="display: flex; flex-direction: column; width: 90%; margin:
+      auto; margin-top: 50px;">
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">IMPACT ON WORK</h2>
+        <p style="margin-top: 10px;">
+          x %% of responders have active physical pain, have also taken sick
+          leaves in the last one year.
+          Probable support of ergonomics and workplace exercises might help to
+          control the
+          occupational/desk related pain.
+        </p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">COPING & MANAGEMENT</h2>
+        <p style="margin-top: 10px;">
+          % of responders who have medium and high risk of occupational health
+          issues are not
+          engaged in any treatment or management.
+
+        </p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">CHANGES</h2>
+        <p style="margin-top: 10px;">
+          x % of employees feel that changes such as adequate lighting, desk
+          and chair adjustments,
+          clutter-free work environment, etc. might be helpful if considered.
+        </p>
+      </div>
+
+    </div>
+    <div style="margin-top: 0px; margin-bottom: 20px;">
+      <table style="width: 70%; border: 1px solid black; border-collapse:
+        collapse; margin-top: 10px; margin: auto">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Low Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">50.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">3.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">186</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Moderate Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">15.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">42%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">483</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">High Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">25%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">75%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Sleep hygiene awareness program</li>
+        <li>Expert talks for better sleep</li>
+        <li>Stress reduction initiatives at workplace</li>
+        <li>Onsite or virtual meditation classes</li>
+
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT OCTOBER 2021
+      </p>
+    </div>
+  </div>
+  <!-- NINTH PAGE CONTENT END HERE -->
+
+  <!-- TENTH PAGE CONTENT STARTS HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Heart Risk</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="margin-top: opx; width: 50%;">
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">It's
+          important for everyone to
+          understand
+          their level of risk for developing a heart
+          disease so that they can make heart-healthy
+          changes in their lifestyle if required.
+        </p>
+        <div style="margin: 20px 0px 0px 40px; font-size: 20px;">
+          <h2 style="color: #00addd;">RISK FACTORS</h2>
+          <div style="margin-top: 10px;">
+
+            <ul style="margin: 10px 3px 0px 21px">
+              <li>x % of responders with moderate to high heart disease
+                risk have high cholesterol and high blood pressure , which
+                are the causative risk factors of heart diseases.
+              </li>
+              <li>x % of your ‘At Risk’ employees have. abnormal BMI. This
+                puts their health at higher risk in the future. Conducting
+                health initiatives with tangible intervention can largely
+                support your people to live better.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+
+    </div>
+    <div style="display: flex; margin-top: 25px;">
+      <div style="height: 16opx; width: 100%;">
+        <h2 style="margin-left: 42px; color: #00addd;">HEART RISK & DIABETES
+        </h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">
+          Oux% of responders with moderate to high heart disease risk
+          also have abnormal diabetes risk.
+        </p>
+        <h2 style="margin-top: 20px; margin-left: 42px; color: #00addd;">DIET</h2>
+        <p style="font-size: 20px; margin-top: 20px; margin-left: 40px;">
+          Out of all medium and high risk employees, x % are eating
+          consciously as per the health concern.
+        </p>
+      </div>
+
+      <div style="height: 160px; width: 100%;">
+        <h2 style="margin-left: 42px; color: #00addd;">ACTIVITY</h2>
+        <div style="font-size: 20px; margin-top: 20px; margin-left: 40px;">
+          <ul style="font-size: 20px; margin: 0px 10px 0px 59px;">
+            <li>
+              x% of employees are sedentary who are at risk of heart
+              complaints. Active life for people with high cholesterol
+              and high bp is always beneficial to avoid any probable
+              heart complaints in the future.
+            </li>
+            <li>
+              Out of the total no. of employees, who are at risk of
+              heart disease, x% need to improve their level of
+              physical activity and achieve minimum of 30 minutes
+              of activity in addition to routine movements.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 100px; margin-bottom: 20px;">
+      <table style="width: 70%; border: 1px solid black; border-collapse:
+        collapse; margin-top: 10px; margin: auto">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Low Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">15.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">9.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">31%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">43.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">633</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Moderate Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">54.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">40%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">35</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">High Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">25%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">75%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Conduct screening for cholesterol each year</li>
+        <li>Keep weighing scale at the premises</li>
+        <li>Keep blood pressure monitor at the premises</li>
+        <li>Employee wellbeing challenges for lifestyle changes</li>
+        <li>Rewards based health programs</li>
+        <li>Health classes by experts on relevant topic areas</li>
+        <li>Have an in-house BLS trained team</li>
+
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color:#00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT MONTH/YEAR
+
+      </p>
+    </div>
+  </div>
+  <!-- TENTH PAGE CONTENT END HERE -->
+
+  <!-- ELEVEN PAGE CONTENT STARTS HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Diabetes Risk</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="font-size: 22px; margin-top: 20px; margin-left: 40px; width:
+        54%;">
+
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">Diabetes
+          risk score is based on
+          evidence based
+          parameters; which has been identified as pre-risk
+          factors. HRA has made each employee aware of
+          their individual score and an aggregate total of
+          your enterprise risk of diabetes is given here.
+        </p>
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+    </div>
+    <div style="display: flex; margin-top: 70px;">
+      <div style="margin: 20px 0px 0px 40px; font-size: 20px;">
+        <div style="margin-bottom: 20px;">
+          <h2 style="color: #00addd;">RISK</h2>
+          <p style="margin-top: 10px; font-size: 20px;">x% of responders have
+            probable moderate to high risk
+            of having or developing diabetes.
+          </p>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <h2 style="color: #00addd;">BMI</h2>
+          <p style="margin-top: 10px; font-size: 20px;">x % of responders with
+            moderate and high diabetes risk
+            have abnormal BMI.
+            Conducting health initiatives with tangible intervention
+            can support them to live better.
+
+          </p>
+        </div>
+      </div>
+      <!-- kjsfljdflsdjlfk -->
+      <div style="display: flex; margin-top: 22px;">
+        <div style="width: 50%;">
+          <h2 style="color: #00addd; margin-left: 20px;">ACTIVITY</h2>
+          <p style="font-size: 20px; margin: 10px 20px 0px 20px;">
+            x% of diabetes risk
+            responders need to
+            improve their level of
+            physical activity.
+          </p>
+        </div>
+
+        <div style="width: 50%;">
+          <h2 style="color: #00addd; margin-left: 20px;">DIET</h2>
+          <p style="font-size: 20px; margin: 10px 20px 0px 20px;">
+            x% of people with
+            moderate & high diabetes
+            risk have not made
+            conscious dietary changes.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- </div> -->
+
+    <div style="margin-top: 60px; margin-bottom: 20px;">
+      <table style="width:90%; margin: auto; border: 1px solid black;
+        border-collapse: collapse;">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Low Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">14.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">30.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">43%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">642</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Moderate Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">20%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">20%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">50%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">High Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">100%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Conduct screening for blood glucose each year</li>
+        <li>Keep blood glucose monitor at premise</li>
+        <li>Keep Blood pressure monitor at premise.</li>
+        <li>Employee wellbeing challenges for lifestyle changes</li>
+        <li>Rewards based health programs</li>
+        <li>Health classes by experts on relevant topic areas.</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color: #00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT MONTH/YEAR
+
+      </p>
+    </div>
+  </div>
+  <!-- ELEVEN PAGE CONTENT END HERE -->
+
+  <!-- TWELTH PAGE CONTENT STARTS HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Obesity Risk</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="width:50%;">
+
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">Obesity
+          Risk is an analysis based on
+          the employee's age,
+          gender, Body mass index, waist-hip ratio, the level of physical
+          activity and dietary practices. This analysis simply shares the
+          report of overweight and obese individuals who are at further
+          risk to worsen their current health based on their lifestyle
+          practices. Further to that, we also share valuable information
+          that burdens the health of these individual.s
+
+        </p>
+
+
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+        <div>
+
+        </div>
+
+      </div>
+    </div>
+    <div style="display:flex;
+      margin: 60px 20px 20px 40px;">
+      <div>
+        <div style="margin-bottom: 20px;
+          margin-top: 10px;">
+          <h2 style="color: #00addd;">RISK</h2>
+          <p style="margin-top: 10px;">% of responders have moderate to high
+            obesity risk. Which
+            means that these individuals have abnormal BMI, waist- hip
+            ratio as well as poor lifestyle practices such as sedentary
+            routine.
+          </p>
+        </div>
+        <div style="margin-bottom: 20px;
+          margin-top: 10px;">
+          <h2 style="color: #00addd;">OBESITY RISK & CHOLESTEROL</h2>
+          <p style="margin-top: 10px;">% of responders who have moderate to
+            high obesity risk
+            also have an abnormal level cholesterol.
+
+          </p>
+        </div>
+        <div style="margin-bottom: 20px;
+          margin-top: 10px;">
+          <h2 style="color: #00addd;">OBESITY & DIET</h2>
+          <p style="margin-top: 10px;">x% of moderate to high risk responders
+            definitely need to bring
+            focus on their food habits and choices.
+
+          </p>
+        </div>
+      </div>
+      <div style="margin-top: 0px;">
+        <div style="margin-bottom: 20px;
+          margin-top: 10px;">
+          <h2 style="margin-left: 34px; color: #00addd;">OBESITY & MENTAL
+            WELLBEING</h2>
+          <p style="margin: 10px 0px 0px 41px;">
+            x% of diabetes risk
+            responders need to
+            improve their level of
+            physical activity.
+          </p>
+        </div>
+        <div style="margin-bottom: 20px;
+          margin-top: 10px;">
+          <h2 style="margin-left: 34px; color: #00addd;">OBESITY & GENERAL
+            HEALTH</h2>
+          <p style="margin: 10px 0px 0px 41px;">
+            x% of responders with moderate to high risk haven’t screened
+            themselves clinically for a long time. They must be encouraged to
+            do a
+            health check up at least yearly to make sure they are doing well.
+          </p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div style="margin-top: 60px; margin-bottom: 20px;">
+      <table style="width: 70%; border: 1px solid black; border-collapse:
+        collapse; margin-top: 10px; margin: auto">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Anorexia</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Underweight</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">50%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">16.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">25%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">12</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Healthy</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">18.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">38.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">3.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">366</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Overweight</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">7.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">8.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">30.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">52.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">255</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Obese</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">9.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29.3%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">51.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.9%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">41</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Morbid Obese</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0</td>
+        </tr>
+      </table>
+    </div>
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Keep weighing scales in the premises</li>
+        <li>Onsite wellness screening for weight management</li>
+        <li>Onsite wellbeing consultation with dieticians</li>
+        <li>Network and partner with fitness centers for subsidised rates and
+          employee discounts</li>
+        <li>Identify and partner with healthy food joints for subsidized
+          rates/discounts and delivery</li>
+        <li>Enable employees to participate in marathons and fun walks.</li>
+        <li>Team health activity: 3 times in the premises, like Zumba, Yoga or
+          pilates.</li>
+        <li>Team walk and run sessions</li>
+        <li>Engage in reward based programs and challenges</li>
+        <li>Support group for employees with weight control concerns</li>
+      </ul>
+
+    </div>
+    <div style="font-size: 20px; color:#00addd; margin: 50px 0px 20px 28px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT MONTH/YEAR
+
+      </p>
+    </div>
+  </div>
+  <!-- TWELTH PAGE CONTENT END HERE -->
+
+  <!-- THERTEEN PAGE CONTENT STARTS HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="height: 30px; width: 100%; ; background-color: #a6a6a6;
+      margin: auto;">
+    </div>
+    <div style="font-size: 40px; color: #ffce66; margin: 25px 0px 0px 70px;">
+      <h1>Mental Wellbeing</h1>
+    </div>
+    <div style="display: flex; margin-top: 5px;">
+      <div style="margin-top: 0px;
+        width:50%;">
+
+        <p style="font-size: 22px; margin-top: 20px; margin-left: 40px;">Mental
+          wellbeing is as important as
+          physical health. Companies need to have
+          counseling support for employees as well
+          as access to different healing modalities is
+          crucial. Mental
+        </p>
+      </div>
+      <div class="div_image_S">
+        <div class="piechart"></div>
+      </div>
+    </div>
+
+    <div style="display: flex;
+      flex-direction: column;
+      width:90%;
+      margin: auto;
+      margin-top:150px;">
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">FREQUENCY & MANAGEMENT</h2>
+        <p style="margin-top: 10px;">
+          x% of responders have reported undue stress due to various reasons,
+          on frequent occasions. Not
+          taking care of such
+          issue at the right time can further increase the burden of stress on
+          one’s health.
+
+        </p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">STRESS MANAGEMENT</h2>
+        <p style="margin-top: 10px;">
+          x% of responders do not have healthy ways to manage their stress and
+          anxiety. Strategies of seeking
+          support to improve
+          one’s tolerance is beneficial for the person and his surrounding
+          society.
+
+
+        </p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">WORK SATISFACTION</h2>
+        <p style="margin-top: 10px;">
+          % of responders feel that their overall satisfaction at work could
+          be improved. Concerns are mostly
+          related to roles &
+          responsibilities, work load to name a a few .
+
+
+
+        </p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">SENSE OF WELLBEING</h2>
+        <p style="margin-top: 10px;">
+          % of responders feel that their overall sense of wellbeing could get
+          better, which is relevant to
+          their sense of security
+          at work and finance. % of responders have dissatisfaction with their
+          level of mental health due to
+          the reasons of
+          continued stress and anxiety.
+
+
+        </p>
+      </div>
+
+    </div>
+
+
+
+    <div style="font-size: 20px;
+      color: #00addd;
+      margin: 100px 0px 22px 46px;">
+      <p style="margin-top: 10px;">COMPANY NAME<br>
+        HRA GROUP REPORT MONTH/YEAR
+
+      </p>
+    </div>
+  </div>
+  <!-- THERTEEN PAGE CONTENT END HERE -->
+
+  <!-- FOURTEEN PAGE CONTENT STARTS HERE -->
+  <div
+    style="display: table; margin: auto; align-items: center; margin-top:
+    20px; height: 100%; width: 100%; background-color: #fff;">
+    <div style="display: flex;
+      flex-direction: column;
+      width:90%;
+      margin: auto;
+      margin-top: 60px;">
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">PRODUCTIVITY & WORK-LIFE BALANCE</h2>
+
+        <ul style="font-size: 16px; list-style: none; margin-left: -38px;">
+          <li style="margin-top: 10px;">
+            With high level of stress and sense of rush within meetings,
+            tasks, meal times and personal
+            family
+            time,
+            an employee’s sense of work-life balance & productivity might get
+            diminished.</li>
+          <li style="margin-top: 10px;">
+            % of people who have felt high stress levels due to various
+            reasons- have also been struggling
+            to
+            find balance at work.</li>
+          <li style="margin-top: 10px;">
+            % of people felt it was difficult to cope and manage all the
+            duties and responsibilities. % of
+            your
+            employees reported
+            absence from work due to clinical reasons.</li>
+        </ul>
+
+      </div>
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">STRESS & CHRONIC DISEASE</h2>
+        <p style="margin-top: 10px;">
+          % of employees who need effective stress management, are also
+          diagnosed cases of one of<br>
+          the metabolic complaints, for e.g. heart disease, diabetes or weight
+          problems.
+
+        </p>
+      </div>
+      <div style="margin-bottom: 20px;">
+        <h2 style="color: #00addd;">READINESS FOR CHANGE</h2>
+        <p style="margin-top: 10px;">
+
+          % said they would like to make changes such as managing <br>
+          weight, quitting smoking, eating healthy, etc.
+        </p>
+      </div>
+
+    </div>
+    <div style="margin-top: 50px; margin-bottom: 20px;">
+      <h2 style="margin-left: 42px; color: #00addd;">MENTAL WELLBEING OVERALL
+        RISK</h2>
+      <!-- <table style= "width: 70%; border: 1px solid black; border-collapse: collapse; margin-top: 10px; margin: auto"> -->
+      <table style="width:90%; margin: auto; border: 1px solid black;
+        border-collapse: collapse;" class="lasttable">
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Gender</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Female</th>
+          <th colspan="4" style="border: 1px solid black; border-collapse:
+            collapse;">Male</th>
+          <th rowspan="2" style="border: 1px solid black; border-collapse:
+            collapse;">Total</th>
+        </tr>
+        <tr>
+          <th style="border: 1px solid black; border-collapse: collapse;">Age
+            Group</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">18-30</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">30-45</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">45-60</th>
+          <th style="border: 1px solid black; border-collapse: collapse;">60+</th>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Low Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">50.5%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">3.8%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">1.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">186</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">Moderate Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">15.7%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">10.4%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.6%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">29%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">42%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">2.1%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0.2%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">483</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">High Risk</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">25%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">75%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">0%</td>
+          <td style="border: 1px solid black; border-collapse: collapse;
+            text-align: center;">4</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="width: 100%; background-color: #a6a6a6; color: #fff;
+      margin-top: 20px;">
+      <h3 style="padding: 17px 0px 6px 45px;">RECOMMENDATIONS / BEST PRACTICES</h3>
+      <ul style="margin-left: 33px; padding-bottom: 20px;">
+        <li>Virtual CBT group therapy sessions</li>
+        <li>Support groups</li>
+        <li>Mindfulness based stress reduction initiatives</li>
+        <li>Monthly wellbeing meets for motivational support</li>
+        <li>Monthly onsite/virtual NLP practitioner talks</li>
+        <li>Incentivised and reward based workplace to boost employee
+          engagement and motivation</li>
+        <li>Minor team building activities every 2 months such as office
+          lunch, yoga sessions on premises,
+          <br>spouses' cooking classes, celebrating children’s day at work,
+          etc.
+        </li>
+        <li>Major team building activities such as marathon walks, football
+          matches, etc.</li>
+        <li>Redeemable rewards and incentives</li>
+      </ul>
+
+    </div>
+
+
+
+    <div style="font-size: 20px;
+
+      margin: 100px 0px 22px 46px;">
+      <p style="margin-top: 10px; color: #00addd;">COMPANY NAME<br>
+        HRA GROUP REPORT MONTH/YEAR
+
+      </p>
+    </div>
+
+    <div style="margin: 40px 0px 0px 46px;
+      color:#00addd;">
+      <h2>------------------REPORT ENDS HERE------------------</h2>
+    </div>
+  </div>
+
+</div>
+<!-- Last PAGE CONTENT END HERE -->
+<!-- Report PDF HTML -->

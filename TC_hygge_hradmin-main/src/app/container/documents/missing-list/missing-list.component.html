@@ -1,0 +1,34 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Missing Documents</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <mat-tab-group mat-align-tabs="start">
+      <mat-tab label="Self" >
+        <mat-list>
+          <mat-list-item *ngFor="let emp of employeeData">
+            <mat-icon mat-list-icon>fiber_manual_record</mat-icon>
+            <div mat-line>{{emp.document_Type}}</div>
+          </mat-list-item>
+          <mat-list-item>
+            <button mat-raised-button class="big-btn block-btn" (click)="mailMissingField(1)"  color="accent"><mat-icon matSuffix>send</mat-icon> Send Mail</button>
+          </mat-list-item>
+        </mat-list>
+      </mat-tab>
+      <mat-tab label="Dependent" >
+        <mat-list>
+          <mat-list-item *ngFor="let emp of dependent">
+            <mat-icon mat-list-icon>fiber_manual_record</mat-icon>
+            <div mat-line>{{emp.document_Type}}</div>
+          </mat-list-item>
+          <mat-list-item>
+            <button mat-raised-button class="big-btn block-btn" (click)="mailMissingField(2)"  color="accent"><mat-icon matSuffix>send</mat-icon> Send Mail</button>
+          </mat-list-item>
+        </mat-list>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+</div>

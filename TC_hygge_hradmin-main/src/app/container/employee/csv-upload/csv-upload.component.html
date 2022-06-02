@@ -1,0 +1,23 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Upload CSV</span></div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="100">
+      <div class="dropzone">
+        <ngx-dropzone (change)="uploadDoc($event)" multiple="false">
+          <ngx-dropzone-label><mat-icon>note_add</mat-icon><br />
+            Upload CSV<br />
+            <small>drag & drop to upload the document</small>
+          </ngx-dropzone-label>
+          <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+    </div>
+  </div>
+</div>

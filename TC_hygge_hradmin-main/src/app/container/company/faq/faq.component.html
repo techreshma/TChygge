@@ -1,0 +1,41 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      FAQ
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/profile">Company Profile</a></li>
+      <li>FAQ</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+  <div fxFlex="100">
+    <mat-card class="employee-tab">
+      <mat-toolbar color="light">
+        <span class="mat-toolbar-title faq">FAQs</span>
+        <span class="spacer"></span>
+        <mat-form-field class="search-field input" appearance="standard">
+          <mat-icon matSuffix>search</mat-icon>
+          <input matInput placeholder="Search">
+        </mat-form-field>
+        <button mat-mini-fab color="light" class="cal-button" aria-label="Sync">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </mat-toolbar>
+      
+      <mat-accordion *ngIf="faqData">
+        <mat-expansion-panel hideToggle *ngFor="let faq of faqData">
+          <mat-expansion-panel-header >
+            <mat-panel-title>
+              {{faq.question}}
+              
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div [innerHTML]="faq.answer"></div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+</div>

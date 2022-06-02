@@ -1,0 +1,28 @@
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Enter Your Email Address</span><br />
+      <span class="card-subtitle">You will shortly receive an email with chat history.</span>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="100">
+      <form name="backupform" (ngSubmit)="backup()" #backupform="ngForm">
+        <mat-label>Email Address</mat-label>
+        <mat-form-field appearance="standard">
+          <input matInput type="email" #email="ngModel" [(ngModel)]="formData.email" name="email" required autocomplete="off"  maxlength="50" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+        </mat-form-field>
+        <br />
+        <div [hidden]="email.valid || email.untouched">
+          <span class="error" *ngIf="email.errors?.required">Email is mandatory.</span>
+          <span class="error"  *ngIf="email.errors?.pattern">Email is invalid</span>
+        </div>
+        <br />
+        <button mat-raised-button color="primary"   [disabled]="!backupform.valid" >
+          SEND
+        </button>
+    </form>
+    </div>
+  </div>
+</div>

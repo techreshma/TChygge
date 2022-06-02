@@ -1,0 +1,209 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Rewards
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Rewards</li>
+    </ul>
+  </div>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-around left" fxLayoutGap="10px grid">
+  <div fxFlex="65">
+    <mat-card class="dashboard-count">
+      <mat-card-header>
+        <mat-card-title>Participants</mat-card-title>
+      </mat-card-header>
+      <div fxLayout="row">
+        <div fxFlex="50">
+          <app-doughnut *ngIf="graphData" [data]="graphData"></app-doughnut>
+          <span class="card-subtitle" style="display: block;
+            margin-top: 10px;">Gender</span>
+        </div>
+        <div fxFlex="50">
+          <app-doughnut *ngIf="departmentGraph" [data]="departmentGraph"></app-doughnut>
+          <span class="card-subtitle" style="display: block;
+            margin-top: 10px;">Department</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="35">
+    <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+      <mat-card fxFlex="100" class="dashboard-count">
+        <mat-card-header>
+          <mat-card-title>Top 5 reward redeemed</mat-card-title>
+        </mat-card-header>
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+          <div fxFlex="100">
+            <app-horizontal-bar *ngIf="redeemRewardGraph"
+              [data]="redeemRewardGraph"></app-horizontal-bar>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<!-- ------------------- -->
+<br />
+<div fxLayout="row" fxLayoutAlign="space-around left" fxLayoutGap="10px grid">
+  <div fxFlex="50">
+    <mat-card class="dashboard-count">
+      <mat-card-header>
+        <mat-card-title>Number of Reward Redeemed</mat-card-title>
+      </mat-card-header>
+      <div fxLayout="row">
+        <div fxFlex="100">
+          <app-line *ngIf="redeemLineChart" [data]="redeemLineChart"></app-line>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="50">
+    <mat-card class="dashboard-count">
+      <mat-card-header>
+        <mat-card-title>Total points Awarded</mat-card-title>
+      </mat-card-header>
+      <div fxLayout="row">
+        <div fxFlex="100">
+          <app-line *ngIf="pointsLineChart" [data]="pointsLineChart"></app-line>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<!-- ------------------- -->
+<br />
+<div class="scroller">
+  <div class="scroll-x">
+    <div fxLayout="row" fxflexfill class="mid-graph tab-top" fxLayoutGap="10px
+      grid">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-card class="dashboard-detail">
+          <mat-card-content>
+
+            <mat-toolbar color="light">
+              <span class="mat-toolbar-title fnt">All Rewards</span>&nbsp;&nbsp;
+              <span class="spacer"></span>
+              <mat-form-field class="search-field" appearance="standard">
+                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Search" #input
+                  (keyup)="applyFilter($event)">
+              </mat-form-field>
+              <button mat-mini-fab color="primary" class="cal-button"
+                routerLink="/reward-create" aria-label="Add new">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-toolbar>
+
+            <table mat-table [dataSource]="dataSource" matSort
+              class="mat-elevation-z8">
+
+              <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+              <!-- Position Column -->
+              <ng-container matColumnDef="reward_Image">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="heading"> </th>
+                <td mat-cell *matCellDef="let element"
+                  routerLink="/reward-detail/{{element.reward_id}}">
+                  <!-- ./assets/img/Ellipse_1.png -->
+                  <img src="{{imgPath}}{{element.reward_Image}}"
+                    *ngIf="element.reward_Image" />
+                  <img src="./assets/img/Ellipse_1.png"
+                    *ngIf="!element.reward_Image" />
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="reward_Name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="heading"> Reward Name </th>
+                <td mat-cell *matCellDef="let element" class="data"
+                  routerLink="/reward-detail/{{element.reward_id}}">
+                  {{element.reward_Name}} </td>
+              </ng-container>
+
+              <!-- Email Column -->
+              <ng-container matColumnDef="reward_Points">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Points
+                  Value </th>
+                <td mat-cell *matCellDef="let element" class="data"
+                  routerLink="/reward-detail/{{element.reward_id}}">
+                  {{element.reward_Points}}</td>
+              </ng-container>
+
+              <!-- Designation Column -->
+              <ng-container matColumnDef="acceptedReward">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Redeemed
+                  By </th>
+                <td mat-cell *matCellDef="let element" class="data"
+                  routerLink="/reward-detail/{{element.reward_id}}">{{element.acceptedReward}}/{{element.totalReward}}
+                  Employees </td>
+              </ng-container>
+
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status
+                </th>
+                <td mat-cell *matCellDef="let element" class="data"
+                  routerLink="/reward-detail/{{element.reward_id}}">
+                  <button mat-flat-button class="round-btn ty"
+                    *ngIf="element.status == 1"
+                    color="light">Active</button>
+                  <button mat-flat-button class="round-btn ty"
+                    *ngIf="element.status == 0"
+                    color="warn">Lock</button>
+                </td>
+              </ng-container>
+
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                  class="heading"> Action </th>
+                <td mat-cell *matCellDef="let element">
+                  <span *ngIf="!accessPermission">No Permission</span>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    matTooltip="Locked" *ngIf="element.status != 0 &&
+                    accessPermission" color="light"
+                    (click)="updateRewardStatus(element.reward_id,'0')"><mat-icon
+                      color="primary">lock</mat-icon></button>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    matTooltip="Activate" *ngIf="element.status != 1 &&
+                    accessPermission" color="light"
+                    (click)="updateRewardStatus(element.reward_id,'1')"><mat-icon
+                      color="primary">lock_open</mat-icon></button>
+
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    *ngIf="accessPermission"
+                    matTooltip="Delete" color="light"
+                    (click)="confirmDialog(element.reward_id)"><mat-icon
+                      color="warn">delete</mat-icon></button>
+                  <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                    *ngIf="accessPermission"
+                    matTooltip="Edit" color="light"
+                    routerLink="/reward-update/{{element.reward_id}}"><mat-icon
+                      color="green">edit</mat-icon></button>
+                  <!-- <button mat-mini-fab  class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+          matTooltip="Details"   color="light" ><mat-icon color="accent">preview</mat-icon></button> -->
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching found.</td>
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Employees Salary
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a>Employees Salary</a></li>
+      <li>Generate Payslip</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid" >
+  <div fxFlex="100"  fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail" >
+      <mat-card-content>
+        <mat-toolbar color="light">
+          <span class="mat-toolbar-title">Salary slip Preview Click Generate button to generate salary</span>&nbsp;&nbsp;
+          <span class="spacer"></span>
+          <button mat-flat-button color="primary" class="cal-button" aria-label="genearte" (click)="generateSlip()">
+            Generate salary
+          </button>
+        </mat-toolbar>
+        <div style="width:100%" #screen>
+          <app-payslip-one *ngIf="payslipNo == 1" [data]="data" ></app-payslip-one>
+          <app-payslip-two *ngIf="payslipNo == 2" [data]="data" ></app-payslip-two>
+          <app-payslip-three *ngIf="payslipNo == 3" [data]="data" ></app-payslip-three>
+          <app-payslip-four *ngIf="payslipNo == 4" [data]="data" ></app-payslip-four>
+          <app-payslip-five *ngIf="payslipNo == 5" [data]="data" ></app-payslip-five>
+          <app-payslip-six *ngIf="payslipNo == 6" [data]="data" ></app-payslip-six>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

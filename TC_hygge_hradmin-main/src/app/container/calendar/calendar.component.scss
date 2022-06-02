@@ -1,0 +1,59 @@
+
+.mat-toolbar-title{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-000000);
+text-align: left;
+font: normal normal 600 18px/27px Poppins;
+letter-spacing: 0px;
+color: #000000;
+text-transform: capitalize;
+opacity: 1;
+}
+.custom-field-row {
+  margin-bottom: 20px;
+}
+.event-detail{
+  margin-top:30px;
+  margin-bottom:30px;
+}
+.heading-calendar-detail {
+    padding-left: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f2f2f2;
+    .target_title{
+      font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-15)/var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+      letter-spacing: var(--unnamed-character-spacing-0);
+      color: var(--unnamed-color-000000);
+      text-align: left;
+      font: normal normal medium 15px/23px Poppins;
+      letter-spacing: 0px;
+      color: #000000;
+      text-transform: capitalize;
+      opacity: 1;
+      margin-right: 10px;
+    }
+
+}
+.desc-heading{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-medium) var(--unnamed-font-size-15)/var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-000000);
+  text-align: left;
+  font: normal normal medium 15px/23px Poppins;
+  letter-spacing: 0px;
+  color: #000000;
+  text-transform: capitalize;
+  opacity: 1;
+}
+.icon-cont {
+  background: var(--unnamed-color-e0e0e0) 0% 0% no-repeat padding-box;
+  background: #E0E0E0 0% 0% no-repeat padding-box;
+  border-radius: 10px;
+  opacity: 0.5;
+  text-align: center;
+  width: 67px;
+  margin: 0 auto;
+  padding: 16px 0;
+}

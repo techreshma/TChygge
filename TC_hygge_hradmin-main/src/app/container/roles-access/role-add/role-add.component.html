@@ -1,0 +1,29 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+<form name="roleForm" (ngSubmit)="addRole()" #roleForm="ngForm">
+    <div fxLayout="row" class="theme-setting-inner">
+      <div fxFlex="100">
+        <span class="card-title">Add Role</span>
+        <mat-label></mat-label>
+        <mat-form-field class="form-fields">
+          <input matInput  type="text" #role_Type  name="role_Type" [(ngModel)]="formData.role_Type" maxlength="40" required autocomplete="off" placeholder="Role name" />
+
+        </mat-form-field>
+        <div *ngIf="role_Type.errors && role_Type.touched">
+          <span class="error" *ngIf="role_Type.errors?.required">Role name is mandatory.</span>
+        </div>
+        <mat-label>Is Active?</mat-label>
+        <mat-radio-group aria-label="Select an option" name="status" [(ngModel)]="formData.status">
+            <mat-radio-button value="1">Yes</mat-radio-button>
+            <mat-radio-button value="0">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div fxLayout="row" class="theme-setting-inner" >
+      <div fxFlex="100">
+        <button mat-raised-button class="big-btn block-btn"  [disabled]="!roleForm.valid"  color="primary">Add Role</button>
+      </div>
+    </div>
+  </form>
+</div>

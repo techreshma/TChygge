@@ -1,0 +1,16 @@
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon><div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title add">Payslip preview</span></div>
+  </div>
+
+  <div fxLayout="row">
+    <div fxFlex="10">
+      <img class="img-logo" style="width: 100%;" src="{{imgPath}}{{userData.company_favicon}}" *ngIf="userData && userData.company_favicon" [alt]="userData && userData.company_favicon"/>
+    </div>
+    <div fxFlex="90"></div>
+  </div>
+<mat-dialog-content class="mat-typography">
+  <img [src]="tempData" alt="Salary-slip" width="100%" />
+</mat-dialog-content>
+</div>

@@ -1,0 +1,15 @@
+@import './../../../../variable.scss';
+span.icici {
+  padding: 0 0 0 35px;
+  color: var(--unnamed-color-3f51b5);
+  @include character-style-7;
+}
+
+@media (max-width: 768px) {
+  img.im1 {
+    width: 83%;
+  }
+  img.im2 {
+  width: 91%;
+  }
+}

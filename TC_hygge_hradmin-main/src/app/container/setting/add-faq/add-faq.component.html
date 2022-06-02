@@ -1,0 +1,34 @@
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <form name="roleForm" (ngSubmit)="addFaq()" #roleForm="ngForm">
+    <div fxLayout="row" class="theme-setting-inner">
+      <div fxFlex="100">
+        <span class="card-title">Add Faq</span>
+        <mat-form-field class="form-fields">
+          <input matInput type="text" placeholder="Question" #question="ngModel" [(ngModel)]="formData.question"
+            name="question" required autocomplete="off" />
+        </mat-form-field>
+        <div *ngIf="question.valid || question.untouched">
+          <span class="error" *ngIf="question.errors?.required">Question is mandatory.</span>
+        </div>
+        <br />
+        <div class="NgxEditor__Wrapper">
+          <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+
+          <ngx-editor [editor]="editor" [ngModel]="formData.answer" name="answer" #answer="ngModel"
+            (ngModelChange)="changeEditor($event)" [disabled]="false" [placeholder]="'Type here...'"></ngx-editor>
+
+        </div>
+        <div *ngIf="answer.valid || answer.untouched">
+          <span class="error" *ngIf="answer.errors?.required">Answer is mandatory.</span>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div fxLayout="row" class="theme-setting-inner">
+      <div fxFlex="100">
+        <button mat-raised-button class="big-btn block-btn" [disabled]="!roleForm.valid" color="primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

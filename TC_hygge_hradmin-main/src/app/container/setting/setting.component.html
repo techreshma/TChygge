@@ -1,0 +1,204 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Setting
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Setting</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="100">
+    <mat-card class="employee-tab">
+      <mat-card-content>
+        <mat-tab-group mat-align-tabs="start">
+          <mat-tab label="Profile">
+            <form name="ThemeForm" (ngSubmit)="updateTheme()" #ThemeForm="ngForm">
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                <div fxFlex="50">
+                  <span class="card-title">Profile Detail</span>
+                </div>
+                <div fxFlex="50">
+                  <mat-form-field class="form-fields">
+                    <input matInput type="text" placeholder="First Name" #first_name="ngModel"
+                      [(ngModel)]="themeData.first_name" name="first_name" required autocomplete="off" />
+                  </mat-form-field>
+                  <div *ngIf="first_name.valid || first_name.untouched">
+                    <span class="error" *ngIf="first_name.errors?.required">First name is mandatory.</span>
+                  </div>
+                  <mat-form-field class="form-fields">
+                    <input matInput type="text" placeholder="Last Name" #last_name="ngModel"
+                      [(ngModel)]="themeData.last_name" name="last_name" required autocomplete="off" />
+                  </mat-form-field>
+                  <div *ngIf="last_name.valid || last_name.untouched">
+                    <span class="error" *ngIf="last_name.errors?.required">Last name is mandatory.</span>
+                  </div>
+                  <mat-form-field class="form-fields">
+                    <input matInput type="number" placeholder="Mobile" #mobile="ngModel" [(ngModel)]="themeData.mobile"
+                      name="mobile" required autocomplete="off" />
+                  </mat-form-field>
+                  <div *ngIf="mobile.valid || mobile.untouched">
+                    <span class="error" *ngIf="mobile.errors?.required">Mobile is mandatory.</span>
+                  </div>
+                  <mat-form-field class="form-fields">
+                    <input matInput type="email" readonly placeholder="Email" #email="ngModel"
+                      [(ngModel)]="themeData.email" name="email" required autocomplete="off" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                <div fxFlex="50">
+                  <span class="card-title">Logo and iconography</span>
+                  <p class="lorem">Recommended image size is 40px x 40px</p>
+                </div>
+                <div fxFlex="50">
+                  <mat-label>Light Logo</mat-label>
+                  <div class="dropzone">
+                    <ngx-dropzone class="light" (change)="onSelect($event)"
+                      accept="image/jpeg,image/jpg,image/png,image/gif">
+                      <ngx-dropzone-label>
+                        <mat-icon>note_add</mat-icon><br />
+                        Upload Your Logo<br />
+                        <small>drag & drop to upload the logo image</small>
+                      </ngx-dropzone-label>
+                      <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)"
+                        style="background-image: url({{themeData.profile_picture}});">
+                        <!-- <ngx-dropzone-label >{{ f.name }} ({{ f.type }})</ngx-dropzone-label> -->
+                      </ngx-dropzone-preview>
+                      <ngx-dropzone-preview *ngIf="files.length == 0 && themeData.profile_picture != ''"
+                        [removable]="true" style="background-image: url({{imgPath}}{{themeData.profile_picture}});">
+                        <ngx-dropzone-label></ngx-dropzone-label>
+                      </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                  </div>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" *ngIf="accessPermission">
+                <div fxFlex="50">
+                </div>
+                <div fxFlex="50">
+                  <mat-label></mat-label>
+                  <button mat-raised-button class="big-btn block-btn" color="primary"
+                    [disabled]="!ThemeForm.valid ">Save Settings</button>
+                </div>
+              </div>
+            </form>
+          </mat-tab>
+          <mat-tab label="Security">
+            <form name="SecurityForm" (ngSubmit)="updatePassword()" #SecurityForm="ngForm">
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+                <div fxFlex="50">
+                  <span class="card-title">Change Password</span>
+                </div>
+                <div fxFlex="50">
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="Old Password" [type]="fieldOldPass ? 'text' : 'password'"
+                      #oldpassword="ngModel" name="oldpassword" [(ngModel)]="passwordData.oldpassword" required
+                      autocomplete="off" />
+                    <mat-icon matSuffix (click)="fieldOldPass = !fieldOldPass" style="cursor: pointer;">
+                      {{fieldOldPass?'visibility_off':'visibility'}}</mat-icon>
+                  </mat-form-field>
+                  <div [hidden]="oldpassword.valid || oldpassword.untouched">
+                    <span class="error" *ngIf="oldpassword.errors?.required">Old Password is mandatory.</span>
+                  </div>
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="New Password" [type]="fieldNewPass ? 'text' : 'password'"
+                      #newpassword="ngModel" (ngModelChange)="ChkOldNew($event)" name="newpassword"
+                      [(ngModel)]="passwordData.newpassword" required autocomplete="off" />
+                    <mat-icon matSuffix (click)="fieldNewPass = !fieldNewPass" style="cursor: pointer;">
+                      {{fieldNewPass?'visibility_off':'visibility'}}</mat-icon>
+                  </mat-form-field>
+                  <div [hidden]="newpassword.valid || newpassword.untouched">
+                    <span class="error" *ngIf="newpassword.errors?.required">New Password is mandatory.</span>
+                  </div>
+                  <div *ngIf="passwordData.oldpassword != '' && passwordData.newpassword == passwordData.oldpassword">
+                    <span class="error">Old password an new password can not be same </span>
+                  </div>
+                  <mat-form-field class="form-fields">
+                    <input matInput placeholder="Confirm Password" [type]="fieldconPass ? 'text' : 'password'"
+                      #confirmpassword="ngModel" name="confirmpassword" [(ngModel)]="passwordData.confirmpassword"
+                      required autocomplete="off" />
+                    <mat-icon matSuffix (click)="fieldconPass = !fieldconPass" style="cursor: pointer;">
+                      {{fieldconPass?'visibility_off':'visibility'}}</mat-icon>
+                  </mat-form-field>
+                  <div [hidden]="confirmpassword.valid || confirmpassword.untouched">
+                    <span class="error" *ngIf="confirmpassword.errors?.required">confirmpassword Password is
+                      mandatory.</span>
+                  </div>
+                  <div *ngIf="passwordData.newpassword != passwordData.confirmpassword">
+                    <span class="error">Confirm Password is not matched.</span>
+                  </div>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" *ngIf="accessPermission">
+                <div fxFlex="50">
+                </div>
+                <div fxFlex="50">
+                  <mat-label></mat-label>
+                  <button mat-raised-button class="big-btn block-btn"
+                    [disabled]="!SecurityForm.valid || passwordData.newpassword != passwordData.confirmpassword || passwordData.newpassword == passwordData.oldpassword "
+                    color="primary">Update Password</button>
+                </div>
+              </div>
+            </form>
+          </mat-tab>
+          <mat-tab label="FAQ">
+            <mat-card class="employee-tab">
+              <mat-toolbar color="light">
+                <span class="mat-toolbar-title faq">FAQs</span>
+                <span class="spacer"></span>
+                <mat-form-field class="search-field input" appearance="standard">
+                  <mat-icon matSuffix>search</mat-icon>
+                  <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+                </mat-form-field>
+                <button mat-mini-fab color="primary" (click)="openAddFaqModal()" class="cal-button" aria-label="add">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </mat-toolbar>
+              <mat-accordion *ngIf="faqData">
+                <mat-expansion-panel hideToggle *ngFor="let faq of faqData">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      {{faq.question}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                        matTooltip="Delete" color="light" (click)="confirmDialog(faq.faq_id)">
+                        <mat-icon color="warn">delete</mat-icon>
+                      </button>
+                      <button mat-mini-fab class="cal-button" #tooltip="matTooltip" (click)="openEditFaqModal(faq)"
+                        *ngIf="accessPermission" matTooltip="Edit" color="light">
+                        <mat-icon color="green">edit</mat-icon>
+                      </button>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div [innerHTML]="faq.answer"></div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </mat-card>
+          </mat-tab>
+          <mat-tab label="Privacy Policy">
+            <mat-card class="employee-tab">
+              <mat-toolbar color="light">
+                <span class="mat-toolbar-title">Privacy Policy</span>
+              </mat-toolbar>
+              <mat-card-content>
+                <div class="NgxEditor__Wrapper">
+                  <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+                  <ngx-editor [editor]="editor" [ngModel]="privacyPolicyForm.description" name="description"
+                    (ngModelChange)="changeEditor($event)" [disabled]="false" [placeholder]="'Type here...'">
+                  </ngx-editor>
+                  <br />
+                  <button mat-raised-button class="big-btn block-btn" color="primary"
+                    (click)="updatePv()">Submit</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

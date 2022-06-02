@@ -1,0 +1,31 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Company Branches
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Comapny Branches</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid" >
+  <div fxFlex="100"  fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail" >
+      <mat-card-content>
+        <mat-toolbar color="grey">
+          <span class="mat-toolbar-title fnt">Branches list</span>&nbsp;&nbsp;
+          <span class="spacer"></span>
+          <mat-form-field class="search-field"  appearance="standard">
+            <mat-icon matSuffix>search</mat-icon>
+            <input matInput placeholder="Search" #input  (keyup)="applyFilter($event)">
+          </mat-form-field>
+          <button mat-mini-fab color="primary" class="cal-button" (click)="openAddModal()"  aria-label="Add new"  *ngIf="accessPermission">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-toolbar>
+       <app-table *ngIf="data" [filter]="applyFilter" [column]="displayedColumns" [titles]="displayedColumnsTitle" [data]="data" [action]="actionColumn" (update)="goToUpdate($event.event,$event.data)" (detail)="openDetailModal($event.event,$event.data)" (delete)="onDelete($event.event,$event.data)" (preview)="onViewAccess($event.event,$event.data)" (statusUpdate)="statusUpdate($event.event,$event.data,$event.status)"></app-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

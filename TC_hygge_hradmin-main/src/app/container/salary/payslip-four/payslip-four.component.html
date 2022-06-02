@@ -1,0 +1,96 @@
+<div class="back" fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid" >
+    <div fxFlex="100"  fxFlex.gt-xs="100" class="back">
+      <mat-card class="dashboard-detail " >
+        <div fxLayout="row">
+            <div fxFlex="20">
+                <p class="logo">
+                  Pay slip
+                </p>
+             </div>
+            <div fxFlex="80">
+                <h5 class="com-logo">
+                  <span *ngIf="!userData && !userData.company_favicon">
+                    Company <br /><span>Logo</span>
+                  </span>
+                  <img src="{{imgPath}}{{userData.company_favicon}}" *ngIf="userData && userData.company_favicon" [alt]="userData && userData.company_favicon"/>
+                </h5>
+                <p class="attich-finch">Attich Finch Lze</p>
+                <p class="nw-dl-in">New Delhi, 100021 India</p>
+            </div>
+            <div fxFlex="20">
+                <p class="pay-attit-1">{{currentMonth}}</p>
+                <p class="new-delhi-1">Slip No. 213452</p>
+             </div>
+        </div>
+
+        <div fxLayout="row" class="header-bg">
+          <div fxFlex="100" fxFlex.gt-sm="100">
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="40" >
+                <table class="table headings">
+                  <tbody class="fir-navi">
+                    <tr>
+                      <th class="profile-navi">Employee</th>
+                      <td class="jai-ho">{{demoData && demoData.first_name}} {{demoData && demoData.last_name}}</td>
+                    </tr>
+                    <tr *ngIf="data.designation">
+                      <th class="profile-navi">Designation</th>
+                      <td class="jai-ho">{{demoData && demoData.designation}}</td>
+                    </tr>
+                    <tr *ngIf="data.department">
+                      <th class="profile-navi">Department</th>
+                      <td class="jai-ho">{{demoData && demoData.department}}</td>
+                    </tr>
+                    <tr>
+                      <th class="profile-navi">Joining Date</th>
+                      <td class="jai-ho">{{demoData && getJoinDate(demoData.employee_joiningDate)}}</td>
+                    </tr>
+                    <tr *ngIf="data.address">
+                      <th class="profile-navi">work location</th>
+                      <td class="jai-ho">{{userData && userData.company_Address}}</td>
+                    </tr>
+                    <tr *ngIf="data.passport">
+                      <th class="profile-navi">Passport No.</th>
+                      <td class="jai-ho">{{demoData && demoData.passport}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div fxFlex="40"></div>
+              <div fxFlex="40">
+                  <div class="border-box">
+                      <p class="net-saly">Total Salary:</p>
+                      <p class="border-fif">{{demoData.salary | currency:'AED'}}</p>
+                      <p class="thou-oly">{{demoData.salary | amountToWord}}</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         <div fxLayout="row" class="header-bg">
+            <div fxFlex="50" fxFlex.gt-sm="100">
+              <table class="table headings">
+                <thead>
+                    <tr class="th-bg-1">
+                        <th class="th-net-salary">Profile</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of demoData.salaryArray">
+                    <th class="th-net-salary-1">{{item.label}}</th>
+                    <td class="curr-ency">{{item.value | currency:'AED'}}</td>
+                    </tr>
+                    <tr class="tr-data">
+                    <th class="th-net-salary">Total Salary</th>
+                    <td class="curr-ency">{{demoData.salary | currency:'AED'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            <div fxFlex="50" fxFlex.gt-sm="100" ></div>
+        </div>
+      </mat-card>
+    </div>
+  </div>

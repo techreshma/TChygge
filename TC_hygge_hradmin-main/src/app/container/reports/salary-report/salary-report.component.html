@@ -1,0 +1,403 @@
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="70">
+    <h3 class="page-title">
+      Salary Report
+      <button mat-raised-button class="employee-view-btn" color="primary" (click)="showTab()">Employee
+        View</button>
+      <button mat-stroked-button class="calendar-view-btn" color="primary" (click)="showCal()">Calendar
+        View</button>
+
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/reports">Reports</a></li>
+      <li>Salary</li>
+    </ul>
+  </div>
+  <div fxFlex="30" class="pdf-head-button">
+    <button mat-raised-button color="primary" (click)="downloadAsPDF()">Export Report as PDF</button>
+  </div>
+</div>
+
+<div *ngIf="tableFirst">
+  <div id="pdfTable" #pdfTable>
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxflexfill fxLayoutGap="10px grid">
+      <div fxFlex>
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+          <div fxFlex="50" class="widht-mat">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+              <mat-card fxFlex class="dashboard-count">
+                <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+                  <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                    <span class="card-subtitle">Total Salary</span>
+                  </div>
+                  <div fxFlex="40" style="text-align: center;">
+                    <span class="card-title purpul-txt">{{total_salary | currency:'INR':'symbol-narrow'}}</span>
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+          <br />
+          <div fxFlex="50" class="widht-mat">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+              <mat-card fxFlex class="dashboard-count">
+                <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+                  <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                    <span class="card-subtitle">Average Salary</span>
+                  </div>
+                  <div fxFlex="40" style="text-align: center;">
+                    <span class="card-title yellow-txt">{{average_salary | currency:'INR':'symbol-narrow'}}</span>
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+          <br />
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+          <div fxFlex>
+            <mat-card class="circle-remove">
+              <mat-card-content>
+                <div fxLayout="row wrap">
+                  <div fxFlex="33">
+                    <span class="employee-based">Salary based on</span>
+                  </div>
+                  <div fxFlex="6"></div>
+                  <div fxFlex="27">
+                    <button mat-raised-button color="primary" class="view-more">Department</button>
+                  </div>
+                  <div fxFlex="33">
+                    <button mat-stroked-button class="view-more-1">Gender</button>
+                  </div>
+                </div>
+                <div fxLayout="row wrap">
+                  <div fxFlex="100">
+                    <app-doughnut *ngIf="graphData" [data]="graphData"></app-doughnut>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <br />
+        </div>
+      </div>
+      <div fxFlex>
+        <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+          <mat-card class="circle-remove">
+            <mat-card-content>
+              <div fxLayout="row wrap">
+                <div fxFlex="33">
+                  <span class="employee-based">Salary Breakdown</span>
+                </div>
+              </div>
+              <div fxLayout="row wrap">
+                <div fxFlex="100">
+                  <app-doughnut *ngIf="graphData" [data]="graphData"></app-doughnut>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div class="scroller">
+      <div class="scroll-x">
+        <div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+          <div fxFlex="100" fxFlex.gt-xs="100">
+            <mat-card class="dashboard-detail">
+              <mat-card-content>
+                <div class="header11">
+                  <mat-toolbar color="grey">
+                    <mat-form-field class="search-field" appearance="standard">
+                      <mat-icon matSuffix>search</mat-icon>
+                      <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+                    </mat-form-field>
+                    <span class="spacer"></span>
+
+                    <mat-select class="custom-selection" [(ngModel)]="customizeData"
+                      (ngModelChange)="addRemoveColumn($event)" multiple>
+                      <mat-select-trigger>
+                        <span class="example-additional-selection">
+                          Customize Table
+                        </span>
+                      </mat-select-trigger>
+                      <mat-option *ngFor="let item of displayedColumnsTitleDemo;let i = index" [value]="item.value">
+                        {{item.title}}</mat-option>
+                    </mat-select>
+
+                    <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Export Table
+                      <mat-icon>expand_more</mat-icon>
+                    </button>&nbsp;&nbsp;
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="exportExcel()">AS EXCEL</button>
+                      <button mat-menu-item (click)="export()">AS CSV</button>
+                    </mat-menu>&nbsp;&nbsp;
+                  </mat-toolbar>
+                  <mat-toolbar class="top-mar" color="grey">
+                    <button mat-raised-button color="primary" (click)="openFilterModal()">Filter <mat-icon>filter_list
+                      </mat-icon>
+                    </button>
+                  </mat-toolbar>
+                  
+                  <mat-chip-list #chipList>
+                    <mat-chip
+                      *ngFor="let module of modulename"
+                      [selectable]="selectable"
+                      [removable]="removable"
+                      (removed)="remove(module)"
+                    >
+                      {{ module.name }}&nbsp;&nbsp; {{ module.value }}
+                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                      style="display: none"
+                      placeholder="New fruit..."
+                      [matChipInputFor]="chipList"
+                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                      [matChipInputAddOnBlur]="addOnBlur"
+                      (matChipInputTokenEnd)="add($event)"
+                    />
+                  </mat-chip-list>
+                </div>
+
+                <table id="csvTable" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 top-mar">
+
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Name</th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="department">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Department
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="reporting">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting Manager </th>
+                    <td mat-cell *matCellDef="let element"> {{element.reporting_Manager}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="basic">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Basic </th>
+                    <td mat-cell *matCellDef="let element"> {{element.basicPay}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="allowances">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Allowances </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Allowances}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="total_salary">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Total Salary
+                    </th>
+                    <td mat-cell *matCellDef="let element"> {{element.totalSalary}} </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+                  </tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="tableSecond">
+
+  <div fxLayout="row" fxLayoutAlign="space-around left" fxLayoutGap="10px grid">
+    <div fxFlex="100">
+      <mat-card class="dashboard-count">
+        <div fxLayout="row">
+          <div fxFlex="50">
+            <mat-card-header>
+              <mat-card-title>Total Salary</mat-card-title>
+            </mat-card-header>
+          </div>
+          <div fxFlex="50" class="align-button">
+            <button mat-raised-button color="primary">Total</button>
+            <button mat-stroked-button color="primary" class="mar-dept">Department</button>
+            <button mat-stroked-button color="primary" class="mar-dept">Gender</button>
+            <button mat-stroked-button color="primary" class="mar-dept">Nationality</button>
+          </div>
+        </div>
+
+        <div fxLayout="row">
+          <div fxFlex="100">
+            <app-line class="wid-graph" *ngIf="redeemLineChart" [data]="redeemLineChart"></app-line>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <br>
+
+
+  <div class="scroller">
+    <div class="scroll-x">
+      <div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+        <div fxFlex="100" fxFlex.gt-xs="100">
+          <mat-card class="dashboard-detail">
+            <mat-card-content>
+              <div class="header11">
+                <mat-toolbar color="grey">
+                  <mat-form-field class="search-field" appearance="standard">
+                    <mat-icon matSuffix>search</mat-icon>
+                    <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+                  </mat-form-field>
+                  <span class="spacer"></span>
+
+                  <mat-select class="custom-selection" [(ngModel)]="customizeData"
+                    (ngModelChange)="addRemoveColumn($event)" multiple>
+                    <mat-select-trigger>
+                      <span class="example-additional-selection">
+                        Customize Table
+                      </span>
+                    </mat-select-trigger>
+                    <mat-option *ngFor="let item of displayedColumnsTitleDemo;let i = index" [value]="item.value">
+                      {{item.title}}</mat-option>
+                  </mat-select>
+
+                  <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Export Table
+                    <mat-icon>expand_more</mat-icon>
+                  </button>&nbsp;&nbsp;
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Item 1</button>
+                    <button mat-menu-item>Item 2</button>
+                  </mat-menu>&nbsp;&nbsp;
+                </mat-toolbar>
+                <mat-toolbar class="top-mar" color="grey">
+                  <button mat-raised-button color="primary">Filter <mat-icon>filter_list</mat-icon>
+                  </button>
+                </mat-toolbar>
+              </div>
+
+              <table mat-table [dataSource]="dataSourceNew" matSort class="mat-elevation-z8 top-mar">
+
+                <ng-container matColumnDef="january">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> January</th>
+                  <td mat-cell *matCellDef="let element"> {{element.january}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="february">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> February
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.february}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="march">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> March </th>
+                  <td mat-cell *matCellDef="let element"> {{element.march}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="april">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> April </th>
+                  <td mat-cell *matCellDef="let element"> {{element.april}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="may">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> May </th>
+                  <td mat-cell *matCellDef="let element"> {{element.may}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="june">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> June </th>
+                  <td mat-cell *matCellDef="let element"> {{element.june}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="july">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> July </th>
+                  <td mat-cell *matCellDef="let element"> {{element.july}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="august">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> August </th>
+                  <td mat-cell *matCellDef="let element"> {{element.august}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="september">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> September
+                  </th>
+                  <td mat-cell *matCellDef="let element"> {{element.september}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="october">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> October </th>
+                  <td mat-cell *matCellDef="let element"> {{element.october}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsNew"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsNew;"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+                </tr>
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div> <br><br>
+
+<div style="display:none;">
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="department">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Department
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="reporting">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting Manager </th>
+      <td mat-cell *matCellDef="let element"> {{element.reporting_Manager}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="basic">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Basic </th>
+      <td mat-cell *matCellDef="let element"> {{element.basicPay}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="allowances">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Allowances </th>
+      <td mat-cell *matCellDef="let element"> {{element.allowances}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="total_salary">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> Total Salary
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.total_salary}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+    </tr>
+  </table>
+</div>

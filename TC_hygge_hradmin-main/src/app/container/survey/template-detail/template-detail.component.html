@@ -1,0 +1,145 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Survey
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/list-survey">Survey</a></li>
+      <li><a routerLink="/select-survey">Create Survey</a></li>
+      <li><a routerLink="/survey-grid">Copy Old Survey</a></li>
+      <li> {{surveyName}}</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row">
+  <div fxFlex="70" class="fixed-div">
+    <mat-card *ngFor="let q of question;let i = index;" class="mat-card-question">
+      <span class="card-title responsive">Q {{i+1}}. {{q.survey_Title}}</span><br /><br />
+      <span class="card-subtitle">Type: <b>{{q.survey_Type}}</b>
+      </span><br /><br />
+      <span class="card-subtitle">Category: <b>{{q.survey_Category}}</b></span><br /><br />
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.survey_Type == 'dropdown'">
+        <div fxFlex="100">
+          <div class="form-ques">
+            <mat-label>Question's Option</mat-label>
+            <mat-form-field>
+              <mat-select name="title" [(ngModel)]="q.answer" name="answer" #answer required>
+                <mat-option *ngFor="let o of q.survey_OptionArray;let io = index;" [value]="o.value">{{o.value}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.survey_Type == 'multiSelect'">
+        <div fxFlex="100">
+          <div class="form-ques">
+            <mat-label>Question's Option</mat-label> <br>
+
+            <mat-checkbox class="example-margin" color="primary" *ngFor="let o of q.survey_OptionArray;let io = index;">
+              {{o.value}}
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.survey_Type == 'slider'">
+        <div fxFlex="100">
+          <div class="form-ques">
+            <mat-label>{{q.survey_SliderOption.label}}</mat-label>
+            <mat-slider tickInterval="1000" [min]="q.survey_SliderOption.left" [max]="q.survey_SliderOption.right">
+            </mat-slider>
+            <span> {{q.survey_SliderOption.left}}</span>
+            <span class="right"> {{q.survey_SliderOption.right}}</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.survey_Type == 'rating'">
+        <!-- <star-rating [value]="q.survey_OptionArray.length" [totalstars]="q.survey_OptionArray.length" checkedcolor="yellow" uncheckedcolor="black" size="24px" readonly="false" (rate)="onRate($event)"></star-rating> -->
+        <div fxFlex="100">
+          <div fxLayout="row">
+            <div fxFlex *ngFor="let o of q.survey_OptionArray;let io = index;">
+              <div class="form-ques">
+                <div fxLayout="column" class="quesOption">
+                  <div fxFlex>
+                    <p style="text-align: center;">{{o.value}}</p>
+                  </div>
+                  <div fxFlex style="text-align: center;">
+                    <mat-icon color="accent" *ngFor="let item of arrayOne(o.label)">star</mat-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="q.survey_Type == 'radio'">
+        <mat-label>Question's Option</mat-label>
+        <div fxFlex class="form-ques" *ngFor="let o of q.survey_OptionArray;let io = index;" style="padding:10px">
+          <mat-radio-button value="o.value">{{o.value}}</mat-radio-button>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class=""
+        *ngIf="q.survey_Type == 'text' || q.survey_Type == 'textarea'">
+        <div fxFlex="100">
+          <div class="form-ques">
+            <mat-label>Write Answer</mat-label>
+            <mat-form-field>
+              <textarea matInput name="answer" [(ngModel)]="q.answer"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div *ngIf=" q.survey_Type == 'matrix'">
+        <div class="form-ques" style="width: 100%;overflow: auto;" ms-responsive-table
+          *ngIf="q.survey_ColumnArray.length > 0">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th *ngFor="let sub of q.survey_ColumnArray; let valueIndex=index;">{{sub.label}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sub of q.survey_RowArray; let rawIndex=index;">
+                <td>{{sub.label}}</td>
+                <td *ngFor="let subs of q.survey_ColumnArray;let ia=index">
+                  <mat-radio-button value="subs.label"></mat-radio-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-card>
+
+  </div>
+  <div fxFlex="30" class="fixed-div">
+    <mat-card>
+      <span class="card-title">
+        {{surveyName}}
+      </span>
+      <br />
+      <br />
+      <p>{{surveyDescription}}</p>
+      <br />
+      <br />
+      <br />
+      <span class="card-title">
+        Questions
+      </span>
+      <br />
+      <br />
+      <span class="card-title">
+        {{question.length}}
+      </span>
+      <br />
+      <br />
+      <br />
+      <button mat-raised-button class="big-btn block-btn" routerLink="/create-survey-by-template/{{id}}"
+        color="primary">Use this template</button>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Payslips
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a>Salary Management</a></li>
+      <li>Payslips</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+  <div fxFlex="100">
+    <mat-card>
+      <span class="back-link" *ngIf="!showAll" (click)="showAll = !showAll">
+        <mat-icon matSuffix>keyboard_backspace</mat-icon>
+        Back
+      </span>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="30" *ngIf="showAll">
+          <span class="card-title">Create Template</span>
+          <!-- <p>Fill out the data and generate completely customized reports</p> -->
+          <p>Customize Pay Slip</p>
+          <span class="paySlipHead">Payslip Preferences</span>
+          <mat-card class="selectSalaryFieldCard">
+            <mat-checkbox color="primary" [(ngModel)]="data.address" name="address"  class="example-margin" ><span [ngClass]="data.address?'primary-txt':''" >Show Work Location</span></mat-checkbox>
+          </mat-card>
+          <mat-card class="selectSalaryFieldCard">
+            <mat-checkbox color="primary" [(ngModel)]="data.department" name="department" class="example-margin" ><span [ngClass]="data.department?'primary-txt':''" >Show Department</span></mat-checkbox>
+          </mat-card>
+          <mat-card class="selectSalaryFieldCard">
+            <mat-checkbox color="primary" [(ngModel)]="data.designation" name="designation" class="example-margin" ><span [ngClass]="data.designation?'primary-txt':''" >Show Designation</span></mat-checkbox>
+          </mat-card>
+          <mat-card class="selectSalaryFieldCard">
+            <mat-checkbox color="primary" class="example-margin" [(ngModel)]="data.passport" name="passport"><span [ngClass]="data.passport?'primary-txt':''" >Show Passport</span></mat-checkbox>
+          </mat-card>
+          <mat-card class="selectSalaryFieldCard">
+            <mat-checkbox color="primary" class="example-margin" [(ngModel)]="data.template" name="template"><span [ngClass]="data.template?'primary-txt':''" >Set As Default Template</span></mat-checkbox>
+          </mat-card>
+          <div fxLayout="row" class="theme-setting-inner"  >
+            <div fxFlex="100">
+              <mat-label></mat-label>
+              <button mat-raised-button class="big-btn block-btn" color="primary" (click)="editPaySlip()" >Save Template</button>
+              <br />
+            </div>
+          </div>
+        </div>
+        <div [fxFlex]="showAll?'70':'100'">
+          <app-payslip-one *ngIf="tempNo == 1" [data]="data" ></app-payslip-one>
+          <app-payslip-two *ngIf="tempNo == 2" [data]="data" ></app-payslip-two>
+          <app-payslip-three *ngIf="tempNo == 3" [data]="data" ></app-payslip-three>
+          <app-payslip-four *ngIf="tempNo == 4" [data]="data" ></app-payslip-four>
+          <app-payslip-five *ngIf="tempNo == 5" [data]="data" ></app-payslip-five>
+          <app-payslip-six *ngIf="tempNo == 6" [data]="data" ></app-payslip-six>
+          <span class="show-preview" (click)="showTemplate(tempNo)" *ngIf="showAll">Full screen preview</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

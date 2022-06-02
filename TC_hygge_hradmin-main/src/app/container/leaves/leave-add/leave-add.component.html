@@ -1,0 +1,81 @@
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" fxLayout.xs="column" class="">
+    <div fxFlex="100">
+      <span class="card-title add">Add Leave</span>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <form name="filterForm" (ngSubmit)="addLeave()" #filterForm="ngForm">
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.user_Id" name="user_Id" placeholder="Select Employee" required>
+              <mat-option *ngFor="let emp of employeeList" [value]="emp.user_id">{{emp.first_name}} {{emp.last_name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="leaveType" name="leaveType" (ngModelChange)="getLeaveType($event)"
+              placeholder="Select Leave Type" required>
+              <mat-option *ngFor="let emp of leaveData" [value]="emp">{{emp.leave_Type}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput placeholder="From" [matDatepicker]="picker" format="DD/MM/YYYY"
+              (ngModelChange)="getDays($event,'from')" #leave_From name="leave_From" [(ngModel)]="formData.leave_From"
+              required autocomplete="off" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput placeholder="To" [matDatepicker]="picker1" format="DD/MM/YYYY"
+              (ngModelChange)="getDays($event,'to')" #leave_To name="leave_To" [(ngModel)]="formData.leave_To" required
+              autocomplete="off" />
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <textarea matInput name="user_reason" #user_reason="ngModel" [(ngModel)]="formData.user_reason"
+              autocomplete="off" placeholder="User Reason"></textarea>
+          </mat-form-field>
+          <div [hidden]="user_reason.valid || user_reason.untouched">
+            <span class="error" *ngIf="user_reason.errors?.required">Reasone is mandatory.</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <textarea matInput name="leave_description" #leave_description="ngModel"
+              [(ngModel)]="formData.leave_description" autocomplete="off" placeholder="Comment"></textarea>
+          </mat-form-field>
+          <div [hidden]="leave_description.valid || leave_description.untouched">
+            <span class="error" *ngIf="leave_description.errors?.required">Comment is mandatory.</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" class="">
+        <div fxFlex="100">
+          <mat-label></mat-label>
+          <button mat-raised-button class="big-btn block-btn" color="primary"
+            [disabled]="!filterForm.valid">SUBMIT</button>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

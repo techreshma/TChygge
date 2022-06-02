@@ -1,0 +1,191 @@
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Add Employee</span>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <form name="registerForm" (ngSubmit)="addEmployee()" #registerForm="ngForm">
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput maxlength="250" type="text" #first_name name="first_name" [(ngModel)]="formData.first_name"
+              placeholder="First name" required autocomplete="off" />
+          </mat-form-field>
+          <div *ngIf="first_name.errors && first_name.touched">
+            <span class="error" *ngIf="first_name.errors?.required">First name is mandatory.</span>
+          </div>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput maxlength="250" type="text" #last_name name="last_name" [(ngModel)]="formData.last_name"
+              placeholder="Last name" required autocomplete="off" />
+          </mat-form-field>
+          <div *ngIf="last_name.errors && last_name.touched">
+            <span class="error" *ngIf="last_name.errors?.required">Last name is mandatory.</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput maxlength="250" type="email" #email name="email" [(ngModel)]="formData.email"
+              placeholder="Email" required autocomplete="off" />
+          </mat-form-field>
+          <div *ngIf="email.errors && email.touched">
+            <span class="error" *ngIf="email.errors?.required">Email is mandatory.</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.department" name="role" #role required placeholder="Departement">
+              <mat-option *ngFor="let d of departmentData" [value]="d.department_Type">{{d.department_Type}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput list="desig" [(ngModel)]="formData.designation" name="designation" #role required
+              placeholder="Designation" />
+            <datalist id="desig">
+              <option value="President">President</option>
+              <option value="Chairman Chief">Chairman Chief</option>
+              <option value="Executive Officer">Executive Officer</option>
+              <option value="Managing Director">Managing Director</option>
+              <option value="General Manager">General Manager</option>
+              <option value="Director">Director</option>
+              <option value="Vice President">Vice President</option>
+              <option value="Asst General Manager">Asst General Manager</option>
+              <option value="Chief Operating Officer">Chief Operating Officer</option>
+              <option value="Chief Marketing Officer">Chief Marketing Officer</option>
+              <option value="Chief Technology Officer">Chief Technology Officer</option>
+              <option value="Chief People Officer">Chief People Officer</option>
+              <option value="Chief Innovation Officer">Chief Innovation Officer</option>
+              <option value="Asst General Manager">Asst General Manager</option>
+              <option value="Asst Director">Asst Director</option>
+              <option value="Asst Vice President">Asst Vice President</option>
+              <option value="Finance Manager">Finance Manager</option>
+              <option value="Purchasing Manager">Purchasing Manager</option>
+              <option value="Operating Manager">Operating Manager</option>
+              <option value="HR & Admin Manager">HR & Admin Manager</option>
+              <option value="Sales Manager">Sales Manager</option>
+              <option value="Marketing Manager">Marketing Manager</option>
+              <option value="Business Development Manager">Business Development Manager</option>
+              <option value="Transformation Officer">Transformation Officer</option>
+              <option value="Manager">Manager</option>
+              <option value="Head of the Department">Head of the Department</option>
+              <option value="Team Leader">Team Leader</option>
+              <option value="Asst Manager">Asst Manager</option>
+              <option value="Asst Manager Finance">Asst Manager Finance</option>
+              <option value="Asst Manager HR & Admin">Asst Manager HR & Admin</option>
+              <option value="Senior Engineer">Senior Engineer</option>
+              <option value="Accountant">Accountant</option>
+              <option value="Senior Accountant">Senior Accountant</option>
+              <option value="HR & Admin Executive">HR & Admin Executive</option>
+              <option value="Personal Assistant">Personal Assistant</option>
+              <option value="Executive">Executive</option>
+            </datalist>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput placeholder="Employee Joining Date" [matDatepicker]="picker"
+              (dateChange)="joiningDateFunc($event)" format="DD/MM/YYYY" #employee_joiningDate
+              name="employee_joiningDate" [(ngModel)]="formData.employee_joiningDate" required autocomplete="off" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.branch_Id" name="branch_Id" placeholder="Branch Name">
+              <mat-option *ngFor="let emp of branchData" [value]="emp.branch_id">{{emp.branch_Name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.reporting_Manager" name="reporting_Manager" #reporting_Manager
+              placeholder="Reporting Manager">
+              <mat-option value="">No Manager</mat-option>
+              <mat-option *ngFor="let emp of employeeList" value="{{emp.first_name}} {{emp.last_name}}">
+                {{emp.first_name}} {{emp.last_name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.insurance_plan_name" name="insurance_plan_name" #insurance_plan_name
+              required placeholder="Insurance Plan Name">
+              <mat-option *ngFor="let emp of insuranceData" [value]="emp.insuranceDetail_id">{{emp.insurance_Plan}}
+                ({{emp.insurance_Name}})</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <h3 class="title">Salary</h3>
+        </div>
+      </div>
+      <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50" *ngFor="let s of salaryData;let i = index;">
+          <mat-form-field class="form-fields">
+            <input matInput type="number" #salary name="salary" [(ngModel)]="formData.salaryBalance[i][s.salary_Type]"
+              [placeholder]="s.salary_Type +' (ex. 1000)'" required autocomplete="off" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <h3 class="title">Leave</h3>
+        </div>
+      </div>
+      <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50" *ngFor="let l of leaveData;let i = index">
+          <mat-form-field class="form-fields">
+            <input matInput type="text" #leaves name="leaves" [(ngModel)]="formData.leaveBalance[i][l.leave_Type]"
+              [placeholder]="l.leave_Type +' (ex. 1)'" required autocomplete="off" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <h3 class="title">Working Hours</h3>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput type="time" #working_HoursFrom name="working_HoursFrom"
+              [(ngModel)]="formData.working_HoursFrom" format="24" (change)="onTimeChange($event , 'working_HoursFrom')"
+              placeholder="Working Hours From" required autocomplete="off" />
+          </mat-form-field>
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="form-fields">
+            <input matInput type="time" #working_HoursTo format="24" (change)="onTimeChange($event, 'working_HoursTo')"
+              name="working_HoursTo" [(ngModel)]="formData.working_HoursTo" placeholder="Working Hours To" required
+              autocomplete="off" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" class="">
+        <div fxFlex="100">
+          <mat-label></mat-label>
+          <button mat-raised-button class="big-btn block-btn" [disabled]="!registerForm.valid" color="primary">Add
+            Employee</button>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

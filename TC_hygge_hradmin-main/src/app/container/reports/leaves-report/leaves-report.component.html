@@ -1,0 +1,202 @@
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="70">
+    <h3 class="page-title">
+      Leaves Report
+      <button [ngClass]="showTable?'mat-raised-button mat-primary':'mat-button primary-txt'" class="employee-view-btn"
+        color="primary" (click)="showTab()">Employee View</button>
+      <button [ngClass]="!showTable?'mat-raised-button mat-primary':'mat-button primary-txt'" class="calendar-view-btn"
+        color="primary" (click)="showCal()">Calendar View</button>
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/reports">Reports</a></li>
+      <li>Leaves</li>
+    </ul>
+  </div>
+  <div fxFlex="30" class="pdf-head-button">
+    <button mat-raised-button color="primary" (click)="downloadAsPDF()">Export Report as PDF</button>
+  </div>
+</div>
+<div id="pdfTable" #pdfTable>
+  <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxflexfill fxLayoutGap="10px grid">
+    <div fxFlex="60">
+      <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="33" class="widht-mat">
+          <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+            <mat-card fxFlex class="dashboard-count">
+              <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+                <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                  <span class="card-subtitle">Main Days</span>
+                </div>
+                <div fxFlex="40" style="text-align: center;">
+                  <span class="card-title yellow-txt">{{responseData && responseData.man_day}}</span>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+        <div fxFlex="33" class="widht-mat">
+          <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+            <mat-card fxFlex class="dashboard-count">
+              <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+                <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                  <span class="card-subtitle">Leave Days</span>
+                </div>
+                <div fxFlex="40" style="text-align: center;">
+                  <span class="card-title blue-txt">{{responseData && responseData.leave_day}}</span>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+        <div fxFlex="33" class="widht-mat" *ngFor="let item of responseData.total_leave">
+          <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch">
+            <mat-card fxFlex class="dashboard-count">
+              <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+                <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                  <span class="card-subtitle">{{item.key}}</span>
+                </div>
+                <div fxFlex="40" style="text-align: center;">
+                  <span class="card-title blue-txt">{{item.value}}</span>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxFlex="40">
+      <mat-card class="dashboard-count">
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <div fxFlex>
+            <span class="card-subtitle" style="margin: 0 !important;">Late Employees</span>
+          </div>
+          <div fxFlex>
+            <button mat-raised-button color="primary">Hours</button>
+          </div>
+          <div fxFlex>
+            <button mat-stroked-button color="primary">Occurance</button>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex>
+            <app-horizontal-bar *ngIf="lateEmployeeGraph" [data]="lateEmployeeGraph"></app-horizontal-bar>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<!-- ----------------->
+
+<div class="scroller top-mar" *ngIf="showTable">
+  <div class="scroll-x">
+    <div fxLayout="row" fxflexfill class="mid-graph tab-top" fxLayoutGap="10px grid">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-card class="dashboard-detail">
+          <mat-card-content>
+
+            <mat-toolbar color="light">
+              <mat-form-field class="search-field" appearance="standard">
+                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+              </mat-form-field>
+              <span class="spacer"></span>
+
+              <mat-select class="custom-selection" [(ngModel)]="customizeData" (ngModelChange)="addRemoveColumn($event)"
+                multiple>
+                <mat-select-trigger>
+                  <span class="example-additional-selection">
+                    Customize Table
+                  </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let item of displayedColumnsTitleDemo;let i = index" [value]="item.value">
+                  {{item.title}}</mat-option>
+              </mat-select>
+
+              <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Export Table <mat-icon>expand_more
+                </mat-icon></button>&nbsp;&nbsp;
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="exportExcel()">AS EXCEL</button>
+                <button mat-menu-item (click)="export()">AS CSV</button>
+                <!-- <button mat-menu-item>Item 2</button> -->
+              </mat-menu>&nbsp;&nbsp;
+              <!-- <button mat-raised-button color="primary">Filter <mat-icon>filter_list</mat-icon></button>&nbsp;&nbsp; -->
+            </mat-toolbar>
+
+            <mat-toolbar style="display:none" color="light" class="mat-tab">
+              <button mat-raised-button color="primary" (click)="openFilterModal()">Filter <mat-icon>filter_list
+                </mat-icon></button>
+            </mat-toolbar>
+
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let module of modulename" [selectable]="selectable" [removable]="removable"
+                (removed)="remove(module)">
+                {{ module.name }}&nbsp;&nbsp; {{ module.value }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input style="display: none" placeholder="New fruit..." [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)" />
+            </mat-chip-list>
+
+            <table id="csvTable" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 mat-tab">
+
+              <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- Position Column -->
+              <ng-container *ngFor="let columns of displayedColumns;let i = index" [matColumnDef]="columns">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> <b>{{columns}}</b></th>
+                <td mat-cell *matCellDef="let element" class="data"> {{element[columns]}} </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching found.</td>
+              </tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+            <!-- <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+              (page)="paginationChange($event)" aria-label="Select page"></mat-paginator> -->
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!showTable">
+  <div fxLayout="row" class="mid-graph top-mar">
+    <div fxFlex="100" fxFlex.gt-xs="100">
+      <mat-card>
+        <mat-toolbar color="light">
+          <span class="mat-toolbar-title">Calendar</span>
+          <span class="spacer"></span>
+        </mat-toolbar>
+        <ejs-schedule #scheduleObj width='100%' height='550px' currentView="month" [selectedDate]="selectedDate"
+          [eventSettings]="eventSettings" (click)="clickSchedule($event,scheduleObj)"
+          (oneventRendered)="oneventRendered($event)">
+          <e-views>
+            <e-view option="Month"></e-view>
+          </e-views>
+        </ejs-schedule>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+
+<div style="display:none;">
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort class="mat-elevation-z8">
+    <ng-container *ngFor="let columns of displayedColumns;let i = index" [matColumnDef]="columns">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading"> <b>{{columns}}</b></th>
+      <td mat-cell *matCellDef="let element" class="data"> {{element[columns]}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

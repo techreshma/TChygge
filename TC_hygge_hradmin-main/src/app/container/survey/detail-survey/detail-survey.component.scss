@@ -1,0 +1,68 @@
+@import './../../../../variable.scss';
+span.icici {
+  padding: 0 0 0 35px;
+  color: var(--unnamed-color-3f51b5);
+  @include character-style-7;
+}
+
+.userCard {
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+  &.active{
+    background: #FFE1CE;
+  }
+  img {
+    width: 75px;
+    height: 75px;
+  }
+  .user-name {
+    @include character-style-7;
+    color: var(--unnamed-color-3d3d3d);
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 1;
+    margin: 20px auto 10px;
+  }
+  .usere-desig{
+    @include character-style-6;
+    color: var(--unnamed-color-000000);
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 0.5;
+  }
+}
+.answer {
+  display: flex;
+  flex: 1;
+  span{
+    margin-right: 30px;
+    margin-left: 5px;
+  }
+}
+.thumb{
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 75px;
+}
+.chart-div{
+  margin:30px auto;
+}
+.answer-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  li {
+    list-style: auto;
+    text-align: left;
+    font-size: 12px;
+  }
+}

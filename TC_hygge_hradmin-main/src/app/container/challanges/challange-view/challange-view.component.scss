@@ -1,0 +1,19 @@
+@import './../../../../variable.scss';
+.mat-slide-toggle {
+    margin-top: 25px;
+}
+.challange-title{
+  @include character-style-1;
+  color: var(--unnamed-color-3d3d3d);
+  text-align: left;
+  text-transform: capitalize;
+  opacity: 1;
+  border: 1px solid var(--unnamed-color-e0e0e0);
+  display: block;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-top: 17px;
+}
+.dropzone {
+  margin-top: 15px;
+}

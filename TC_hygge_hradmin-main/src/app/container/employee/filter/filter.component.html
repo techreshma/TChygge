@@ -1,0 +1,47 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Add Employee</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+<form name="registerForm" (ngSubmit)="addEmployee()" #registerForm="ngForm">
+
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput  type="text" #first_name  name="first_name" [(ngModel)]="formData.first_name" placeholder="First name" required autocomplete="off"  />
+      </mat-form-field>
+      <div *ngIf="first_name.errors && first_name.touched">
+        <span class="error" *ngIf="first_name.errors?.required">First name is mandatory.</span>
+      </div>
+    </div>
+    <div fxFlex="50">
+      <mat-form-field class="form-fields">
+        <input matInput  type="text" #last_name  name="last_name" [(ngModel)]="formData.last_name" placeholder="Last name" required autocomplete="off"  />
+      </mat-form-field>
+      <div *ngIf="last_name.errors && last_name.touched">
+        <span class="error" *ngIf="last_name.errors?.required">Last name is mandatory.</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+    <div fxFlex="100">
+      <mat-form-field class="form-fields">
+        <input matInput  type="email" #email  name="email" [(ngModel)]="formData.email" placeholder="Email" required autocomplete="off"  />
+      </mat-form-field>
+      <div *ngIf="email.errors && email.touched">
+        <span class="error" *ngIf="email.errors?.required">Email is mandatory.</span>
+      </div>
+    </div>
+  </div>
+    <div fxLayout="row" class="" >
+      <div fxFlex="100">
+        <mat-label></mat-label>
+        <button mat-raised-button class="big-btn block-btn"  [disabled]="!registerForm.valid"  color="primary">Add Employee</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+</div>

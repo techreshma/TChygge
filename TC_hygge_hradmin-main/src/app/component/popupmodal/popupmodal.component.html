@@ -1,0 +1,86 @@
+<div class="main_popup">
+  <div class="header_content">
+    <div class="modulesearch">
+      <mat-form-field class="search-field blue-search" appearance="standard">
+        <mat-icon matSuffix id="icon-color">search</mat-icon>
+        <!-- <input matInput placeholder="Search" id="search-color" #input [(ngModel)]="searchText"> -->
+        <input matInput placeholder="Search" id="search-color" #input (keyup)="searchModule($event)">
+      </mat-form-field>
+    </div>
+    <span class="cancel-dialoge" (click)="closeDialog()">
+      <mat-icon>clear</mat-icon>
+    </span>
+  </div>
+  <div class="filter_options">
+    <div id="side_filter">
+      <div class="menu_fields">
+        <div class="{{item.show ? 'active':'inactive'}} sidefilter_name" *ngFor="let item of recordData"
+          (click)="menuClick(item)">
+          <span class="module_title">
+            <a>{{item.filtername}}</a> <a *ngIf="false" class="dot_icon"></a>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div id="child_option">
+      <div class="sidefilter_child" *ngFor="let childitem of filterChild">
+        <span *ngIf='childitem.inputtype && childitem.inputtype === "text"'>
+          <mat-form-field>
+            <input type="text" matInput (keyup)="setInputValueFunction($event)">
+          </mat-form-field>
+        </span>
+
+        <span *ngIf='childitem.inputtype && childitem.inputtype === "email"'>
+          <mat-form-field>
+            <input type="email" matInput (keyup)="setInputValueFunction($event)">
+          </mat-form-field>
+        </span>
+
+        <span *ngIf='!childitem.inputtype'>
+          <mat-checkbox (change)="moduleCheckFilter($event, childitem.value)" color="primary" class="example-margin">
+          </mat-checkbox>
+          &nbsp;
+          {{childitem.title}}
+        </span>
+
+      </div>
+
+      <div class="sidefilter_child">
+        <span *ngIf="isRadio">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+            <mat-radio-button class="example-radio-button" color="primary" *ngFor="let items of rangeArray" (click)="selectAgeRange(items.value)"  [value]=items.value>
+              {{items.title}}
+            </mat-radio-button><br/>
+          </mat-radio-group>
+        </span>
+      </div>
+
+      <div class="sidefilter_child">
+        <span *ngIf="isTimefilter">
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+            <mat-radio-button class="example-radio-button" color="primary" *ngFor="let items of rangeArray" (click)="selectTimeFilter(items.value)"  [value]=items.value>
+              {{items.title}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </span>
+      </div>
+    </div>
+
+  </div>
+  <div class="footer_content">
+    <div fxLayout="row" fxLayoutAlign="space-between stretch">
+      <div fxFlex="55">
+      </div>
+      <div fxFlex="45">
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <div fxFlex="50">
+            <button class="filter_action_left" (click)="resetFilter()" mat-button>Reset</button>
+          </div>
+          <div fxFlex="50">
+            <button class="filter_action_right" (click)="applyFilter()" mat-button>Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

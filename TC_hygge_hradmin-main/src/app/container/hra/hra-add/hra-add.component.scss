@@ -1,0 +1,85 @@
+.mat-dark {
+  mat-icon.mat-icon {
+    margin-left: 35px;
+    opacity: .6;
+  }
+}
+mat-dialog-content, .revMargin {
+  margin: -24px !important;
+  padding: 0 !important;
+}
+.main-hra-form-container{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  overflow: auto;
+  .sub-hra-form-container{
+    position: relative;
+    margin: 40px auto;
+    background: #EEEEEE;
+    border-radius: 10px;
+    padding:30px 60px;
+    max-width: 60%;
+  }
+}
+
+span.option_options {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: block;
+  line-height: 95px;
+}
+.mat-icon{
+  cursor:pointer
+}
+
+
+.mat-input-element {
+  margin: 0 0 3px 0;
+}
+mat-label.center {
+  text-align: center;
+}
+
+//responsive
+@media (max-width: 414px){
+  .toolbox {
+    top: 9px;
+    right: 63px;
+  }
+
+  .toolbox {
+    top: 5px;
+    right: 4px;
+    height: 25px;
+    width: 55px;
+  }
+  .toolbox mat-icon {
+    margin: 0 0 0 15px !important;
+  }
+}
+@media (max-width:320px){
+  .mat-dark mat-icon.mat-icon {
+    margin-left: 19px;
+  }
+  .toolbox {
+    top: 5px;
+    right: 4px;
+    height: 25px;
+    width: 55px;
+  }
+  .toolbox mat-icon {
+    margin: 0 0 0 15px;
+  }
+}
+
+@media (max-width: 959px){
+  .toolbox mat-icon {
+    margin: 8px;
+  }
+  .toolbox {
+    top: 5px;
+    right: 4px;
+  }
+}

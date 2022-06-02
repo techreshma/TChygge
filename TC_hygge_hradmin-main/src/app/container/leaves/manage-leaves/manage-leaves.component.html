@@ -1,0 +1,73 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Update request</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+<form name="filterForm" (ngSubmit)="updateLeave()" #filterForm="ngForm">
+    <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields">
+          <input matInput  type="text" name="leaveName" [(ngModel)]="formData.leaveName" disabled autocomplete="off" placeholder="" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="50">
+        <mat-form-field class="form-fields">
+          <input matInput placeholder="From" [matDatepicker]="picker" format="DD/MM/YYYY"  #leaveFrom  name="leaveFrom" [(ngModel)]="formData.leaveFrom"  required autocomplete="off"  />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50">
+        <mat-form-field class="form-fields">
+          <input matInput placeholder="To" [matDatepicker]="picker1" format="DD/MM/YYYY"  #leaveTo  name="leaveTo" [(ngModel)]="formData.leaveTo"  required autocomplete="off"  />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields">
+          <mat-select [(ngModel)]="formData.isType" name="isType"  placeholder="Action">
+            <mat-option value="modify">Modify</mat-option>
+            <mat-option value="cancel">Cancel</mat-option>
+            <mat-option value="reject">Reject</mat-option>
+            <mat-option value="accept">Accept</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields">
+          <textarea matInput name="hrReason"  #hrReason="ngModel" [(ngModel)]="formData.hrReason"  autocomplete="off" placeholder="HR Reason" required></textarea>
+        </mat-form-field>
+        <div [hidden]="hrReason.valid || hrReason.untouched">
+          <span class="error" *ngIf="hrReason.errors?.required">Reasone is mandatory.</span>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields">
+          <textarea matInput name="leaveDescription"  #leaveDescription="ngModel" [(ngModel)]="formData.leaveDescription"  autocomplete="off" placeholder="Comments" required></textarea>
+        </mat-form-field>
+        <div [hidden]="leaveDescription.valid || leaveDescription.untouched">
+          <span class="error" *ngIf="leaveDescription.errors?.required">Reasone is mandatory.</span>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" class="" >
+      <div fxFlex="100">
+        <mat-label></mat-label>
+        <button mat-raised-button class="big-btn block-btn"  color="primary" [disabled]="!filterForm.valid">Update leave</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+</div>

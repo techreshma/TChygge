@@ -1,0 +1,24 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+<form name="roleForm" (ngSubmit)="editRole()" #roleForm="ngForm">
+    <div fxLayout="row" class="theme-setting-inner">
+      <div fxFlex="100">
+        <span class="card-title">Edit Role</span>
+        <mat-label></mat-label>
+        <mat-form-field class="form-fields">
+          <input matInput  type="text" #role_Type  name="role_Type" [(ngModel)]="formData.role_Type" maxlength="40" required autocomplete="off" placeholder="Role name" />
+
+        </mat-form-field>
+        <div *ngIf="role_Type.errors && role_Type.touched">
+          <span class="error" *ngIf="role_Type.errors?.required">Role name is mandatory.</span>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" class="theme-setting-inner" >
+      <div fxFlex="100">
+        <button mat-raised-button class="big-btn block-btn"  [disabled]="!roleForm.valid"  color="primary">Edit Role</button>
+      </div>
+    </div>
+  </form>
+</div>

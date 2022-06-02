@@ -1,0 +1,316 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Chat
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Chat</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="25">
+    <mat-tab-group class="chat-contact-tabs" [selectedIndex]="selectedTab" (selectedIndexChange)="selectedTab = $event">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">insert_comment</mat-icon>
+        </ng-template>
+
+        <div class="list-body">
+          <sw-item-list *ngFor="let item of list" [inside]="item" [item-class]="'list-custom'"
+            (swClick)="chatMessage(item,0)" [trashTemplate]="trashTemplate" [editTemplate]="editTemplate"
+            [customTemplate]="customTemplateSrc" (callback)="action($event)">
+          </sw-item-list>
+        </div>
+
+        <ng-template #customTemplateSrc let-item='item' let-id='id'>
+          <div style="display: flex;align-items: center;justify-content: space-between;" *ngIf="item.isUserDelete == 1">
+
+            <div style="padding-right: 10px;" [matBadge]="item.readCount" matBadgePosition="before"
+              [matBadgeHidden]="item.readCount == 0">
+              <div class="list-img">
+                <img src="{{imgPath}}{{item.profile_picture}}" *ngIf="item.profile_picture" />
+                <span [style]="'background:'+item.color" class="group-icon" *ngIf="!item.profile_picture">{{item.name |
+                  slice:0:1}}</span>
+              </div>
+            </div>
+            <div>
+              <div mat-line class="list-name">{{item.name}}</div>
+              <div mat-line class="list-message">{{item.message | slice:0:50}}</div>
+            </div>
+            <div class="del-icon">
+              <mat-icon color="warn" (click)="confirmLeave(slectedChatUser)">delete</mat-icon>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #editTemplate>
+        </ng-template>
+        <ng-template #trashTemplate>
+
+        </ng-template>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="example-tab-icon">add</mat-icon>
+        </ng-template>
+
+        <br />
+        <div *ngIf="!tabShow">
+          <mat-form-field class="search-field" appearance="standard" style="width: 80%;" *ngIf="!tabShow">
+            <mat-icon matSuffix>search</mat-icon>
+            <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+          </mat-form-field>
+          <br />
+
+          <div class="new-grp" (click)="addGroupShow = !addGroupShow" *ngIf="!addGroupShow" style="cursor: pointer;">
+            <button mat-fab color="accent" aria-label="Create Group">
+              <mat-icon>people_alt</mat-icon>
+            </button>
+            <span><b>New Group</b></span>
+          </div>
+          <span *ngIf="addGroupShow && !tabShow" class="chat-tab-title">Add Group Participants</span>
+
+          <br />
+          <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip *ngFor="let item of selectedUser" [selectable]="selectable" [removable]="removable"
+              (removed)="remove(item)">
+              <img src="{{imgPath}}{{item.profile_picture}}" *ngIf="item.profile_picture" />
+              <span [style]="'background:'+item.color" class="group-icon" *ngIf="!item.profile_picture">{{item.name |
+                slice:0:1}}</span>&nbsp;&nbsp;{{item.first_name}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+          <mat-list class="user-contact" *ngIf="!tabShow" style="padding-left: 15px;padding-right: 15px;">
+            <ng-container *ngFor="let item of listUser">
+              <mat-list-item matBadge="." matBadgePosition="before" [matBadgeHidden]="chkBadge(item)"
+                (click)="addGroupShow?selectUser(item):startChat(item)">
+                <div class="list-img"> <img src="{{imgPath}}{{item.profile_picture}}" *ngIf="item.profile_picture" />
+                  <span [style]="'background:'+item.color" class="group-icon" *ngIf="!item.profile_picture">{{item.name
+                    | slice:0:1}}</span>
+                </div>
+                <div mat-line class="list-name">{{item.name}}</div>
+                <div mat-line class="list-desc"></div>
+              </mat-list-item>
+            </ng-container>
+          </mat-list>
+          <br />
+          <button mat-raised-button class="big-btn block-btn" (click)="tabShow = !tabShow"
+            *ngIf="addGroupShow && selectedUser.length > 0 && !tabShow" color="primary"
+            style="margin-bottom: 30px;">Next</button>
+
+        </div>
+        <div *ngIf="tabShow">
+          <div class="grp-create" *ngIf="tabShow">
+            <form name="registerForm" (ngSubmit)="addGroup(1)" #registerForm="ngForm">
+              <span style="    width: 100%;
+                  display: block;
+                  text-align: center;">
+                <button mat-fab color="accent" style="justify-content: center;" aria-label="Create Group">
+                  <mat-icon>people_alt</mat-icon>
+                </button>
+              </span>
+              <span *ngIf="addGroupShow && !tabShow" class="chat-tab-title">Group Name</span>
+              <mat-form-field class="form-fields">
+                <input matInput maxlength="100" type="text" #group_Name name="group_Name"
+                  [(ngModel)]="formGroup.group_Name" placeholder="Group name" required autocomplete="off" />
+              </mat-form-field>
+              <br />
+              <span *ngIf="addGroupShow && !tabShow" class="chat-tab-title">Participant: {{selectedUser.length}}</span>
+              <div class="scroll">
+                <div class="scroll-x">
+                  <div class="selected-user" *ngFor="let item of selectedUser">
+                    <div class="list-img"> <img src="{{imgPath}}{{item.profile_picture}}"
+                        *ngIf="item.profile_picture" />
+                      <span [style]="'background:'+item.color" class="group-icon"
+                        *ngIf="!item.profile_picture">{{item.name | slice:0:1}}</span>
+                    </div>
+                    <div mat-line class="list-name">{{item.name}}</div>
+                  </div>
+                </div>
+              </div>
+              <br />
+              <br />
+              <button mat-raised-button class="big-btn block-btn" [disabled]="!registerForm.valid"
+                *ngIf="selectedUser.length > 0 && tabShow" color="primary" style="margin-bottom: 15px;">Create
+                Group</button>
+              <button mat-raised-button class="big-btn block-btn" (click)="cancelAll()" color="accent">Cancel</button>
+
+            </form>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+  </div>
+  <div fxFlex="75">
+    <mat-toolbar color="primary" *ngIf="slectedChatUser && list.length > 0 && !tabShow">
+      <div class="list-img">
+        <img src="{{imgPath}}{{slectedChatUser.profile_picture}}" *ngIf="slectedChatUser.profile_picture" />
+        <span [style]="'background:'+slectedChatUser.color+';margin-right:10px'" class="group-icon"
+          *ngIf="!slectedChatUser.profile_picture">{{slectedChatUser.name | slice:0:1}}</span>
+      </div>
+      <span class="mat-toolbar-title">
+        {{slectedChatUser.name}} <br />
+        <small *ngIf="slectedChatUser.oneTomany == 1" style="cursor: pointer;display: flex;"
+          (click)="memberShow = !memberShow">{{GroupMembers.length}} Participants <mat-icon *ngIf="memberShow">
+            keyboard_arrow_up</mat-icon>
+          <mat-icon *ngIf="!memberShow">keyboard_arrow_down</mat-icon>
+        </small>
+      </span>
+      <span class="spacer"></span>
+      <button mat-mini-fab color="primary" class="cal-button" aria-label="Call"
+        (click)="vedioGroupCall(slectedChatUser.groupDetailChat_Id)">
+        <mat-icon>local_phone</mat-icon>
+      </button>
+      <button mat-mini-fab color="primary" class="cal-button"
+        *ngIf="slectedChatUser.oneTomany == 1 && userId == slectedChatUser.groupAdmin_Id" aria-label="Remove"
+        (click)="confirmLeave(slectedChatUser)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button mat-mini-fab color="primary" class="cal-button" *ngIf="slectedChatUser.oneTomany != 1" aria-label="Remove"
+        (click)="confirmLeave(slectedChatUser)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button mat-mini-fab color="primary" class="cal-button"
+        *ngIf="slectedChatUser.oneTomany == 1 && userId != slectedChatUser.groupAdmin_Id" aria-label="Leave"
+        (click)="confirmLeave(slectedChatUser)">
+        <mat-icon>logout</mat-icon>
+      </button>
+      <button mat-mini-fab color="primary" class="cal-button" (click)="searchShow = !searchShow" aria-label="Search">
+        <mat-icon>search</mat-icon>
+      </button>
+      <button mat-mini-fab color="primary" class="cal-button"
+        (click)="shareChatHistory(slectedChatUser.groupDetailChat_Id)" aria-label="Share">
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-card class="chat-box">
+      <mat-form-field class="search-chat" appearance="standard" *ngIf="searchShow">
+        <mat-icon matSuffix>search</mat-icon>
+        <input matInput placeholder="Search" #input [(ngModel)]="chatSearch" name="chatSearch"
+          (keyup)="$event.keyCode == 13 && searchInChat($event)">
+      </mat-form-field>
+
+      <mat-card-content #scrollDi (scroll)="scrollMe($event)">
+        <div class="chat-box-inner" *ngIf="list.length > 0 && !tabShow">
+          <div *ngFor="let item of messageList;let i= index">
+            <div [ngClass]="userId == item.sender_Id?'message-out-div':'message-in-div'"
+              *ngIf="item.fileType != 2 && item.fileType != 3" id="id_{{item.messageChat_id}}">
+              <span [ngClass]="userId == item.sender_Id?'out-message':'in-message'">
+                <span *ngIf="item.fileType == 0" innerHTML="{{ item.message | highlight : chatSearch}}">
+                </span>
+                <span *ngIf="item.fileType == 1">
+                  <img *ngIf="chkFileType(item.message) == ('png' || 'jpg' || 'jpeg' || 'gif')"
+                    src="{{item.message}}" class="msg-img" />
+
+                  <a href="{{item.message}}" target="_blank" download="MSG" class="csvHolder"
+                    *ngIf="chkFileType(item.message) == ('xlsx' || 'csv')">
+                    <mat-icon color="blue">sim_card_download</mat-icon>
+                    <span>{{item.message}}</span>
+                  </a>
+                  <a href="{{item.message}}" target="_blank" download="MSG" class="csvHolder"
+                    *ngIf="chkFileType(item.message) == ('pdf')">
+                    <mat-icon color="warn">sim_card_download</mat-icon>
+                    <span>{{item.message}}</span>
+                  </a>
+                  <a href="{{item.message}}" target="_blank" download="MSG" class="csvHolder"
+                    *ngIf="(chkFileType(item.message) != 'pdf') && (chkFileType(item.message) !='xlsx') && (chkFileType(item.message) !='csv')">
+                    <mat-icon color="accent">sim_card_download</mat-icon>
+                    <span>{{item.message}}</span>
+                  </a>
+                </span>
+                <span class="user-name" *ngIf="slectedChatUser.oneTomany == 1">{{item.name}}</span>
+                <span class="out-time" [ngClass]="userId == item.sender_Id?'out-time':'in-time'">
+                  {{item.messageTime}}
+                </span>
+              </span>
+            </div>
+            <div class="message-info-div" *ngIf="item.fileType == 2">
+              <span>{{item.message}}</span>
+            </div>
+
+            <div class="message-call-div" *ngIf="item.fileType == 3">
+              <a (click)="goToCall(item.message)" style="cursor: pointer;" class="csvHolder"
+                *ngIf="finalIndexOfCall === i">
+                <mat-icon color="blue">local_phone</mat-icon>
+                <span>Join Call</span>
+              </a>
+              <span *ngIf="finalIndexOfCall !== i">Call Ended</span>
+            </div>
+          </div>
+        </div>
+        <div class="chat-box-inner" *ngIf="list.length == 0 || tabShow">
+          <div class="chat-idol-screen">
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="user-info">
+              <div fxFlex="40">
+                <img src="../../../assets/img/Ellipse_1_b.png" *ngIf="!userData.profile_picture" />
+                <img src="{{imgPath}}{{userData.profile_picture}}" *ngIf="userData && userData.profile_picture" />
+              </div>
+              <div fxFlex="60">
+                <div fxLayout="column" fxLaoyutAlign="space-around center">
+                  <h5 class="usere-desig">Welcome!</h5>
+                  <h4 class="user-name">{{userData && userData.first_name}} {{userData && userData.last_name}} </h4>
+
+                </div>
+              </div>
+            </div>
+            <span class="chat-idol-email">
+              You are Signed in as <i>{{userData && userData.email}}</i>
+            </span>
+          </div>
+        </div>
+        <!-- (click)="memberShow = !memberShow" -->
+        <div class="group-user-overlay" *ngIf="memberShow">
+          <div class="user-list">
+            <mat-list class="user-contact" style="padding-left: 15px;padding-right: 15px;">
+              <ng-container *ngFor="let item of GroupMembers">
+                <mat-list-item>
+                  <div class="list-img"><img src="{{imgPath}}{{item.profile_picture}}" /></div>
+                  <div mat-line class="list-name">{{item.name}}</div>
+                  <div mat-line class="list-name " *ngIf="item.user_Id == slectedChatUser.groupAdmin_Id"><b
+                      class="primary-txt">Group Admin</b></div>
+                </mat-list-item>
+              </ng-container>
+              <br />
+              <button mat-raised-button class="big-btn block-btn" color="primary"
+                (click)="addMoreUser = !addMoreUser">Add more</button>
+            </mat-list>
+          </div>
+          <mat-list class="user-contact" *ngIf="addMoreUser" style="padding-left: 15px;padding-right: 15px;">
+            <ng-container *ngFor="let item of listUser">
+              <mat-list-item *ngIf="getSelUser(item)" matBadge="." matBadgePosition="before"
+                [matBadgeHidden]="chkBadge(item)" (click)="selectUser(item)">
+                <div class="list-img"><img src="{{imgPath}}{{item.profile_picture}}" /></div>
+                <div mat-line class="list-name">{{item.name}}</div>
+                <div mat-line class="list-desc"></div>
+              </mat-list-item>
+            </ng-container>
+            <br />
+            <button mat-raised-button class="big-btn block-btn" color="primary" *ngIf="selectedUser.length > 0"
+              (click)="UpdateGroup()">Update Group</button>
+
+          </mat-list>
+        </div>
+      </mat-card-content>
+
+      <mat-card-footer class="chat-footer" *ngIf="list.length > 0 && !tabShow">
+        <!-- <emoji-mart (emojiClick)="addEmoji($event)" *ngIf="showEmo"
+            [style]="{ position: 'absolute', bottom: '30px', left: '60px' }"
+          ></emoji-mart> -->
+        <mat-form-field class="chat-message" appearance="standard">
+          <mat-icon matPreffix (click)="showEmo = !showEmo" [(emojiPickerIf)]="showEmo" [emojiPickerDirection]="'top'"
+            (emojiPickerSelect)="addEmoji($event)" style="cursor: pointer;">sentiment_very_satisfied</mat-icon>
+          <input (click)="showEmo = false" matInput placeholder="Write message...." [(ngModel)]="newMessage"
+            (keyup)="newMessage != '' && $event.keyCode == 13 && sendMessage()">
+        </mat-form-field>
+
+        <app-speed-dial-fab class="speed-dial-container" [ngClass]="speedDialFabPosition"
+          (fabClick)="onSpeedDialFabClicked($event)" [buttons]="speedDialFabButtons"></app-speed-dial-fab>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

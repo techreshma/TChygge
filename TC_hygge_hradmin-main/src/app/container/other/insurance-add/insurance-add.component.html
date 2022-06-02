@@ -1,0 +1,144 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title add">Add Insurance</span></div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+    <form name="registerForm" (ngSubmit)="addInsurance()"
+      #registerForm="ngForm">
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <input matInput placeholder="Company Name" type="text"
+              #Insurance_Name maxlength="50" name="Insurance_Name"
+              [(ngModel)]="formData.Insurance_Name" required autocomplete="off"
+              />
+          </mat-form-field>
+          <div *ngIf="Insurance_Name.errors && Insurance_Name.touched">
+            <span class="error" *ngIf="Insurance_Name.errors?.required">Insurance
+              Name is mandatory.</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <input matInput placeholder="Expiry Date"
+              [matDatepicker]="pickerStart" [min]="currentDate" #expiryDate
+              name="expiryDate" [(ngModel)]="formData.expiryDate" required
+              autocomplete="off" />
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart></mat-datepicker>
+          </mat-form-field>
+          <div *ngIf="expiryDate.errors && expiryDate.touched">
+            <span class="error" *ngIf="expiryDate.errors?.required">Expiry Date
+              is mandatory.</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <input matInput placeholder="Plan Name" type="text" #Insurance_Plan
+              maxlength="50" name="Insurance_Plan"
+              [(ngModel)]="formData.Insurance_Plan" required autocomplete="off"
+              />
+          </mat-form-field>
+          <div *ngIf="Insurance_Plan.errors && Insurance_Plan.touched">
+            <span class="error" *ngIf="Insurance_Plan.errors?.required">Insurance
+              Plan Name is mandatory.</span>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.benefitType" name="benefitType"
+              placeholder="Table of Benefit Type" #role required>
+              <mat-option value="0">Link</mat-option>
+              <mat-option value="1">Document</mat-option>
+            </mat-select></mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100" *ngIf="formData.benefitType == '0'">
+          <mat-form-field class="form-fields">
+            <input matInput type="url" placeholder="Table of Benefit Link"
+              name="Insurance_Benefit" [(ngModel)]="formData.Insurance_Benefit"
+              autocomplete="off" required />
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" *ngIf="formData.benefitType == '1'">
+          <mat-label>Table of Benefit Document</mat-label>
+          <div class="dropzone">
+            <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,application/xlsx,application/pdf,application/docx">
+              <ngx-dropzone-label><mat-icon>note_add</mat-icon><br />
+                Upload Your Document<br />
+                <small>drag & drop to upload the document</small>
+              </ngx-dropzone-label>
+              <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                (removed)="onRemove(f)">
+                <ngx-dropzone-label>{{ f.name }} </ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <mat-select [(ngModel)]="formData.networkType" placeholder="Network
+              Type" name="networkType" #role required>
+              <mat-option value="0">Link</mat-option>
+              <mat-option value="1">Document</mat-option>
+            </mat-select></mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100" *ngIf="formData.networkType == '0'">
+          <mat-form-field class="form-fields">
+            <input matInput placeholder="Network Link" type="url" name="Network"
+              [(ngModel)]="formData.Network" autocomplete="off" required />
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" *ngIf="formData.networkType == '1'">
+          <mat-label>Network Document</mat-label>
+          <div class="dropzone">
+            <!-- keval xlsx , pdf, docx, png, jpeg, jpg -->
+            <ngx-dropzone (change)="onSelect1($event)" accept="image/jpeg,image/jpg,image/png,application/xlsx,application/pdf,application/docx">
+              <ngx-dropzone-label><mat-icon>note_add</mat-icon><br />
+                Upload Your Document<br />
+                <small>drag & drop to upload the document</small>
+              </ngx-dropzone-label>
+              <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true"
+                (removed)="onRemove1(f)">
+                <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <textarea matInput name="description"
+              [(ngModel)]="formData.description" placeholder="Description"
+              autocomplete="off" required></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div fxLayout="row" class="">
+        <div fxFlex="100">
+          <mat-label></mat-label>
+          <button mat-raised-button class="big-btn block-btn"
+            [disabled]="!registerForm.valid" color="primary">Add Insurance</button>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

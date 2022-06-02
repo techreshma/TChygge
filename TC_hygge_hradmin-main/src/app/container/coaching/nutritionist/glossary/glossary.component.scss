@@ -1,0 +1,39 @@
+img {
+  width: 100%;
+}
+.text_bold {
+  font-weight: 600;
+}
+
+.blue-txt{
+  background-color: #ebebeb;
+}
+
+.title_left {
+  justify-content: start;
+  position: relative;
+  display: flex;
+  height: 5.2em;
+}
+
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.hand_pointer {
+  cursor: pointer;
+}

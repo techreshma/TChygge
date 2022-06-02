@@ -1,0 +1,35 @@
+.theme-setting-inner{
+  margin-bottom:40px !important;
+}
+
+th{
+  text-align: left;
+  padding-left:10px;
+}
+td{
+  padding-left:10px;
+  word-break: break-all;
+  button {
+    margin-left: 20px !important;
+    margin-right: 0 !important;
+}
+
+}
+.mat-toolbar-title{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-000000);
+text-align: left;
+font: normal normal 600 18px/27px Poppins;
+letter-spacing: 0px;
+color: #000000;
+text-transform: capitalize;
+opacity: 1;
+}
+.working{
+  width:100%;
+}
+.mat-slide-toggle {
+  margin-right: 50px;
+}
+
