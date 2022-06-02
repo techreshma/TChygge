@@ -1,0 +1,53 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex="40">
+    <h3 class="logo">
+      <span *ngIf="!userData && !userData.company_favicon">
+        Company <br /><span>Logo</span>
+      </span>
+      <img src="{{imgPath}}{{userData.company_favicon}}" *ngIf="userData && userData.company_favicon"
+        [alt]="userData && userData.company_favicon" />
+    </h3>
+  </div>
+</div>
+<div fxLayout="row" class="user-info" fxLayoutAlign="space-around center">
+  <div fxFlex="40">
+    <div fxLayout="column" fxLaoyutAlign="space-around center">
+      <img src="./assets/img/Ellipse_1_b.png" *ngIf="!userData.profile_picture" />
+      <img src="{{userData.profile_picture}}" *ngIf="userData && userData.profile_picture" />
+      <h4 class="user-name">{{userData && userData.first_name}} {{userData && userData.last_name}} </h4>
+      <h6 class="usere-desig">{{userData && userData.roleName}}</h6>
+    </div>
+  </div>
+</div>
+<div fxLayout="row" class="side-nav" fxLayoutAlign="space-around center">
+  <div fxFlex="100">
+    <ng-container *ngFor="let p of pages">
+      <mat-list *ngIf="p.title !== 'divider' && p.access">
+       
+        <mat-list-item [routerLink]="p.url" routerLinkActive="active" *ngIf="p.children.length === 0">
+          <mat-icon mat-list-icon>{{p.icon}}</mat-icon>
+          <div mat-line>{{p.title}}</div>
+        </mat-list-item>
+        <mat-list-item (click)="p.open = !p.open" *ngIf="p.children.length !== 0" [ngClass]="p.open?'active-block':''">
+          <mat-icon mat-list-icon>{{p.icon}}</mat-icon>
+          <div mat-line>{{p.title}}</div>
+          <ng-container class="child-menu" *ngIf="p.children.length > 0">
+            <mat-icon mat-list-icon *ngIf="!p.open">keyboard_arrow_right</mat-icon>
+            <mat-icon mat-list-icon *ngIf="p.open">keyboard_arrow_down</mat-icon>
+          </ng-container>
+        </mat-list-item>
+        <ng-container *ngIf="p.open">
+          <ng-container *ngFor="let c of p.children">
+            <mat-list *ngIf="c.access" [ngClass]="p.open?'active-block':''">
+              <mat-list-item [routerLink]="c.url">
+                <mat-icon mat-list-icon>{{c.icon}}</mat-icon>
+                {{c.title}}
+              </mat-list-item>
+            </mat-list>
+          </ng-container>
+        </ng-container>
+      </mat-list>
+      <mat-divider *ngIf="p.title === 'divider'"></mat-divider>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      User Roles
+    </h3>
+    <ul class="breadcrumb">
+      <li> <a routerLink="/dashboard">Dashboard </a></li>
+      <li> <a> Roles & Access </a> </li>
+      <li>Access</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" class="mid-graph top">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card>
+      <div fxLayout="row" class="headForm">
+        <div fxFlex="80">
+          <mat-form-field class="selectField">
+            <mat-select [(ngModel)]="formData.role" name="role" (ngModelChange)="getAccessModulebyRole()">
+              <mat-option *ngFor="let role of roleData" [value]="role.superadminRole_id">{{role.role_Type}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="20" dir="rtl">
+          <button mat-raised-button color="primary" class="btn_style" aria-label="Save" (click)="save()">
+            Save
+          </button>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="100">
+          <mat-toolbar color="light" class="tolbr">
+            <span class="mat-toolbar-title"> <b> Access </b> </span>
+            <span class="spacer"></span>
+            <mat-form-field class="search-field inp" appearance="standard">
+              <mat-icon matSuffix>search</mat-icon>
+              <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+            </mat-form-field>
+          </mat-toolbar>
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="50%">Modules</th>
+                <th>Permissions</th>
+                <th width="100px">Read</th>
+                <th width="100px">Write</th>
+                <th width="100px">Both</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="6">
+                  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+                    <!-- This is the tree node template for leaf nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node;let i = index;" matTreeNodeToggle>
+                      <li class="mat-tree-node">
+                        <!-- use a disabled button to provide padding for tree leaf -->
+                        <button mat-icon-button disabled></button>
+                        <span class="node-text">{{node.name}}</span>
+                        <div class="permission-sec">
+                          <span class="node-perm">
+                            <mat-checkbox class="example-margin" [(ngModel)]="node.read" name="read"
+                              (ngModelChange)="updateCheck('read',node,$event)"></mat-checkbox>
+                          </span>
+                          <span class="node-perm">
+                            <mat-checkbox class="example-margin" [(ngModel)]="node.write" name="write"
+                              (ngModelChange)="updateCheck('write',node,$event)"></mat-checkbox>
+                          </span>
+                          <span class="node-perm">
+                            <mat-checkbox class="example-margin" [(ngModel)]="node.both" name="both"
+                              (ngModelChange)="updateCheck('both',node,$event)"></mat-checkbox>
+                          </span>
+                        </div>
+                      </li>
+                    </mat-tree-node>
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-nested-tree-node *matTreeNodeDef="let node; let i = index; when: hasChild">
+                      <li>
+                        <div class="mat-tree-node">
+                          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                              {{treeControl.isExpanded(node) ? 'remove' : 'add'}}
+                            </mat-icon>
+                          </button>
+                          <span class="node-text">{{node.name}}</span>
+                          <div class="permission-sec">
+                            <span class="node-perm">
+                              <mat-checkbox class="example-margin" [(ngModel)]="node.read" name="read"
+                                (ngModelChange)="updateCheck('read',node,$event)"></mat-checkbox>
+                            </span>
+                            <span class="node-perm">
+                              <mat-checkbox class="example-margin" [(ngModel)]="node.write" name="write"
+                                (ngModelChange)="updateCheck('write',node,$event)"></mat-checkbox>
+                            </span>
+                            <span class="node-perm">
+                              <mat-checkbox class="example-margin" [(ngModel)]="node.both" name="both"
+                                (ngModelChange)="updateCheck('both',node,$event)"></mat-checkbox>
+                            </span>
+                          </div>
+                        </div>
+                        <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                          <ng-container matTreeNodeOutlet></ng-container>
+                        </ul>
+                      </li>
+                    </mat-nested-tree-node>
+                  </mat-tree>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+span.icici {
+  padding: 0 0 0 35px;
+  color: blue;
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+  letter-spacing: var(--unnamed-character-spacing-0);
+}
+
+.userCard {
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+  &.active{
+    background: #FFE1CE;
+  }
+  img {
+    width: 75px;
+    height: 75px;
+  }
+  .user-name {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-3d3d3d);
+    text-align: center;
+    font: normal normal 600 18px/27px Poppins;
+    letter-spacing: 0px;
+    color: #3D3D3D;
+    text-transform: capitalize;
+    opacity: 1;
+    margin: 20px auto 10px;
+  }
+  .usere-desig{
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-15)/var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-000000);
+    text-align: center;
+    font: normal normal normal 15px/23px Poppins;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 0.5;
+  }
+}
+.answer {
+  display: flex;
+  flex: 1;
+  span{
+    margin-right: 30px;
+    margin-left: 5px;
+  }
+}
+.thumb{
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 75px;
+}

@@ -1,0 +1,101 @@
+mat-list-item {
+  background: #fff;
+  margin-bottom: 5px;
+  border-radius: 10px;
+}
+mat-toolbar {
+  height: 110px;
+  border-radius: 10px 10px 0px 0px;
+  .mat-toolbar-title{
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-ffffff);
+  text-align: left;
+  font: normal normal 600 18px/27px Poppins;
+  letter-spacing: 0px;
+  color: #ffffff;
+  text-transform: capitalize;
+  opacity: 1;
+    small{
+      text-align: left;
+      font-size: 12px;
+      letter-spacing: 0px;
+      color: #FFFFFF;
+      text-transform: capitalize;
+      opacity: 0.54;
+    }
+  }
+  img{
+    margin-right: 20px;
+  }
+
+}
+.chat-box{
+  .mat-card-content {
+    height: 400px;
+    overflow: auto;
+    .message-in-div{
+      display: flex;
+      flex-wrap: wrap;
+      .in-message{
+        background: #FFE1CE;
+        border-radius: 0 15px 15px 0;
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 14px/21px var(--unnamed-font-family-poppins);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        color: var(--unnamed-color-000000);
+        text-align: left;
+        font: normal normal normal 14px/21px Poppins;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.84;
+        display: flex;
+        max-width: 300px;
+        margin-bottom: 1px;
+        padding: 10px 20px;
+      }
+      .in-time{
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 10px/15px var(--unnamed-font-family-poppins);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        color: var(--unnamed-color-000000);
+        text-align: left;
+        font: normal normal normal 10px/15px Poppins;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.44;
+      }
+    }
+    .message-out-div{
+
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row-reverse;
+      .out-message{
+        background: #DDCEFF;
+        border-radius: 15px 0 0 15px;
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 14px/21px var(--unnamed-font-family-poppins);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        color: var(--unnamed-color-000000);
+        text-align: left;
+        font: normal normal normal 14px/21px Poppins;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.84;
+        display: flex;
+        max-width: 300px;
+        margin-bottom: 1px;
+        padding: 10px 20px;
+      }
+      .out-time{
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) 10px/15px var(--unnamed-font-family-poppins);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        color: var(--unnamed-color-000000);
+        text-align: left;
+        font: normal normal normal 10px/15px Poppins;
+        letter-spacing: 0px;
+        color: #000000;
+        opacity: 0.44;
+      }
+    }
+
+  }
+}

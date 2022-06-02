@@ -1,0 +1,75 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title">Edit Sub Admin</span>
+    </div>
+  </div>
+  <mat-dialog-content class="mat-typography">
+<form name="registerForm" (ngSubmit)="editSubAdmin()" #registerForm="ngForm">
+
+    <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="50">
+        <mat-form-field class="form-fields">
+          <input matInput placeholder="First Name" type="text" #first_name  name="first_name" [(ngModel)]="formData.first_name" maxlength="40" required autocomplete="off"  />
+        </mat-form-field>
+        <div *ngIf="first_name.errors && first_name.touched">
+          <span class="error" *ngIf="first_name.errors?.required">First name is mandatory.</span>
+        </div>
+      </div>
+      <div fxFlex="50">
+        <mat-form-field class="form-fields">
+          <input matInput placeholder="Last Name" type="text" #last_name  name="last_name" [(ngModel)]="formData.last_name" maxlength="40" required autocomplete="off"  />
+        </mat-form-field>
+        <div *ngIf="last_name.errors && last_name.touched">
+          <span class="error" *ngIf="last_name.errors?.required">Last name is mandatory.</span>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields">
+          <input matInput placeholder="Email" type="email" #email  name="email" [(ngModel)]="formData.email" maxlength="40" required autocomplete="off" disabled  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+
+        </mat-form-field>
+        <div [hidden]="email.valid || email.untouched">
+          <span class="error" *ngIf="email.errors?.required">Email is mandatory.</span>
+          <span class="error"  *ngIf="email.errors?.pattern">Email is invalid</span>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="100">
+        <mat-form-field class="form-fields">
+          <mat-select [(ngModel)]="formData.role" name="role" #role required placeholder="Role">
+            <mat-option *ngFor="let roled of roleData" [value]="roled.superadminRole_id">{{roled.role_Type}}</mat-option>
+          </mat-select></mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+      <div fxFlex="100">
+        <mat-label>Profile</mat-label>
+        <div class="dropzone">
+          <img src="{{imgShow}}" *ngIf="imgShow != ''" style="max-width: 150px; max-height: 150px;" />
+          <ngx-dropzone (change)="onSelect($event)">
+            <ngx-dropzone-label><mat-icon>note_add</mat-icon><br />
+              Upload Image<br />
+              <small>drag & drop to upload the image</small>
+            </ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)" style="background-image: url({{imgShow}});">
+                <ngx-dropzone-label >{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" class="" >
+      <div fxFlex="100">
+        <mat-label></mat-label>
+        <button mat-raised-button class="big-btn block-btn"  [disabled]="!registerForm.valid"  color="primary">Update Sub Admin</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+</div>

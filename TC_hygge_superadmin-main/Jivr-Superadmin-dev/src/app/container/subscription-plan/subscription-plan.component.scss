@@ -1,0 +1,202 @@
+.back_white{
+    background-color: #fff;
+    // width: 1066px;
+    width: 96%;
+    // height: 1091px;
+    height: 77px;
+    top: 176px;
+    left: 30px;
+    position: absolute;
+  }
+.back_white1{
+    background-color: #fff;
+    // width: 1066px;
+    width: 96%;
+    // height: 1091px;
+    height: 1664px;
+    top: 257px;
+    left: 30px;
+    position: absolute;
+  }
+
+  h3.ji {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 31px;
+      color: #4fd323;
+  }
+  h3.sw {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 31px;
+      color: blue;
+  }
+  h3.jiv {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 31px;
+      color: red;
+  }
+  .mat-toolbar {
+    background: #fff;
+    height: 74px;
+  }
+  span.mat-toolbar-title.off {
+    padding: 0 0 0 70px;
+  }
+  span.mat-toolbar-title.subs {
+    padding: 0 0 0 70px;
+  }
+  span.mat-toolbar-title.docum {
+    padding: 0 0 0 70px;
+  }
+  b.of {
+    font: normal normal 600 18px/27px Poppins;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: capitalize;
+    opacity: 0.24;
+  }
+
+  b.su {
+    font: normal normal 600 18px/27px Poppins;
+    letter-spacing: 0px;
+    color: #3F51B5;
+    text-transform: capitalize;
+    opacity: 1;
+  }
+  h3.rr {
+    margin: 32px 0 0 16px;
+    text-align: left;
+    font: normal normal 600 24px/35px Poppins;
+    letter-spacing: 0px;
+    color: #3D3D3D;
+    text-transform: capitalize;
+    opacity: 1;
+  }
+  .box1 {
+    margin: 12px 0 0 14px;
+    width: 100px;
+    height: 1050px;// 1135px; //622px;
+    border: 1px solid silver;
+    box-shadow: 1px 0 7px 0px silver;
+    border-radius: 19px 19px 19px 19px;
+  }
+  .box2 {
+    margin: 12px 0 0 14px;
+    width: 100px;
+    height: 1050px;//622px;
+    border: 1px solid silver;
+    box-shadow: 1px 0 7px 0px silver;
+    border-radius: 19px 19px 19px 19px;
+  }
+  .box3 {
+    margin: 12px 0 0 14px;
+    width: 100px;
+    height: 1050px; //622px;
+    border: 1px solid silver;
+    box-shadow: 1px 0 7px 0px silver;
+    border-radius: 19px 19px 19px 19px;
+  }
+  .box4 {
+    margin: 12px 14px 0 14px;
+    width: 100px;
+    height: 1050px; // 622px;
+    border: 1px solid silver;
+    box-shadow: 1px 0 7px 0px silver;
+    border-radius: 19px 19px 19px 19px;
+  }
+  .round {
+    border: 1px solid #f5f6fa;
+    height: 230px;
+    width: 99%;
+    background: #f5f6fa;
+    border-bottom-left-radius: 201px;
+    border-bottom-right-radius: 201px;
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
+    margin: 0 auto;
+  }
+  p {
+    text-align: center;
+  }
+  .para {
+    margin-top: 26px;
+  }
+  .data_show{
+    font-size: 19px;
+  }
+  button.but {
+    border-bottom-left-radius: 37px;
+    border-bottom-right-radius: 37px;
+    border-top-right-radius: 37px;
+    border-top-left-radius: 37px;
+    padding: 4px 21px 4px 21px;
+    font-size: 17px;
+    // margin-top: 8%;
+    margin-top: 3%;
+    margin-left: 70px;
+}
+button.gr {
+  border-bottom-left-radius: 37px;
+  border-bottom-right-radius: 37px;
+  border-top-right-radius: 37px;
+  border-top-left-radius: 37px;
+  padding: 4px 21px 4px 21px;
+  font-size: 17px;
+  background: green;
+  color: #fff;
+  // margin-top: 8%;
+  margin-top: 3%;
+  margin-left: 70px;
+}
+span.col1 {
+  color: rgb(5, 5, 5);
+  font-size: 14px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: block;
+}
+span.col2 {
+  color: rgb(202, 193, 193);
+  font-size: 14px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: block;
+}
+.doll {
+  text-align: center;
+    padding: 40px 0 50px;
+  mat-icon {
+    color: #858c9a;
+    width: 60px;
+    height: 60px;
+    font-size: 44px
+  }
+}
+h2.ten {
+  font-size: 42px;
+  color: orange;
+}
+h2.twn {
+  font-size: 42px;
+  color: #4fd323;
+}
+h2.thr {
+  font-size: 42px;
+  color: blue;
+}
+h2.for {
+  font-size: 42px;
+  color: red;
+}
+// .para1 {
+//   margin-top: 112px;
+// }
+.mn {
+  margin-top: 20px;
+}
+.para1 {
+  margin-top: 9px;
+}
+span.th {
+  color: silver;
+}

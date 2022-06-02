@@ -1,0 +1,180 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Challanges
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Challanges</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="65">
+    <mat-card class="dashboard-count">
+      <mat-card-header>
+        <mat-card-title class="gray_color">Participants</mat-card-title>
+      </mat-card-header>
+      <div fxLayout="row">
+        <div fxFlex="50">
+          <app-doughnut *ngIf="graphData" [data]="graphData"></app-doughnut>
+          <span class="card-subtitle" style="display: block;
+          margin-top: 10px;">Gender</span>
+        </div>
+        <div fxFlex="50">
+          <app-doughnut *ngIf="departmentGraph" [data]="departmentGraph"></app-doughnut>
+          <span class="card-subtitle" style="display: block;
+          margin-top: 10px;">Company</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="35">
+    <div fxLayout="column" fxLayoutAlign="space-between stretch" style="height:100%">
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch" fxflexfill fxLayoutGap="10px grid">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                <span class="card-subtitle">Number of Active Challenges</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title">{{activeChallanges}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+      <br />
+      <div fxFlex="50">
+        <div fxLayout="row" style="height: 100%;" fxLayoutAlign="stretch" fxflexfill fxLayoutGap="10px grid">
+          <mat-card fxFlex class="dashboard-count">
+            <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center">
+              <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: left;">
+                <span class="card-subtitle">Number of Participants in all Challenges</span>
+              </div>
+              <div fxFlex="40" style="text-align: center;">
+                <span class="card-title">{{totalParticipant}}</span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail">
+      <mat-card-header>
+        <mat-card-title class="gray_color">Participants per Challenge</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <app-heat-map *ngIf="heatGraph" [data]="heatGraph"></app-heat-map>
+        <p *ngIf="!heatGraph">No data found.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br />
+
+<div class="scroller">
+  <div class="scroll-x">
+
+    <div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <mat-card class="dashboard-detail">
+          <mat-card-content>
+            <div class="header11">
+              <mat-toolbar color="grey">
+                <span class="mat-toolbar-title fnt">Challenge list</span>&nbsp;&nbsp;
+
+                <span class="spacer"></span>
+                <mat-form-field class="search-field" appearance="standard">
+                  <mat-icon matSuffix style="font-weight: 900;">search</mat-icon>
+                  <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+                </mat-form-field>
+
+                <!-- <button mat-mini-fab color="primary" class="cal-button" routerLink="/Challenge-create"  aria-label="Add new"  >
+            <mat-icon>add</mat-icon>
+          </button> -->
+              </mat-toolbar>
+            </div>
+            <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+              <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="challenge_image">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading textbold"> </th>
+                <td mat-cell *matCellDef="let element" (click)="openDetailModal(element)">
+                  <!-- <img [src]="element.challenge_Image"/> -->
+                  <img src="{{imgPath}}{{element.challenge_image}}" *ngIf="element.challenge_image" />
+                  <img src="./assets/img/Ellipse_1.png" *ngIf="!element.challenge_image" />
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="challenege_Name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading textbold"> Challenge Name </th>
+                <td mat-cell *matCellDef="let element" class="data" (click)="openDetailModal(element)">
+                  {{element.challenege_Name}} </td>
+              </ng-container>
+
+              <!-- Email Column -->
+              <ng-container matColumnDef="point">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="textbold"> Points Value </th>
+                <td mat-cell *matCellDef="let element" class="data" (click)="openDetailModal(element)">
+                  {{element.point}}</td>
+              </ng-container>
+
+              <!-- Designation Column -->
+              <ng-container matColumnDef="acceptedBy">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="textbold"> Accepted by </th>
+                <td mat-cell *matCellDef="let element" class="data" (click)="openDetailModal(element)">
+                  <span
+                    *ngIf="element.acceptedByTotalUser">{{element.acceptedByAcceptUser}}/{{element.acceptedByTotalUser}}
+                    Employees</span>
+                  <span *ngIf="!element.acceptedByTotalUser"> - </span>
+                </td>
+              </ng-container>
+
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="expiry">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="textbold"> Expiry Date </th>
+                <td mat-cell *matCellDef="let element" class="data" (click)="openDetailModal(element)">
+                  <span *ngIf="element.expiry == '-'">{{element.expiry}}</span>
+                  <span *ngIf="element.expiry != '-'">{{element.expiry | date: 'dd/MM/yyyy'}}</span>
+                </td>
+              </ng-container>
+
+
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="heading textbold"> Action Required </th>
+                <td mat-cell *matCellDef="let element" class="data">
+                  <mat-slide-toggle class="example-margin portal" color="primary" (change)="goToUpdate($event,element)"
+                    [checked]="element.actin_Required ==0?false:true">
+                  </mat-slide-toggle>&nbsp;&nbsp;&nbsp;
+                  <!-- <button mat-mini-fab  class="cal-button" #tooltip="matTooltip" [routerLink]="[element.expiry == 'expired'?'/Challenge-view/'+element.challenges_id:'/Challenge-view/'+element.challenges_id]"
+              matTooltip="Edit"   color="light"><mat-icon color="green">edit</mat-icon></button> -->
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <!-- Row shown when there is no matching data. -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter "put.va"</td>
+              </tr>
+            </table>
+            <!-- <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator> -->
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

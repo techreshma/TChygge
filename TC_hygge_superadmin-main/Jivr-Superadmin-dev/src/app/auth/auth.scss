@@ -1,0 +1,140 @@
+
+.back-bg{
+  background: var(--unnamed-color-ff4081) 0% 0% no-repeat padding-box;
+  background: #FF4081 0% 0% no-repeat padding-box;
+  opacity: 1;
+  height:100vh;
+  width:100%;
+  overflow-x:hidden;
+  .front-bg{
+    top: -163.732421875px;
+    left: -93.44886779785156px;
+    width: 100%;
+    height: 100vh;
+    transform: matrix(0.97, 0.26, -0.26, 0.97, 0, 0);
+    background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+  }
+
+  .login-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 100%;
+    overflow: auto;
+    .container{
+      width:100%;
+      margin: 0 auto;
+      max-width:1180px;
+      padding:50px 20px;
+      .logo{
+        font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/14px var(--unnamed-font-family-poppins);
+        letter-spacing: var(--unnamed-character-spacing-0);
+        color: var(--unnamed-color-000000);
+        text-align: left;
+        font: normal normal 600 18px/14px Poppins;
+        letter-spacing: 0px;
+        color: #000000;
+        text-transform: capitalize;
+        margin-top: 25px;
+        span{
+          color:#FFAA00;
+          display: block;
+          margin-left: 47px;
+        }
+      }
+      .login-heading{
+          padding: 70px 0;
+
+        h1{
+          font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) var(--unnamed-font-size-44)/var(--unnamed-line-spacing-56) var(--unnamed-font-family-poppins);
+          letter-spacing: var(--unnamed-character-spacing-0);
+          color: var(--unnamed-color-000000);
+          text-align: left;
+          font: normal normal 600 44px/56px Poppins;
+          color: #000000 !important;
+          text-transform: capitalize;
+          opacity: 1;
+        }
+        p{
+          font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-15)/var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+          letter-spacing: var(--unnamed-character-spacing-0);
+          color: var(--unnamed-color-3d3d3d);
+          text-align: left;
+          font: normal normal normal 15px/23px Poppins;
+          letter-spacing: 0px;
+          color: #3D3D3D;
+          text-transform: capitalize;
+          opacity: 1;
+        }
+      }
+      .quick-links{
+        ul {
+          list-style: none;
+          padding: 0;
+          li {
+            display: inline-block;
+            padding-right: 15px;
+            &:first-child:after{
+              content:"/";
+              margin-left: 15px;
+            }
+            &:nth-child(2):after{
+              content:"/";
+              margin-left: 15px;
+            }
+            a{
+              font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-15)/var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+              letter-spacing: var(--unnamed-character-spacing-0);
+              color: var(--unnamed-color-000000);
+              text-align: left;
+              font: normal normal normal 15px/23px Poppins;
+              letter-spacing: 0px;
+              color: #000000;
+              text-transform: capitalize;
+              opacity: 1;
+              text-decoration: none;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+mat-card{
+  padding:75px 50px;
+  max-width:500px;
+  mat-card-header{
+    justify-content: center;
+    mat-card-title{
+      font: normal normal 600 30px/45px Poppins;
+      letter-spacing: 0px;
+      color: #000000;
+      text-transform: capitalize;
+      opacity: 1;
+      margin-bottom:0px;
+    }
+  }
+  .login-form-links{
+    margin:30px auto 0 !important;
+    .forgot-link{
+      text-align: right;
+    }
+  }
+  .login-button {
+    height: 50px;
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-15)/var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-ffffff);
+    font: normal normal normal 15px/23px Poppins;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+}

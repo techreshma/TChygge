@@ -1,0 +1,404 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+    <div fxFlex>
+      <h3 class="page-title">
+        Company Profile
+      </h3>
+      <ul class="breadcrumb">
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li> <a> Company Profile</a></li>
+        <li>Profile</li>
+      </ul>
+    </div>
+</div>
+
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+    <div fxFlex="100">
+      <mat-card class="employee-tab">
+        <mat-card-content>
+          <mat-tab-group mat-align-tabs="start">
+
+            <div fxLayout="column">
+            <mat-tab label="Company Profile">
+              <form name="profileForm"  #profileForm="ngForm" (ngSubmit)="editCompany()">
+                <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner"  fxflexfill fxLayoutGap="10px grid">
+                  <div fxFlex="50">
+                    <span class="card-title">Basic Information</span>
+                    <p>Lorem ipsum is a placeholder text commonly used.</p>
+                  </div>
+                  <div fxFlex="50">
+                    <mat-form-field class="form-fields">
+                      <input matInput maxlength="50" placeholder="Company Name" type="text" #company_Name="ngModel"  [(ngModel)]="themeData.company_Name"  name="company_Name" required autocomplete="off" />
+
+                    </mat-form-field>
+                    <div [hidden]="company_Name.valid || company_Name.untouched">
+                      <span class="error" *ngIf="company_Name.errors?.required">Company Name is mandatory.</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <mat-select placeholder="Business Type" [(ngModel)]="themeData.company_BusinessType" name="company_BusinessType" #company_BusinessType required>
+                        <mat-option  value="Corporation">Corporation</mat-option>
+                        <mat-option  value="Limited Liability Company">Limited Liability Company</mat-option>
+                        <mat-option  value="Publicly Listed">Publicly Listed</mat-option>
+                        <mat-option  value="Multi-national corporations">Multi-national corporations</mat-option>
+                        <mat-option  value="Not for profit organizations">Not for profit organizations</mat-option>
+                        <mat-option  value="Partnership">Partnership</mat-option>
+                        <mat-option  value="Sole proprietorship">Sole proprietorship</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-fields">
+                      <mat-select placeholder="Industry Type" [(ngModel)]="themeData.company_Industry" name="company_Industry" #company_Industry required>
+                        <mat-optgroup *ngFor="let item of industryData" [label]="item.title"  >
+                          <mat-option *ngFor="let sub of item.child" [value]="sub">{{sub}}</mat-option>
+                        </mat-optgroup>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput maxlength="50" placeholder="Website" type="text" #company_Website="ngModel"  name="company_Website" [(ngModel)]="themeData.company_Website"  required autocomplete="off" />
+
+                    </mat-form-field>
+                    <div [hidden]="company_Website.valid || company_Website.untouched">
+                      <span class="error" *ngIf="company_Website.errors?.required">Corporate Website is mandatory.</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput maxlength="15" placeholder="Contact" type="number" #company_Contact="ngModel" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" name="company_Contact" [(ngModel)]="themeData.company_Contact"  required autocomplete="off" />
+
+                    </mat-form-field>
+                    <div [hidden]="company_Contact.valid || company_Contact.untouched">
+                      <span class="error" *ngIf="company_Contact.errors?.required">Corporate Contact is mandatory.</span>
+                    </div>
+                  </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner" >
+                  <div fxFlex="50">
+                    <span class="card-title">Logo and iconography</span>
+                    <p>Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relyin. </p>
+                    <br />
+                    <p>Recommended image size is 40px x 40px</p>
+                  </div>
+                  <div fxFlex="50">
+                    <mat-label>Light Logo</mat-label>
+                    <div class="dropzone">
+                      <img src="{{imgShow}}" *ngIf="imgShow != ''" style="max-width: 150px; max-height: 150px;" />
+                      <ngx-dropzone (change)="onSelect($event)">
+                        <ngx-dropzone-label><mat-icon>note_add</mat-icon><br />
+                          Upload Your Logo<br />
+                          <small>drag & drop to upload the Logo Image</small>
+                        </ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)" style="background-image: url({{imgShow}});">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                      </ngx-dropzone>
+                    </div>
+                  </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner"  fxflexfill fxLayoutGap="10px grid">
+                  <div fxFlex="50">
+                    <span class="card-title">Corporate Identity</span>
+                    <p>Lorem ipsum is a placeholder text commonly used.</p>
+                  </div>
+                  <div fxFlex="50">
+                    <mat-form-field class="form-fields">
+                      <input matInput maxlength="50" placeholder="Corporate Email ID" type="email" #corporate_Email="ngModel"  [(ngModel)]="themeData.corporate_Email"  name="corporate_Email" required autocomplete="off"  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+
+                    </mat-form-field>
+                    <div [hidden]="corporate_Email.valid || corporate_Email.untouched">
+                      <span class="error" *ngIf="corporate_Email.errors?.required">Corparate Email is mandatory.</span>
+                      <span class="error"  *ngIf="corporate_Email.errors?.pattern">Email is invalid</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput maxlength="50" placeholder="Parent Company Name" type="text" #companyParent_Name  name="companyParent_Name" [(ngModel)]="themeData.companyParent_Name"   autocomplete="off" />
+
+                    </mat-form-field>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput maxlength="50" placeholder="Number of Employee" type="number" #number_Employee  name="number_Employee" [(ngModel)]="themeData.number_Employee" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57"  autocomplete="off" />
+
+                    </mat-form-field>
+                    <mat-form-field class="form-fields">
+                      <input matInput maxlength="200" placeholder="No of Locations" type="number" #company_Locations  name="company_Locations" [(ngModel)]="themeData.company_Locations"  autocomplete="off" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" />
+
+                    </mat-form-field>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput  placeholder="Year of Established" type="number" max="4" #company_YearEstablished (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" [(ngModel)]="themeData.company_YearEstablished"  name="company_YearEstablished"  autocomplete="off" />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" class="theme-setting-inner"  fxflexfill fxLayoutGap="10px grid">
+                  <div fxFlex="50">
+                    <span class="card-title">Company Address</span>
+                    <p>Lorem ipsum is a placeholder text commonly used.</p>
+                  </div>
+                  <div fxFlex="50">
+                    <mat-form-field class="form-fields">
+                      <input matInput placeholder="Building Name & Office no" maxlength="50" type="text" #building_name="ngModel"  [(ngModel)]="addressData.building_name"  name="building_name" required autocomplete="off" />
+                    </mat-form-field>
+                    <div [hidden]="building_name.valid || building_name.untouched">
+                      <span class="error" *ngIf="building_name.errors?.required">Building name is mandatory.</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput placeholder="Street" maxlength="50" type="text" #street="ngModel"  [(ngModel)]="addressData.street"  name="street" required autocomplete="off" />
+                    </mat-form-field>
+                    <div [hidden]="street.valid || street.untouched">
+                      <span class="error" *ngIf="street.errors?.required">Street name is mandatory.</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput placeholder="District" maxlength="50" type="text" #office_number="ngModel"  [(ngModel)]="addressData.office_number"  name="office_number" required autocomplete="off" />
+                    </mat-form-field>
+                    <div [hidden]="office_number.valid || office_number.untouched">
+                      <span class="error" *ngIf="street.errors?.required">District is mandatory.</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput placeholder="P. O. Box " maxlength="10" type="number" #po_box="ngModel" [(ngModel)]="addressData.po_box" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" name="po_box" required autocomplete="off" />
+                    </mat-form-field>
+                    <div [hidden]="po_box.valid || po_box.untouched">
+                      <span class="error" *ngIf="po_box.errors?.required">P.O. Box Number is mandatory.</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <input matInput placeholder="City" maxlength="50" type="text" #city="ngModel"  [(ngModel)]="addressData.city"  name="city" required autocomplete="off" />
+                    </mat-form-field>
+                    <div [hidden]="city.valid || city.untouched">
+                      <span class="error" *ngIf="city.errors?.required">City is mandatory.</span>
+                    </div>
+
+                    <mat-form-field class="form-fields">
+                      <mat-select placeholder="Emirates" [(ngModel)]="addressData.emirates" name="emirates" #emirates required>
+                        <mat-option  value="Dubai">Dubai</mat-option>
+                        <mat-option  value="Sharjah">Sharjah</mat-option>
+                        <mat-option  value="Abu Dhabi">Abu Dhabi</mat-option>
+                        <mat-option  value="Ras Al Khaimah">Ras Al Khaimah</mat-option>
+                        <mat-option  value="Umm Al Quwain">Umm Al Quwain</mat-option>
+                        <mat-option  value="Fujairah">Fujairah</mat-option>
+                      </mat-select></mat-form-field>
+                  </div>
+                </div>
+
+              <br />
+              <div fxLayout="row" class="theme-setting-inner" > <!--*ngIf="accessPermission"-->
+                <div fxFlex="50">
+                </div>
+                <div fxFlex="50">
+                  <button  mat-raised-button class="big-btn block-btn" color="primary" [disabled]="!profileForm.valid">Save Settings</button>
+                </div>
+              </div>
+            </form>
+            </mat-tab>
+          </div>
+
+          <mat-tab label="Working Hours">
+            <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="theme-setting-inner" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="40">
+                <span class="card-title">General Information</span>
+                <p class="just">Just a bit of info about your company, and the default language your employees will see when invited.</p>
+                <br />
+              </div>
+              <div fxFlex="60">
+                <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+                  <table class="working">
+                    <thead>
+                      <tr>
+                        <th>
+                          Week Days
+                        </th>
+                        <th colspan="2">Working Shifts</th>
+                        <th>Working/Off</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of workingDay;let i=index">
+                        <td>{{item.day}}</td>
+                        <td colspan="2">
+                          <div class="time-field">
+                            <mat-form-field>
+                              <input matInput  type="time"  autocomplete="off" [(ngModel)]="item.inTime" name="inTime" [disabled]="item.OnOff" />
+                            </mat-form-field>
+                            <mat-icon>trending_flat</mat-icon>
+                            <mat-form-field>
+                              <input matInput  type="time"  autocomplete="off" [(ngModel)]="item.outTime" name="outTime" [disabled]="item.OnOff" />
+                            </mat-form-field>
+                          </div>
+                        </td>
+                        <td>
+                          <button mat-mini-fab color="light" *ngIf="!item.OnOff" #tooltip="matTooltip" matTooltip="On" (click)="setOnOff('true', i)"><mat-icon color="primary">add</mat-icon></button>
+                          <button mat-mini-fab  color="light"  *ngIf="item.OnOff" #tooltip="matTooltip" matTooltip="Off" (click)="setOnOff('false', i)"><mat-icon color="warn">remove</mat-icon></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+            <div fxLayout="row" class="theme-setting-inner" >
+              <div fxFlex="40">
+              </div>
+              <div fxFlex="60">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" color="primary"   *ngIf="accessPermission">Save Settings</button>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab class="colr" label="Offices">
+          </mat-tab>
+
+            <mat-tab label="Subscription">
+                <h3 class="page-title rr">Subscription Details</h3>
+                <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column">
+                    <div fxFlex="33" fxLayoutAlign="space-around" class="box2">
+                      <div fxLayout="column">
+                          <div class="round">
+                            <div class="doll"> <mat-icon>shopping_bag</mat-icon><h2 class="twn"> $20.00</h2> <span class="th">per month</span></div>
+                          </div>
+
+                          <div class="row mn">
+                              <h3 class="ji">JitterBug </h3>
+                          </div>
+                          <div class="para1">
+                              <p>
+                                <span class="col1"> Dashboard </span>
+                                <span class="col1"> Attendance </span>
+                                <span class="col1"> Notifications/Announcement </span>
+                                <span class="col1">Salary Management </span>
+                                <span class="col1">Calendar </span>
+                                <span class="col1">Insurance Management </span>
+                                <span class="col1">HRA </span>
+                                <span class="col1">HRAreports </span>
+                                <span class="col1">Other Reports</span>
+                                <span class="col2">Tracking - Health,Activity & Behavior </span>
+                                <span class="col2">Coaching </span>
+                                <span class="col2">Document Management </span>
+                                <span class="col2">Leave Management </span>
+                                <span class="col2">Reward Program </span>
+                                <span class="col2">Survey </span>
+                                <span class="col2">Messaging </span>
+                                <span class="col2">Settings </span>
+                                <span class="col1">Company Profile </span>
+                                <span class="col1">Employee Management </span>
+                                <span class="col1">FAQs & Privacy Policy </span>
+                                <span class="col1">Menu </span>
+                                <span class="col2">Role & Access </span>
+                                <span class="col2">Integration with wearables </span>
+                              </p>
+
+                          </div>
+                          <div>
+                              <button mat-raised-button color="orange" class="but"> Select</button>
+                          </div>
+                      </div>
+                    </div>
+                    <div fxFlex="33" fxLayoutAlign="space-around" class="box3">
+                        <div fxLayout="column">
+                        <div class="round">
+                          <div class="doll"><mat-icon>local_florist</mat-icon> <h2 class="thr"> $30.00</h2> <span class="th">per month</span></div>
+                        </div>
+
+                        <div class="row sw mn">
+                            <h3 class="sw">Swing </h3>
+                        </div>
+                        <div class="para1">
+                            <!-- <div *ngFor="let item of privacyPolicyData">
+                                <p class="data_show1">{{item.description}}</p>
+                            </div> -->
+                            <p>
+                                <span class="col1"> Dashboard </span>
+                                <span class="col1"> Attendance </span>
+                                <span class="col1"> Notifications/Announcement </span>
+                                <span class="col1">Salary Management </span>
+                                <span class="col1">Calendar </span>
+                                <span class="col1">Insurance Management </span>
+                                <span class="col1">HRA </span>
+                                <span class="col1">HRAreports </span>
+                                <span class="col1">Other Reports</span>
+                                <span class="col1">Tracking - Health,Activity & behavior </span>
+                                <span class="col1">Coaching </span>
+                                <span class="col1">Document Management </span>
+                                <span class="col1">Leave Management </span>
+                                <span class="col2">Reward Program </span>
+                                <span class="col2">Survey </span>
+                                <span class="col2">Messaging </span>
+                                <span class="col1">Settings </span>
+                                <span class="col1">Company Profile </span>
+                                <span class="col1">Employee Management </span>
+                                <span class="col1">FAQs & Privacy Policy </span>
+                                <span class="col1">Menu </span>
+                                <span class="col1">Role & Access </span>
+                                <span class="col1">Integration with wearables </span>
+                             </p>
+                        </div>
+                        <div>
+                            <button mat-raised-button color="green" class="gr"> Selected</button>
+                        </div>
+                    </div>
+                    </div>
+                    <div fxFlex="33" fxLayoutAlign="space-around" class="box4">
+                        <div fxLayout="column">
+                            <div class="round">
+                              <div class="doll"><mat-icon>filter_vintage</mat-icon> <h2 class="for"> $40.00</h2> <span class="th">per month</span></div>
+                            </div>
+
+                            <div class="row mn">
+                                <h3 class="jiv">Jive </h3>
+                            </div>
+                            <div class="para1">
+                                <!-- <div *ngFor="let item of privacyPolicyData">
+                                    <p class="data_show1">{{item.description}}</p>
+                                </div> -->
+                                <p>
+                                    <span class="col1"> Dashboard </span>
+                                    <span class="col1"> Attendance </span>
+                                    <span class="col1"> Notifications/Announcement </span>
+                                    <span class="col1">Salary Management </span>
+                                    <span class="col1">Calendar </span>
+                                    <span class="col1">Insurance Management </span>
+                                    <span class="col1">HRA </span>
+                                    <span class="col1">HRAreports </span>
+                                    <span class="col1">Other Reports</span>
+                                    <span class="col1">Tracking - Health,Activity & behavior </span>
+                                    <span class="col1">Coaching </span>
+                                    <span class="col1">Document Management </span>
+                                    <span class="col1">Leave Management </span>
+                                    <span class="col1">Reward Program </span>
+                                    <span class="col1">Survey </span>
+                                    <span class="col1">Messaging </span>
+                                    <span class="col1">Setting </span>
+                                    <span class="col1">Company Profile </span>
+                                    <span class="col1">Employee Management </span>
+                                    <span class="col1">FAQs & Privacy Policy </span>
+                                    <span class="col1">Menu </span>
+                                    <span class="col1">Role & Access </span>
+                                    <span class="col1">Integration with wearables </span>
+                                 </p>
+                            </div>
+                            <div>
+                                <button mat-raised-button color="orange" class="but"> Select</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </mat-tab>
+
+
+            <mat-tab label="Documents">
+              <mat-toolbar color="light">
+                <span class="mat-toolbar-title">Privacy Plicy</span>
+              </mat-toolbar>
+              <div ></div>
+            </mat-tab>
+
+
+        </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

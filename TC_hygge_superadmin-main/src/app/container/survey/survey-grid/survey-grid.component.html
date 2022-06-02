@@ -1,0 +1,25 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Copy a paste survey
+    </h3>
+    <ul class="surveygrid_breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/list-survey">Survey</a></li>
+      <li>Copy a paste survey</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="30px grid">
+  <div fxFlex="25" *ngFor="let item of responseData">
+    <mat-card class="survery-select" style="background: url(./assets/img/demo.jpg);">
+      <mat-card-content style="height: 200px;">
+      </mat-card-content>
+      <mat-card-footer style="height:10em!important" color="primary"
+        routerLink="/template-detail/{{item.surveyQuestions_Id}}">
+        <span class="card-title">{{item.survey_Description}}</span><br/>
+        <span class="card-subtitle" style="text-align: center;">{{item.questionCount}} Questions </span>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

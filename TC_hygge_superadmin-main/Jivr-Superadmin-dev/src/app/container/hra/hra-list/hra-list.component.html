@@ -1,0 +1,291 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Health & Wellness
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/challange-list">Health & Wellness</a></li>
+    </ul>
+  </div>
+</div>
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [title]="'User Wellness Distribution'" [children]="children1">
+      <ng-template #children1>
+        <app-doughnut [data]="wellnessDistributionGraphData" *ngIf="wellnessDistributionGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+
+  
+  <div fxFlex="33">
+    <app-card [title]="'Responded based on Gender'" [children]="children2">
+      <ng-template #children2>
+        <app-doughnut [data]="genderBasedGraphData" *ngIf="genderBasedGraphData"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="''" [footer]="'HRA Score'" [children]="children3">
+      <ng-template #children3>
+        <app-gauge [data]="hraScoreGuageData" *ngIf="hraScoreGuageData"></app-gauge>
+        <div style="display:table;margin:auto">
+          <button mat-raised-button color="primary" aria-label="Download"
+            (click)="downloadAsPDF()">
+            Agreegated Report
+          </button>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="50">
+    <app-card [title]="''" [children]="children10" style="margin:0.9em 0.4em 0.9em 0.4em">
+      <ng-template #children10>
+        <div fxLayout="row" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+          <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+            <span class="card-subtitle" style="padding-right: 10px;">Average HRA Score Improvement</span>
+          </div>
+          <div fxFlex="40" style="text-align: center;">
+            <span class="card-title">{{hraScoreImprovement}}</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="50">
+    <app-card [title]="''" [children]="children11" style="margin:0.9em 0.4em 0.9em 0.4em">
+      <ng-template #children11>
+        <div fxLayout="row" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+          <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+            <span class="card-subtitle">Employees participating in program</span>
+          </div>
+          <div fxFlex="40" style="text-align: center;">
+            <span class="card-title">{{empParticipatingProgram}}</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<br />
+
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="33">
+    <app-card [title]="'Aggregated Risk Score'" [children]="children4">
+      <ng-template #children4>
+        <app-horizontal-bar [data]="aggreegateCategoriesGraphata"
+          *ngIf="aggreegateCategoriesGraphata">
+        </app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="'Aggregated Category Score'" [children]="children5">
+      <ng-template #children5>
+        <app-horizontal-bar [data]="agreegatedRiskGraphata"
+          *ngIf="agreegatedRiskGraphata"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+
+  </div>
+
+
+  <div fxFlex="33">
+    <app-card [title]="''" [children]="children6">
+      <ng-template #children6>
+        <app-radar [data]="hraRadarData" *ngIf="hraRadarData"></app-radar>
+      </ng-template>
+    </app-card>
+  </div>
+
+</div>
+<br />
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="66">
+    <app-card [title]="'BMI'" [children]="children7">
+      <ng-template #children7>
+        <div fxLayout="row">
+          <div fxFlex="60"></div>
+          <div fxFlex="20">
+            <button mat-raised-button class="block-btn login-button {{bmiType === 'age' ? 'activeBtn': 'inactiveBtn'}}"
+              style="margin:0.5em 1em" (click)="bmiType = 'age'">
+              Age
+            </button>
+          </div>
+          <div fxFlex="20">
+            <button mat-raised-button
+              class="block-btn login-button {{bmiType === 'gender' ? 'activeBtn': 'inactiveBtn'}}"
+              style="margin:0.5em 1em" (click)="bmiType = 'gender'">
+              Gender
+            </button>
+          </div>
+        </div>
+        <div *ngIf="bmiType === 'age'">
+          <app-horizontal-bar [data]="bmiAgeGraphdata" *ngIf="bmiAgeGraphdata">
+          </app-horizontal-bar>
+        </div>
+        <div *ngIf="bmiType === 'gender'">
+
+          <app-horizontal-bar [data]="bmiGenderGraphdata" *ngIf="bmiGenderGraphdata">
+          </app-horizontal-bar>
+        </div>
+
+      </ng-template>
+    </app-card>
+  </div>
+
+  <div fxFlex="33">
+    <app-card [title]="'Employee Readiness'" [children]="children8">
+      <ng-template #children8>
+        <div fxLayout="row">
+          <div fxFlex="20" *ngFor="let item of redinessArray">
+            <span class="readiness_number">{{item.number}}</span>
+            <div class="circle_style rounded {{readinessObj[item.type]}}"></div>
+            <span class="circle_text">{{item.type}}</span>
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+
+<div fxLayout="row wrap" fxLayout="column" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100">
+    <mat-card class="dashboard-detail">
+      <mat-card-content class="scroll">
+        <mat-toolbar color="light">
+          <span class="mat-toolbar-title">All Questions</span>
+          <span class="spacer"></span>
+          <mat-form-field class="search-field" appearance="standard">
+            <mat-icon matSuffix class="boldtext">search</mat-icon>
+            <input matInput placeholder="Search" #input (keyup)="applyFilter($event)">
+          </mat-form-field>
+          <button mat-mini-fab color="light" class="cal-button but" aria-label="Download"
+            (click)="export_table_to_csv()">
+            <mat-icon color="primary">vertical_align_bottom</mat-icon>
+          </button>
+          <button mat-mini-fab color="light" class="cal-button" aria-label="Sync" (click)="getList()">
+            <mat-icon color="primary">sync</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" class="cal-button" aria-label="Filter" (click)="openPreviewModal()">
+            <mat-icon color="light">preview</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" class="cal-button" routerLink="/hra-add" aria-label="Add new"
+            *ngIf="accessPermission">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-toolbar>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="boldtext"> S.No </th>
+            <td mat-cell *matCellDef="let element">
+              <b>{{element.sno}}</b>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="questions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="boldtext" width="40%"> Questions </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="comp-info">
+                <span class="mat-toolbar-title kl" style="word-break: break-all;">{{element.title}}</span>
+                <span>{{element.description | slice:0:20}}...</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="attempted">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="boldtext"> Question Type </th>
+            <td mat-cell *matCellDef="let element">
+              <span>{{element.type}}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="employees">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="boldtext"> Max Points </th>
+            <td mat-cell *matCellDef="let element" class="imgSectionEmp">
+              <span class="emp-img">
+                <span>{{element.score}}</span>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="boldtext"> Action </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-mini-fab style="margin-left:0 !important" class="cal-button" #tooltip="matTooltip"
+                routerLink="/hra-edit/{{element.healthQuestions_id}}" *ngIf="accessPermission" matTooltip="Edit"
+                color="light">
+                <mat-icon color="green">edit</mat-icon>
+              </button>
+              <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission" matTooltip="Delete"
+                color="light" (click)="confirmDialog(element.healthQuestions_id)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"
+            [ngClass]="getClass(row)?'active-row':''"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data found.</td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div id="csvTable" style="display:none">
+  <table>
+    <thead>
+      <tr>
+        <td colspan=13>
+          <h5 class="mb-0" style="font-size: 13px;">
+            Comapny List
+          </h5>
+        </td>
+      </tr>
+      <tr style="text-align: left;">
+        <th><b>S.No.</b></th>
+        <th><b>Title</b></th>
+        <th><b>Type</b></th>
+        <th><b>Category</b></th>
+        <th><b>Segment</b></th>
+        <th><b>Score</b></th>
+        <th><b>Assigned</b></th>
+        <th><b>Attempted</b></th>
+
+      </tr>
+    </thead>
+    <tbody *ngIf="responseData">
+      <tr *ngFor="let itemData of responseData; let i=index">
+        <td><b>{{itemData.sno}}</b></td>
+        <td>{{itemData.title}}</td>
+        <td>{{itemData.type}}</td>
+        <td>{{itemData.category}}</td>
+        <td>{{itemData.segments}}</td>
+        <td>{{itemData.score}}</td>
+        <td>{{itemData.assigned}}</td>
+        <td>{{itemData.attempted}}</td>
+      <tr>
+        <td colspan="15">-----</td>
+      </tr>
+      <tr>
+        <td colspan="15">-----</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

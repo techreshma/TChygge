@@ -1,0 +1,18 @@
+img {
+  width  : 150px;
+  display: flex;
+  margin : 0 auto;
+  height : 150px;
+}
+
+.card-title {
+  text-align   : center !important;
+  width        : 100%;
+  display      : block;
+  margin-bottom: 30px;
+}
+
+.center_title {
+  display: table !important;
+  margin : auto !important;
+}

@@ -1,0 +1,241 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Survey
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a>Survey</a></li>
+      <li>Survey Detail</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+  <div fxFlex="100">
+    <mat-card class="employee-tab detail-survey">
+      <mat-card-content>
+        <mat-tab-group mat-align-tabs="start">
+          <mat-tab label="Summary" >
+            <div fxLayout="row">
+              <div fxFlex="50">
+                <app-vertical-bar *ngIf="graphData" [data]="graphData"></app-vertical-bar>
+              </div>
+              <div fxFlex="50" dir="rtl">
+                <app-doughnut *ngIf="graphData" [data]="graphData"></app-doughnut>
+              </div>
+            </div>
+            <mat-card class="employee-tab">
+              <mat-card-header>
+                <mat-card-title>Survey Quetions</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div fxLayout="row" fxflexfill fxLayoutGap="10px grid"  class="question-section" *ngFor="let item of responseData;let i = index">
+                  <div fxFlex="10">
+                    <span class="row-title">{{i+1}}</span>
+                  </div>
+                  <div fxFlex="40">
+                    <span class="row-title">{{item.survey_Title}}</span>
+                    <p>{{item.surveyDescription}}</p>
+                  </div>
+                  <div fxFlex="20">
+                    <span>Yes</span>
+                    <mat-progress-bar mode="determinate" value="{{roundFigure((item.yesCount*100)/(item.yesCount+item.noCount))}}"  ></mat-progress-bar>
+                    <span>No</span>
+                    <mat-progress-bar mode="determinate" value="{{roundFigure((item.noCount*100)/(item.yesCount+item.noCount))}}"></mat-progress-bar>
+                  </div>
+                  <div fxFlex="30" dir="rtl">
+                    <div class="progress-bar-detail">
+                      <mat-progress-spinner
+                      class="example-margin"
+                      color="accent"
+                      mode="determinate"
+                      value="{{roundFigure((item.yesCount*100)/(item.yesCount+item.noCount))}}"
+                      >
+                    </mat-progress-spinner>
+                    <span class="spinner-value">
+                      {{roundFigure((item.yesCount*100)/(item.yesCount+item.noCount))}}%
+                    </span>
+                    <p>Attempted</p>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-tab>
+          <mat-tab label="Questions" >
+            <mat-card class="employee-tab">
+              <mat-card-content>
+                <div fxLayout="row" fxflexfill fxLayoutGap="10px grid"  class="question-section" *ngIf="responseData.length > 0">
+                  <div fxFlex="10">
+                    <span class="row-title">{{tabIndex + 1}}</span>
+                  </div>
+                  <div fxFlex="40">
+                    <span class="row-title">{{responseData[tabIndex].survey_Title}}</span>
+                    <p>{{responseData[tabIndex].surveyDescription}}</p>
+                  </div>
+                  <div fxFlex="20">
+                    <span>Yes</span>
+                    <mat-progress-bar mode="determinate" value="{{roundFigure((responseData[tabIndex].yesCount*100)/(responseData[tabIndex].yesCount+responseData[tabIndex].noCount))}}"  ></mat-progress-bar>
+                    <span>No</span>
+                    <mat-progress-bar mode="determinate" value="{{roundFigure((responseData[tabIndex].noCount*100)/(responseData[tabIndex].yesCount+responseData[tabIndex].noCount))}}"></mat-progress-bar>
+                  </div>
+                  <div fxFlex="30" dir="rtl">
+                    <div class="progress-bar-detail">
+                      <mat-progress-spinner
+                      class="example-margin"
+                      color="accent"
+                      mode="determinate"
+                      value="{{roundFigure((responseData[tabIndex].yesCount*100)/(responseData[tabIndex].yesCount+responseData[tabIndex].noCount))}}"
+                      >
+                    </mat-progress-spinner>
+                    <span class="spinner-value">
+                      {{roundFigure((responseData[tabIndex].yesCount*100)/(responseData[tabIndex].yesCount+responseData[tabIndex].noCount))}}%
+                    </span>
+                    <p>Attempted</p>
+                    </div>
+                  </div>
+                </div>
+                <ul class="paginations">
+                  <li *ngFor="let item of responseData;let i = index" (click)="tabIndex = i;getQuestionDetail(item.surveyQuestions_id,item.surveyType_Id)" [ngClass]="i == tabIndex?'active-page':''">{{1+i}}</li>
+                </ul>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <div fxLayout="row"  class="mid-graph" >
+                  <div fxFlex="100"  fxFlex.gt-xs="100"  >
+                    <mat-toolbar color="light" class="tool">
+                      <span class="mat-toolbar-title icic"> <b>Attempted by </b> </span>
+                      <span class="mat-toolbar-title icici"> {{attempted}}/{{attempted + notAttempted}} </span>
+                      <span class="spacer"></span>
+
+                    </mat-toolbar>
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+                      <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+
+                      <!-- profile_picture Column -->
+                      <ng-container matColumnDef="profile_picture">
+                        <th mat-header-cell *matHeaderCellDef >  </th>
+                        <td mat-cell *matCellDef="let element">
+                          <!-- ./assets/img/Ellipse_1.png -->
+                          <img src="{{filePath}}{{element.profile_picture}}" *ngIf="element.profile_picture != ''" />
+                          <img src="./assets/img/Ellipse_1.png" *ngIf="element.profile_picture == ''" />
+                        </td>
+                      </ng-container>
+
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header> Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                      </ng-container>
+
+                      <!-- Email Column -->
+                      <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header> Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                      </ng-container>
+
+                      <!-- yesCount Column -->
+                      <ng-container matColumnDef="yesCount">
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header> Answer </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div class="thumb">
+                            <mat-icon *ngIf="element.yesCount != 0" color="accent">thumb_up_alt</mat-icon> <span *ngIf="element.yesCount != 0"  >Yes</span>
+                            <mat-icon *ngIf="element.yesCount == 0" color="accent">thumb_down_alt</mat-icon> <span *ngIf="element.yesCount == 0" >No</span>
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <!-- Action Column -->
+                      <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef> Other Information </th>
+                        <td mat-cell *matCellDef="let element" >
+                          <span *ngIf="!accessPermission">No Permission</span>
+                          <p style="text-align: right;">Descritpion</p>
+
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+                      <!-- Row shown when there is no matching data. -->
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data found.</td>
+                      </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+                  </div>
+                </div>
+
+            </mat-card>
+
+          </mat-tab>
+          <mat-tab label="Individual Responses" >
+            <mat-card class="employee-tab">
+              <mat-card-content>
+                <div class="scroll">
+                  <div class="scroll-x">
+                    <mat-card class="userCard " *ngFor="let item of userData;let i = index" [ngClass]="cardIndex == i?'active':''" (click)="cardIndex = i;getUserSurveyDetail(item.user_Id)">
+                      <img src="{{filePath}}{{item.profile_picture}}" *ngIf="item.profile_picture != ''" />
+                      <img src="./assets/img/Ellipse_1.png" *ngIf="item.profile_picture == ''" />
+                      <span class="user-name">{{item.name}}</span>
+                      <span class="usere-desig">{{item.designation}}</span>
+                    </mat-card>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <div fxLayout="row"  class="mid-graph" >
+                  <div fxFlex="100"  fxFlex.gt-xs="100"  >
+                    <mat-toolbar color="light" class="tool">
+                      <span class="mat-toolbar-title icic"> <b>Attempted by </b> </span>
+                      <span class="mat-toolbar-title icici"> {{attempted}}/{{attempted + notAttempted}} </span>
+                      <span class="spacer"></span>
+
+                    </mat-toolbar>
+                    <table mat-table [dataSource]="dataSource1" matSort class="mat-elevation-z8">
+
+                      <!--- Note that these columns can be defined in any order.
+                            The actual rendered columns are set as a property on the row definition" -->
+
+                      <!-- survey_Title Column -->
+                      <ng-container matColumnDef="survey_Title">
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header> Question </th>
+                        <td mat-cell *matCellDef="let element"> <span class="card-title">{{element.survey_Title}}</span>
+                        <p  >{{element.survey_Description}}</p></td>
+                      </ng-container>
+
+                      <!-- yesCount Column -->
+                      <ng-container matColumnDef="yesCount">
+                        <th mat-header-cell *matHeaderCellDef  mat-sort-header> Answer </th>
+                        <td mat-cell *matCellDef="let element">
+                          <div class="thumb">
+                            <mat-icon *ngIf="element.yesCount != 0" color="accent">thumb_up_alt</mat-icon> <span *ngIf="element.yesCount != 0"  >Yes</span>
+                            <mat-icon *ngIf="element.yesCount == 0" color="accent">thumb_down_alt</mat-icon> <span *ngIf="element.yesCount == 0" >No</span>
+                          </div>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns1;" ></tr>
+                      <!-- Row shown when there is no matching data. -->
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No data found.</td>
+                      </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+                  </div>
+                </div>
+
+            </mat-card>
+
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

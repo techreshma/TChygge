@@ -1,0 +1,139 @@
+<mat-toolbar color="primary">
+  <!-- <mat-icon class="closeModal" >keyboard_backspace</mat-icon> -->
+  <span class="spacer"></span>
+  <span class="mat-toolbar-title">Create Announcement</span>
+  <span class="spacer"></span>
+  <mat-icon class="closeModal" (click)="closePopup()">close</mat-icon>
+</mat-toolbar>
+<div class="modal-box">
+  <mat-dialog-content class="mat-typography">
+    <form name="roleForm" (ngSubmit)="sendNotification()" #roleForm="ngForm">
+      <div class="sub-hra-form-container">
+        <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="theme-setting-inner" fxflexfill
+          fxLayoutGap="10px grid">
+
+          <div fxFlex="100" class="expspc1">
+            <p class="lorem">Choose who can participate or do not enable if for all. </p>
+
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <mat-form-field class="form-fields one">
+                  <input matInput placeholder="Name" required class="plac-holder" #title="ngModel"
+                    [(ngModel)]="formData.title" type="reward_Name" maxlength="100" name="title" placeholder="Title" />
+                </mat-form-field>
+                <div [hidden]="title.valid || title.untouched">
+                  <span class="error" *ngIf="title.errors?.required">Title is mandatory.</span>
+                </div>
+              </div>
+            </div>
+
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <mat-form-field class="form-fields">
+                  <textarea matInput maxlength="100" #body="ngModel" name="terms_Condition" placeholder="Description"
+                    [(ngModel)]="formData.body"  name="body"  required></textarea>
+                </mat-form-field>
+                <div [hidden]="body.valid || body.untouched">
+                  <span class="error" *ngIf="body.errors?.required">Description is mandatory.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="filterback">
+              <div class="row">
+                <div fxFlex="50">
+                  <mat-label class="cndtnrtxt">Age </mat-label>
+                </div>
+                <div fxFlex="50">
+                  <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="formData.age_Type"
+                    (change)="setAge($event)" #age="ngModel" name="age">
+                  </mat-slide-toggle>
+                </div>
+              </div>
+              <div class="row" *ngIf="formData.age_Type">
+                <div fxFlex="40">
+                  <mat-form-field class="form-fields">
+                    <mat-select [(ngModel)]="formData.ageFrom" name="ageFrom" #ageFrom placeholder="Age from">
+                      <mat-option>
+                        <ngx-mat-select-search [(ngModel)]="searchAge" (ngModelChange)="searchAgeFilter($event)"
+                          name="searchAge" class="margin-top" placeholderLabel="Search.."
+                          noEntriesFoundLabel="'no matching Staff found'">
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let item of ageColumn" [value]="item.text">{{item.value}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div fxFlex="10"></div>
+                <div fxFlex="40">
+                  <mat-form-field class="form-fields">
+                    <mat-select [(ngModel)]="formData.ageTo" name="ageTo" #ageTo placeholder="Age to">
+                      <mat-option>
+                        <ngx-mat-select-search [(ngModel)]="searchAge" (ngModelChange)="searchAgeFilter($event)"
+                          name="searchAge" class="margin-top" placeholderLabel="Search.."
+                          noEntriesFoundLabel="'no matching Staff found'">
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let item of ageColumn" [value]="item.text">{{item.value}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div fxFlex="50">
+                  <mat-label class="cndtnrtxt">Company </mat-label>
+                </div>
+                <div fxFlex="100">
+                  <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="formData.company_Type"
+                    #Department="ngModel" (change)="setCompany($event)" name="companyShow">
+                  </mat-slide-toggle>
+                </div>
+              </div>
+              <div fxLayout="row" *ngIf="formData.company_Type">
+                <div fxFlex="30">
+                  <div class="smalltxt">
+                    <mat-form-field class="form-fields">
+                      <mat-select [(ngModel)]="formData.company_Id" multiple name="company_Id" placeholder="company">
+                        <mat-option *ngFor="let d of companyData" [value]="d.company_id">{{d.company_Name}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div fxFlex="50">
+                  <mat-label class="cndtnrtxt">Gender </mat-label>
+                </div>
+                <div fxFlex="50">
+                  <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="formData.gender_Type"
+                    (change)="setGender($event)" #Gender="ngModel" name="Gender">
+                  </mat-slide-toggle>
+                </div>
+              </div>
+              <div fxLayout="row" *ngIf="formData.gender_Type">
+                <div fxFlex="40">
+                  <div class="smalltxt">
+                    <mat-form-field class="form-fields">
+                      <mat-select [(ngModel)]="formData.gender" name="genderType" placeholder="Select Gender">
+                        <mat-option value="male">Male</mat-option>
+                        <mat-option value="female">Female</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <br />
+        <div fxLayout="row" class="theme-setting-inner">
+          <div fxFlex="100">
+            <button mat-raised-button class="big-btn block-btn" [disabled]="!roleForm.valid"
+              color="primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+</div>

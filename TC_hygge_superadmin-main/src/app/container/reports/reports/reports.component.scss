@@ -1,0 +1,53 @@
+mat-card {
+  cursor: pointer;
+  .icon-box {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
+  .mat-icon {
+    font-size: 36px;
+    line-height: 46px;
+    color: #fff;
+  }
+  .card-title {
+    text-align: center !important;
+    width: 100%;
+    display: block;
+  }
+}
+
+img.img-1 {
+  margin: 12px 0 0 24%;
+  width: 22%;
+}
+img.img-survey {
+  margin: 12px 0 0 24%;
+  width: 16%;
+}
+img.img-2 {
+  margin: 12px 0 0 24%;
+  width: 17%;
+}
+button.btn-round {
+  width: 100% !important;
+  height: 53px !important;
+  font-size: 16px !important;
+  background: #3f51b5 !important;
+  color: #fff !important;
+  margin-top: 8% !important;
+  border-bottom-right-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  border-top-right-radius: 0em !important;
+  border-top-left-radius: 0em !important;
+  line-height: 3em !important;
+}
+.top-mar {
+  margin-top: 2% !important;
+}
+.centeric_content {
+  justify-content: center !important;
+}

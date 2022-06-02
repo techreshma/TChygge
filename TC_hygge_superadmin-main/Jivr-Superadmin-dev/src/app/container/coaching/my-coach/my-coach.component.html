@@ -1,0 +1,56 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      My Coach
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/my-coach">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+    </ul>
+  </div>
+</div>
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+      <div fxFlex="50"  fxFlex.gt-xs="100"  >
+        <mat-card>
+          <mat-card-content>
+            <img src="./assets/img/my-coach-1.jpg" />
+          </mat-card-content>
+					<mat-card-header>
+            <span class="card-title">
+              Recommended Programs
+            </span>
+          </mat-card-header>
+				</mat-card>
+      </div>
+      <div fxFlex="50"  fxFlex.gt-xs="100"  >
+        <mat-card routerLink="/health-program">
+          <mat-card-content>
+            <img src="./assets/img/my-coach-2.jpg" />
+          </mat-card-content>
+					<mat-card-header>
+            <span class="card-title">
+              Health Programs
+            </span>
+          </mat-card-header>
+				</mat-card>
+      </div>
+    </div>
+    <br />
+    <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" >
+      <div fxFlex="50"  fxFlex.gt-xs="100"  >
+        <mat-card [routerLink]="'/be-your-own-nutritionist'">
+          <mat-card-content>
+            <img src="./assets/img/my-coach-3.jpg" />
+          </mat-card-content>
+					<mat-card-header>
+            <span class="card-title">
+              Be Your Own Nutritionist
+            </span>
+          </mat-card-header>
+				</mat-card>
+      </div>
+      <div fxFlex="50"  fxFlex.gt-xs="100"  >
+
+      </div>
+    </div>
+    <br />

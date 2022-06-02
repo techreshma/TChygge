@@ -1,0 +1,163 @@
+tr.mat-row {
+  cursor: pointer;
+  &:hover{
+    box-shadow: -1px -11px 10px lightgrey;
+  }
+}
+.bold_text{
+  font-weight: 800;
+}
+.main_healthwellness .mat-card {
+  width: 73vw;
+}
+
+.tool {
+  background-color: white;
+}
+
+mat-card {
+  margin: 0.8em;
+}
+
+.cardbackground {
+  background-color: #3f51b5 !important;
+  opacity         : 5% !important;
+}
+
+.donut-style {
+  box-shadow      : inset 0 0 6px rgba(0, 0, 0, 0.3);
+  width           : 100%;
+  border-radius   : 0.4em;
+  margin          : 0.3em;
+  background-color: white;
+  padding         : 0.6em;
+}
+
+.cardText {
+  color      : #3d3d3d !important;
+  font-size  : 18px !important;
+  text-align : center !important;
+  font-weight: 600 !important;
+  padding    : 0.4em !important;
+}
+
+.carddescrip {
+  color     : #000000 !important;
+  font-size : 9px !important;
+  text-align: center !important;
+  padding   : 0.4em !important;
+}
+
+.circle_style {
+  padding      : 1.2em;
+  border-radius: 34px;
+  height       : 0.1em !important;
+  width        : 0.1em !important;
+  padding      : 1.2em;
+}
+
+//Circle
+.circle_lightred {
+  background-color: #f43733;
+  opacity         : 0.9;
+}
+
+.circle_red {
+  background-color: #f43733;
+}
+
+.circle_yellow {
+  background-color: #ffa114;
+}
+
+.circle_lightgreen {
+  background-color: #19952c;
+  opacity         : 0.9;
+}
+
+.circle_green {
+  background-color: #19952c;
+}
+
+.circle_text {
+  position   : absolute;
+  color      : #000000;
+  font-family: "poppins", regular;
+  font-size  : 0.5em;
+  font-weight: bold;
+}
+
+.readiness_number {
+  text-align : center;
+  font-weight: 700;
+}
+
+.activeBtn {
+  background-color: #3f51b5;
+  border          : 0.1em solid #3f51b5;
+  color           : white;
+}
+
+.inactiveBtn {
+  border: 0.1em solid #3f51b5;
+  color : #3f51b5
+}
+
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #FAFAFA;
+  font: 12pt "Tahoma";
+}
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm;
+  margin: 10mm auto;
+  border: 1px #D3D3D3 solid;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.subpage {
+  padding: 1cm;
+  border: 5px red solid;
+  height: 257mm;
+  outline: 2cm #FFEAEA solid;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+@media print {
+  html, body {
+      width: 210mm;
+      height: 297mm;        
+  }
+  .page {
+      margin: 0;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      min-height: initial;
+      box-shadow: initial;
+      background: initial;
+      page-break-after: always;
+  }
+}
+
+.main_pdf_section{
+  display:none;
+}
+
+// #pdfTable{
+//   display:none;
+// }

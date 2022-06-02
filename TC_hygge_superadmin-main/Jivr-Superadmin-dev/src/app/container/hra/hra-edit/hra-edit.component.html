@@ -1,0 +1,274 @@
+
+    <mat-toolbar color="primary">
+
+      <span class="spacer"></span>
+      <span class="mat-toolbar-title">Edit Question</span>
+      <span class="spacer"></span>
+      <mat-icon class="closeModal"  [routerLink]="['/hra']" >close</mat-icon>
+    </mat-toolbar>
+  <div class="main-hra-form-container">
+
+    <form name="registerForm" #registerForm="ngForm">
+      <div class="sub-hra-form-container" >
+          <div class="ques-tab">
+            <span class="card-title">Question</span>
+            <p>Please fill below information to change your setting.</p>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Question Type</mat-label>
+                  <mat-form-field>
+                    <input matInput  type="text" name="type" [(ngModel)]="responseData.type" disabled  />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Question Name</mat-label>
+                  <mat-form-field>
+                    <input matInput  type="text" name="title" [(ngModel)]="responseData.title"  />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>HRA Category</mat-label>
+                  <mat-form-field>
+                    <input matInput  type="text" name="category" [(ngModel)]="responseData.category" disabled  />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Segment</mat-label>
+                  <mat-form-field>
+                    <input matInput  type="text" name="segments" [(ngModel)]="responseData.segments" disabled  />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Parent Question <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <mat-select  [(ngModel)]="responseData.dependentQuestionId" disabled name="dependentQuestionId" #dependentQuestionId  (ngModelChange)="getParentIds($event)">
+                      <ng-container *ngFor="let item of questionSelction">
+                        <mat-option *ngIf="item.questionId != responseData.questionId"  [value]="item.questionId">{{item.title}}</mat-option>
+                      </ng-container>
+                    </mat-select></mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row"  fxflexfill fxLayoutGap="10px grid" class="" *ngIf="responseData.parentOption && responseData.parentOption.length > 0">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Parent Question Option <span class="red-txt">*</span> </mat-label>
+                  <mat-form-field>
+                    <mat-select  [(ngModel)]="responseData.dependentOption" disabled  name="dependentOption" #dependentOption >
+                      <mat-option  value="0">Select parent question option</mat-option>
+                        <mat-option *ngFor="let item of responseData.parentOption;let poi = index;" [value]="poi+1">{{item.value}}</mat-option>
+                    </mat-select></mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Description</mat-label>
+                  <mat-form-field>
+                    <textarea matInput   name="description" [(ngModel)]="responseData.description"  ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="responseData.type == 'text' || responseData.type == 'textarea'">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Correct Answer</mat-label>
+                  <mat-form-field>
+                    <textarea matInput   name="description" [(ngModel)]="responseData.answer" disabled ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="100">
+                <div class="form-ques">
+                  <mat-label>Max Point</mat-label>
+                  <mat-form-field>
+                    <input matInput (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57"  type="text" name="score" [(ngModel)]="responseData.score" disabled  />
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="responseData.type == 'radio' || responseData.type == 'dropdown'|| responseData.type == 'linkert'">
+              <div fxFlex="100" *ngFor="let o of responseData.optionArray;let io = index;">
+                  <div fxLayout="row" class="quesOption">
+                    <div fxFlex="60">
+                      <div class="form-ques">
+                        <mat-label>Option</mat-label>
+                          <mat-form-field>
+                            <input matInput  type="text" name="value{{io}}" [(ngModel)]="o.value"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="30">
+                      <div class="form-ques">
+                        <mat-label>Point</mat-label>
+                          <mat-form-field>
+                            <input matInput (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57"  type="text" name="point{{io}}" [(ngModel)]="o.point"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="responseData.type == 'multiSelect'">
+              <div fxFlex="100" *ngFor="let o of responseData.optionArray;let io = index;">
+                  <div fxLayout="row" class="quesOption">
+                    <div fxFlex="10">
+                      <mat-checkbox [checked]="o.isCorrect" disabled></mat-checkbox>
+                    </div>
+                    <div fxFlex="60">
+                      <div class="form-ques">
+                        <mat-label>Option</mat-label>
+                          <mat-form-field>
+                            <input matInput  type="text" name="value{{io}}" [(ngModel)]="o.value"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="30">
+                      <div class="form-ques">
+                        <mat-label>Point</mat-label>
+                          <mat-form-field>
+                            <input matInput  type="text" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" name="point{{io}}" [(ngModel)]="o.point"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="responseData.type == 'rating'">
+              <div fxFlex="100" *ngFor="let o of responseData.optionArray;let io = index;">
+                  <div fxLayout="row" class="quesOption">
+                    <div fxFlex="10">
+                      <div class="form-ques">
+                        {{io+1}}*
+                      </div>
+                    </div>
+                    <div fxFlex="60">
+                      <div class="form-ques">
+                        <mat-label>Text for rating</mat-label>
+                          <mat-form-field>
+                            <input matInput  type="text" name="title" [(ngModel)]="o.value"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="20">
+                      <div class="form-ques">
+                        <mat-label>Point</mat-label>
+                          <mat-form-field>
+                            <input matInput disabled type="number" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" name="title" [(ngModel)]="o.label"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div fxLayout="column" fxflexfill fxLayoutGap="10px grid" class="" *ngIf="responseData.type == 'slider'">
+              <div fxFlex="100" *ngFor="let o of responseData.sliderOption;let io = index;">
+                  <div fxLayout="row" class="quesOption">
+                    <div fxFlex="25">
+                      <div class="form-ques">
+                        <mat-label>Left Side</mat-label>
+                          <mat-form-field>
+                            <input matInput disabled type="number" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" name="left" [(ngModel)]="o.left"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="50">
+                      <div class="form-ques">
+                        <mat-label>Label</mat-label>
+                          <mat-form-field>
+                            <input matInput  type="text" name="label" [(ngModel)]="o.label"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div fxFlex="25">
+                      <div class="form-ques">
+                        <mat-label>Right Side</mat-label>
+                          <mat-form-field>
+                            <input matInput disabled type="number" (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57" name="right" [(ngModel)]="o.right"  />
+                          </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div *ngIf=" responseData.type == 'matrix'">
+              <div class="simple-table-container overflow-auto text-nowrap" style="width: 100%;overflow: auto;"
+                ms-responsive-table *ngIf="responseData.columnArray.length > 0">
+                <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+                  <div fxFlex="30">
+                    <mat-label>Question</mat-label>
+                    <div fxLayout="column" *ngFor="let sub of responseData.columnArray; let valueIndex=index;">
+                      <mat-form-field appearance="outline"  class="form-ques">
+                        <input matInput placeholder="Column name" [(ngModel)]="sub.label"
+                          name="label{{valueIndex}}" required>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxFlex="30">
+                    <mat-label>Answer</mat-label>
+                    <div fxLayout="column" *ngFor="let sub of responseData.rowArray; let rawIndex=index;">
+                      <mat-form-field appearance="outline"  class="form-ques">
+                        <input matInput placeholder="Column name" [(ngModel)]="sub.label"
+                          name="label{{rawIndex}}">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div fxFlex="30">
+                    <mat-label>Correct Answer no</mat-label>
+                    <div fxLayout="column" *ngFor="let sub of responseData.columnArray; let rawIndex=index;">
+                      <mat-form-field appearance="outline"  class="form-ques">
+                        <input matInput placeholder="Column name" [(ngModel)]="sub.correct"
+                          name="correct{{rawIndex}}">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+              <div fxFlex="20">
+                <mat-slide-toggle
+                  class="example-margin"
+                  color="primary"
+                  (change)="changeRequired($event)"
+                  [checked]="responseData.isRequired == 0?false:true">
+                  Required
+                </mat-slide-toggle>
+              </div>
+            </div>
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" >
+              <div fxFlex="100">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" (click)="editHra()"  color="green">Done</button>
+              </div>
+            </div>
+          </div>
+      </div>
+    </form>
+  </div>

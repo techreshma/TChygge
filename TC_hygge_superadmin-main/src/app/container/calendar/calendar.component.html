@@ -1,0 +1,111 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+  <div fxFlex>
+    <h3 class="page-title">
+      Calendar
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Calendar</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row"  class="mid-graph">
+  <div fxFlex="100"  fxFlex.gt-xs="100"  >
+    <mat-card >
+    <mat-toolbar color="light">
+      <span class="mat-toolbar-title">Calendar</span>
+      <span class="spacer"></span>
+      <mat-form-field class="search-field">
+        <mat-icon matSuffix>search</mat-icon>
+        <input matInput placeholder="Search">
+      </mat-form-field>
+      <button mat-mini-fab color="primary" class="cal-button"  aria-label="Add new"  #addButton ejs-button id="addButton" (click)="addNew()" >
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab color="light" class="cal-button"  aria-label="Filter">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+      <button mat-mini-fab color="light" class="cal-button" aria-label="Sync">
+        <mat-icon>sync</mat-icon>
+      </button>
+    </mat-toolbar>
+    <ejs-schedule
+    #scheduleObj
+    width='100%'
+    height='550px'
+    currentView="month"
+    [selectedDate]="selectedDate"
+    [eventSettings]="eventSettings"
+    (popupOpen)="onPopupOpen($event)"
+    (actionComplete)="onActionComplete()"
+    (eventClick)="onEventClick($event)" >
+      <e-views>
+        <e-view option="Month"></e-view>
+        <e-view option="Week"></e-view>
+        <e-view option="Day"></e-view>
+      </e-views>
+    </ejs-schedule>
+    <br />
+    <span class="card-title">Management Meeting</span>
+    <br />
+    <mat-card class="event-detail" *ngFor="let item of selectedEvent">
+      <mat-card-header>
+        <mat-card-title>{{item.Subject}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="space-around left" class="heading-calendar-detail">
+          <div fxFlex="33">
+            <span class="target_title">
+              Trigger on
+            </span>
+            <span class="target-detail">
+              <span class="blue-txt">
+                {{getDate(item.StartTime)}}
+              </span>
+              to
+              <span class="blue-txt">
+                {{getTime(item.StartTime)}}
+              </span>
+            </span>
+          </div>
+          <div fxFlex="33">
+            <span class="target_title">
+              Target Audience
+            </span>
+            <span class="target-detail">
+              <span class="blue-txt">
+                {{item.targetAudience}}
+              </span>
+            </span>
+          </div>
+          <div fxFlex="33">
+            <span class="target_title">
+              Tag
+            </span>
+            <span class="target-detail">
+              <span class="red-txt">
+                {{item.EventType}}
+              </span>
+            </span>
+          </div>
+        </div>
+        <div  fxflexfill class="mid-graph" fxLayoutGap="10px grid" >
+          <div fxFlex="10">
+            <div class="icon-cont" *ngIf="item.icon == ''">
+              <mat-icon>camera</mat-icon>
+            </div>
+            <img *ngIf="item.icon != ''" [src]="item.icon" />
+          </div>
+          <div fxFlex="90">
+            <span class="desc-heading">Description</span>
+            <p>{{item.Description}}</p>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-footer>
+
+      </mat-card-footer>
+    </mat-card>
+  </mat-card>
+  </div>
+</div>

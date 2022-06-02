@@ -1,0 +1,95 @@
+.spacer {
+  flex: 1 1 auto;
+}
+th {
+  text-align: left;
+  font-family: "Poppins", sans-serif !important;
+  padding: 0 0 0 15px;
+}
+.selectField {
+  max-width: 300px;
+}
+.headForm {
+  margin-bottom: 30px;
+}
+.example-tree-invisible {
+  display: none;
+}
+
+.mat-tree-node {
+  border-bottom: 1px solid #e0e0e0;
+}
+span.node-text {
+  font-family: "Poppins", sans-serif !important;
+  padding-left: 20px;
+  display: flex;
+  flex: 1;
+}
+span.node-perm {
+  justify-content: center;
+  padding: 0;
+  width: 110px;
+  display: inline-flex;
+}
+.example-tree ul,
+.example-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+//responsive
+@media (max-width: 414px) {
+  .selectField {
+    max-width: 134px;
+  }
+  .search-field {
+    width: 158px !important;
+    margin-right: 0 !important;
+  }
+  span.node-perm {
+    width: 45px;
+  }
+}
+@media (max-width: 375px) {
+  span.node-perm {
+    width: px;
+  }
+  .search-field {
+    width: 124px !important;
+    margin-right: 0 !important;
+  }
+}
+@media (max-width: 320px) {
+  span.node-perm {
+    width: 26px;
+  }
+  .selectField {
+    max-width: 86px;
+  }
+}
+
+@media (max-width: 990px) {
+  table td:last-child {
+    display: revert;
+  }
+}
+@media (max-width: 1006px) {
+  table td:last-child {
+    display: revert;
+  }
+}
+@media (max-width: 1015px) {
+  table td:last-child {
+    display: revert;
+  }
+}
+@media (max-width: 1024px) {
+  table td:last-child {
+    display: revert;
+  }
+}
+
+.btn_style{
+  padding: 0.5em 2em 0.5em 2em;
+}

@@ -1,0 +1,88 @@
+<div fxLayout="row" fxLayoutAlign="space-around left" >
+    <div fxFlex>
+      <h3 class="page-title">
+        Insurance
+      </h3>
+      <ul class="breadcrumb">
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li>Insurance</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="back_Screen">
+
+    <div fxLayout="row"  class="mid-graph">
+        <div fxFlex="100"  fxFlex.gt-xs="100"  >
+          <mat-toolbar color="light" class="tool">
+            <span class="mat-toolbar-title icic"> <b> ICICI Lombard Insurance Company </b> </span>
+            <span class="mat-toolbar-title icici">  Expire on: 20 May 2020  </span>
+            <span class="spacer"></span>    
+            <button mat-mini-fab color="primary" class="cal-button"  aria-label="Add new" >
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-toolbar>
+
+
+          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" class="tab_le">
+              
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f font"> # </b> </th>
+              <!-- <td mat-cell *matCellDef="let element" class="equ"> {{element.role}} </td> -->
+              <td *matCellDef="let element" class="ch">
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" *ngIf="element.role == 0"></mat-checkbox>
+                </section>
+              </td>
+
+            </ng-container>
+            <ng-container matColumnDef="nameofplan">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f font"> Name Of Plan </b> </th>
+              <td mat-cell *matCellDef="let element" class="equ"> {{element.nameofplan}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="member">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f font"> Member </b> </th>
+              <td mat-cell *matCellDef="let element"> {{element.member}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="tableofbenefit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="rt"> <b class="status_f font"> Table Of Benefit </b> </th>
+              <td mat-cell *matCellDef="let element" class="head_access bl">  {{element.tableofbenefit}} </td>
+            </ng-container>
+            <ng-container matColumnDef="network">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="rt"> <b class="status_f font"> Network </b> </th>
+              <td mat-cell *matCellDef="let element" class="head_access bl"> {{element.network}} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="rt"> <b class="status_f font"> Action </b> </th>
+              <td mat-cell *matCellDef="let element" class="head_access rd"> {{element.action}} </td>
+            </ng-container>
+            
+            <!-- <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> <b class="status_f"> Status </b> </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="round-btn fir" *ngIf="element.status == 0" color="primary">Active</button>
+                <button mat-raised-button class="round-btn sec" *ngIf="element.status == 1" color="accent">Suspended</button>
+                <button mat-raised-button class="round-btn thi" *ngIf="element.status == 2" color="warn">Locked</button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actionsrequired">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="head_status"> <b class="status_f"> Actions Required </b> </th>
+              <td mat-cell *matCellDef="let element">   
+                <p *ngIf="element.actionsrequired == 4" class="tet_R"> Text Area </p>
+                <p *ngIf="element.actionsrequired == 5" class="tet_B"> Text Area </p>
+                <p *ngIf="element.actionsrequired == 6" class="tet_W"> Text Area </p>
+              </td>
+            </ng-container> -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          
+
+        </div>
+      </div>
+
+  </div>

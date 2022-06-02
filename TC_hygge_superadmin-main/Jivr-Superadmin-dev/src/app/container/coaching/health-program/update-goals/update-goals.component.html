@@ -1,0 +1,66 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      My Coach
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+      <li><a routerLink="/health-program"> Health Programs</a></li>
+      <li><a [routerLink]="['/health-goals',catId]">Goals</a></li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="30px grid">
+  <div fxFlex="60" fxFlexOffset="20">
+    <mat-card>
+      <mat-card-header>
+        <span class="card-title"></span>
+      </mat-card-header>
+      <mat-card-content>
+        <form name="postForm" #postForm="ngForm">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+            <div fxFlex="100">
+              <mat-form-field class="form-fields">
+                <input matInput type="text" maxlength="100" name="title" [(ngModel)]="title" readonly />
+              </mat-form-field>
+            </div>
+          </div>
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+            <div fxFlex="100">
+              <mat-label>Image / Video</mat-label>
+              <div class="dropzone">
+                <ngx-dropzone (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif,video/mp4">
+                  <ngx-dropzone-label>
+                    <mat-icon>note_add</mat-icon><br />
+                    Upload Your Image/Video<br />
+                    <small>drag & drop to upload the Image/Video (jpeg,png,jpg,gif and mp4 only)</small>
+                  </ngx-dropzone-label>
+                  <ngx-dropzone-preview *ngFor="let f of formGroup.goal_image" [removable]="true"
+                    (removed)="onRemove(f)" style="background-image: url({{imgPath}}{{f}});">
+                    <ngx-dropzone-label>{{ f }}</ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+                </ngx-dropzone>
+              </div>
+            </div>
+          </div>
+          <div class="short-container">
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+              <div fxFlex="100">
+                <mat-label></mat-label>
+                <button mat-raised-button class="big-btn block-btn" (click)="update()" [disabled]="!postForm.valid"
+                  color="primary">Save & Publish</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

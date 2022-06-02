@@ -1,0 +1,378 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Companies
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li>Companies</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33">
+    <app-card [title]="'User based on Mobile Platform'" [children]="children"
+      [CardHeight]="heightRecord.dasboard5"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children>
+        <app-doughnut class="wid-graph" *ngIf="userPlatformChart"
+          [data]="userPlatformChart"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33">
+    <app-card [title]="'User based on Gender'" [children]="children1"
+      [CardHeight]="heightRecord.dasboard5"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children1>
+        <app-doughnut class="wid-graph" *ngIf="userGenderChart"
+          [data]="userGenderChart"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="34">
+    <app-card [title]="'Number of Companies based on Plan'"
+      [children]="children2" [CardHeight]="heightRecord.dasboard5"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children2>
+        <app-horizontal-bar class="wid-graph" *ngIf="noOfCompanyBasedOnPlan"
+          [data]="noOfCompanyBasedOnPlan"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="66">
+    <app-card [title]="'New Companies & Users'" [children]="children3"
+      [CardHeight]="heightRecord.dasboard6"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children3>
+        <app-line class="wid-graph" *ngIf="userComapanyChart"
+          [data]="userComapanyChart"></app-line>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="34">
+    <app-card [title]="''" [children]="children4">
+      <ng-template #children4>
+        <div class="xy_centeric">
+          <span class="titleOF_card">Total Number of Companies</span>
+          <span class="big-number">{{totalNumberOfCompany}}</span>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="66">
+    <app-card [title]="'Number of Active Users'" [children]="children5"
+      [CardHeight]="heightRecord.dasboard6"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children5>
+        <app-line class="wid-graph" *ngIf="userActivesChart"
+          [data]="userActivesChart"></app-line>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="34">
+    <app-card [title]="''" [children]="children7">
+      <ng-template #children7>
+        <div class="xy_centeric">
+          <span class="titleOF_card"> Total Number of Users enrolled</span>
+          <span class="big-number">{{numberOfUsersEnrolled}}</span>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="66">
+    <app-card [title]="'Plan type based on Company Size'"
+      [children]="children6">
+      <ng-template #children6>
+        <app-horizontal-bar class="wid-graph" *ngIf="planCompanyChart"
+          [data]="planCompanyChart"></app-horizontal-bar>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="34">
+  </div>
+</div>
+<br />
+
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail">
+      <mat-card-content class="scroll">
+        <mat-toolbar color="light">
+          <span class="mat-toolbar-title">All Companies</span>
+          <span class="spacer"></span>
+          <mat-form-field class="search-field" appearance="standard">
+            <mat-icon matSuffix style="font-weight: 800;">search</mat-icon>
+            <input matInput placeholder="Search" #input
+              (keyup)="applyFilter($event)">
+          </mat-form-field>
+          <button mat-mini-fab color="light" class="cal-button"
+            aria-label="Download" (click)="export_table_to_csv()">
+            <mat-icon color="primary">vertical_align_bottom</mat-icon>
+          </button>
+          <button mat-mini-fab color="light" class="cal-button"
+            aria-label="Sync" (click)="getList()">
+            <mat-icon color="primary">sync</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" class="cal-button"
+            routerLink="/company-add" aria-label="Add new"
+            *ngIf="accessPermission">
+            <mat-icon>add</mat-icon>
+          </button>
+          <!-- <button mat-mini-fab color="primary" class="cal-button" (click)="uploadCsv()"  aria-label="Add new"  *ngIf="accessPermission">
+            <mat-icon>attach_file</mat-icon>
+          </button> -->
+        </mat-toolbar>
+        <table mat-table [dataSource]="dataSource" matSort
+          class="mat-elevation-z8">
+
+          <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+          <!-- plan Column -->
+          <ng-container matColumnDef="plan">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_bold">Plan</th>
+            <td mat-cell *matCellDef="let element">
+              <!-- ./assets/img/Ellipse_1.png -->
+              <img src="{{element.company_Logo}}" *ngIf="element.company_Logo !=
+                ''" />
+              <img src="./assets/img/plan.png" *ngIf="element.company_Logo ==
+                ''" />
+            </td>
+          </ng-container>
+
+          <!-- company_Name Column -->
+          <ng-container matColumnDef="company_Name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_bold"> Company Information </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="comp-info">
+                <span class="mat-toolbar-title head_para" style="text-align:
+                  center;">{{element.company_Name}}</span>
+                <span class="body_para" style="text-align: center;">{{element.corporate_Email}}</span>
+              </div>
+            </td>
+          </ng-container>
+
+
+          <!-- planInfo Column -->
+          <ng-container matColumnDef="plan_Name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_bold"> Plan Information </th>
+            <td mat-cell *matCellDef="let element">
+              <div class="plan-info">
+
+                <!-- <img src="./assets/img/crown.png" /> -->
+                <div class="">
+                  <span class="mat-toolbar-title head_para"
+                    style="text-align: center;">{{element.plan_Name}}</span><br
+                    />
+
+                  <span style="text-align: center;" class="blue-txt body_para"
+                    *ngIf="getNegative(element.expiry) == 1">{{element.expiry
+                    === '1' ? 'Expires': 'Expiring'}} in
+                    {{element.expiry}}
+                    {{element.expiry === '1' ? 'tommorow': 'days'}}</span>
+
+                  <span style="text-align: center;" class="red-txt body_para"
+                    *ngIf="getNegative(element.expiry) == -1">Expired
+                    {{getPositive(element.expiry) === '1' ? '':
+                    getPositive(element.expiry)}} {{getPositive(element.expiry)
+                    === '1' ?
+                    'Yesterday': 'days ago'}}</span>
+
+                  <span style="text-align: center;" class="red-txt body_para"
+                    *ngIf="getNegative(element.expiry) == 0">Expired Today</span>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- industry Column -->
+          <ng-container matColumnDef="company_BusinessType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_bold" style="width:11em"> Industry </th>
+            <!-- <td mat-cell *matCellDef="let element" class="indus_para"> {{element.company_BusinessType}} </td> -->
+            <td mat-cell *matCellDef="let element" class="indus_para">
+              {{element.company_Industry}} </td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_bold"> Status </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-flat-button class="round-btn indus_para less_opacity"
+                *ngIf="element.status == 1">Active</button>
+              <button mat-flat-button class="round-btn indus_para"
+                *ngIf="element.status == 0"
+                color="warn">Locked</button>
+            </td>
+          </ng-container>
+
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_bold"> Action Required </th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="!accessPermission">No Permission</span>
+              <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                matTooltip="Lock"
+                *ngIf="element.status != 0 && accessPermission" color="light"
+                (click)="statusCompany(element.company_id,'0')">
+                <mat-icon color="primary">lock</mat-icon>
+              </button>
+              <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                matTooltip="Activate"
+                *ngIf="element.status != 1 && accessPermission" color="light"
+                (click)="statusCompany(element.company_id,'1')">
+                <mat-icon color="primary">lock_open</mat-icon>
+              </button>
+
+              <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                *ngIf="accessPermission" matTooltip="Delete"
+                color="light" (click)="confirmDialog(element.company_id)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+              <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                routerLink="/company-edit/{{element.company_id}}"
+                *ngIf="accessPermission" matTooltip="Edit"
+                color="light">
+                <mat-icon color="green">edit</mat-icon>
+              </button>
+              <button mat-mini-fab (click)="sendInvite(element.company_id)"
+                class="cal-button" #tooltip="matTooltip"
+                *ngIf="accessPermission" matTooltip="Send Invite to user"
+                color="light">
+                <mat-icon color="accent">send</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter
+              "{{input.value}}"</td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div id="csvTable" style="display:none">
+  <table>
+    <thead>
+      <tr>
+        <td colspan=13>
+          <h5 class="mb-0" style="font-size: 13px;">
+            Comapny List
+          </h5>
+        </td>
+      </tr>
+      <tr style="text-align: left;">
+        <th><b>S.No.</b></th>
+        <th><b>Logo</b></th>
+        <th><b>Company Name</b></th>
+        <th><b>Industry</b></th>
+        <th><b>Comapny Website</b></th>
+        <th><b>Comapny Contact</b></th>
+        <th><b>Corporate Email</b></th>
+        <th><b>Parent Company</b></th>
+        <th><b>No of Employees</b></th>
+        <th><b>No of Location</b></th>
+        <th><b>Comapny Year Established</b></th>
+        <th><b>Building Name</b></th>
+        <th><b>Street</b></th>
+        <th><b>Office Number</b></th>
+        <th><b>PO Box</b></th>
+        <th><b>Emirates</b></th>
+        <th><b>City</b></th>
+        <th><b>Plan </b></th>
+        <th><b>Plan Expiry</b></th>
+        <th><b>Status</b></th>
+        <th><b>Primary Name</b></th>
+        <th><b>Primary Email</b></th>
+        <th><b>Primary Contact</b></th>
+        <th><b>Primary Designation</b></th>
+
+      </tr>
+    </thead>
+    <tbody *ngIf="responseData">
+      <tr *ngFor="let itemData of responseData; let i=index">
+        <td><b>#{{i+1}}</b></td>
+        <td>{{imgPath}}{{itemData && itemData.company_Logo}}</td>
+        <td>{{itemData && itemData.company_Name}}</td>
+        <td>{{itemData && itemData.company_BusinessType}}</td>
+        <td>{{itemData && itemData.company_Website}}</td>
+        <td>{{itemData && itemData.company_Contact}}</td>
+        <td>{{itemData && itemData.corporate_Email}}</td>
+        <td>{{itemData && itemData.companyParent_Name}}</td>
+        <td>{{itemData && itemData.number_Employee}}</td>
+        <td>{{itemData && itemData.company_Locations}}</td>
+        <td>{{itemData && itemData.company_YearEstablished}}</td>
+        <td>{{itemData && getAddressBreak(itemData.company_Address,0)}}</td>
+        <td>{{itemData && getAddressBreak(itemData.company_Address,1)}}</td>
+        <td>{{itemData && getAddressBreak(itemData.company_Address,2)}}</td>
+        <td>{{itemData && getAddressBreak(itemData.company_Address,3)}}</td>
+        <td>{{itemData && getAddressBreak(itemData.company_Address,4)}}</td>
+        <td>{{itemData && getAddressBreak(itemData.company_Address,5)}}</td>
+        <td>{{itemData && itemData.plan_Name}}</td>
+        <td>
+          <span class="red-txt" *ngIf="getNegative(itemData && itemData.expiry)
+            == 1">Expiring in {{itemData.expiry ===
+            '1' ? 'Day':'days'}}</span>
+          <span class="red-txt" *ngIf="getNegative(itemData && itemData.expiry)
+            == -1">Expired {{itemData.expiry === '1'
+            ? 'Day': 'days'}} ago</span>
+        </td>
+        <td>
+          <button mat-flat-button class="round-btn" *ngIf="itemData &&
+            itemData.status == 1"
+            color="light">Active</button>
+          <button mat-flat-button class="round-btn" *ngIf="itemData &&
+            itemData.status == 0" color="accent">In
+            Active</button>
+        </td>
+        <td>({{itemData && itemData.P_ContactName}})
+          <!-- <span *ngFor="let c of itemData && itemData.P_Contact">({{c.name &&
+            c.name}})</span> -->
+        </td>
+        <td>({{itemData && itemData.PC_Email}})
+          <!-- <span *ngFor="let c of itemData && itemData.P_Contact">({{c.email &&
+            c.email}})</span> -->
+        </td>
+        <td>({{itemData && itemData.Primary_Contact}})
+          <!-- <span *ngFor="let c of itemData && itemData.P_Contact">({{c.contact &&
+            c.contact}})</span> -->
+        </td>
+        <td>({{itemData && itemData.PC_Designation}})
+          <!-- <span *ngFor="let c of itemData && itemData.P_Contact">({{c.designation
+            && c.designation}})</span> -->
+        </td>
+      </tr>
+      <tr>
+        <td colspan="15">-----</td>
+      </tr>
+      <tr>
+        <td colspan="15">-----</td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</div>

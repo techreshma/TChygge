@@ -1,0 +1,15 @@
+mat-card{
+  cursor:pointer;
+  img{
+    width: 130px;
+    display: flex;
+    margin: 0 auto;
+    height:130px;
+  }
+  .card-title{
+    text-align: center !important;
+    width: 100%;
+    display: block;
+    margin-bottom: 30px;
+  }
+}

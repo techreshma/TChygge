@@ -1,0 +1,55 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      My Coach
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+      <li><a routerLink="/health-program"> Health Programs</a></li>
+      <li>{{goalBreadCrum[id]}}</li>
+    </ul>
+  </div>
+</div>
+
+<div fxLayout="row" class="mid-graph">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-toolbar class="mb-2" style="background: transparent !important">
+      <mat-icon class="closeModal text_blue" style="margin-right: 0.2em;" routerLink="/health-program">keyboard_backspace</mat-icon>
+      <span class="mat-toolbar-title text_blue" style="cursor:pointer" routerLink="/health-program">Back</span>
+      <span class="spacer"></span>
+    </mat-toolbar>
+  </div>
+</div>
+<!-- health-program -->
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="30px grid">
+  <div fxFlex="25" *ngFor="let item of list">
+    <mat-card class="survery-select" style="background: url({{imgPath}}{{item.primeImage}});background-size: cover;"
+      *ngIf="getExt(item.primeImage) != 'mp4'">
+      <mat-card-content style="height: 150px;">
+      </mat-card-content>
+      <mat-card-footer color="primary" routerLink="/health-goal-update/{{id}}/{{item.programGoal_id}}">
+        <span class="card-subtitle">{{item.goal_name}}</span>
+        <!-- <span class="card-subtitle">{{}}</span> -->
+      </mat-card-footer>
+    </mat-card>
+    <mat-card class="survery-select" style="overflow: hidden;" *ngIf="getExt(item.primeImage) == 'mp4'">
+      <video height="250" autoplay muted style="    margin: -45px 0 0 -27px !important;
+          width: 138%;" controls>
+        <source src="{{imgPath}}{{item.primeImage}}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <mat-card-footer color="primary" routerLink="/health-goal-update/{{id}}/{{item.programGoal_id}}">
+        <span class="card-subtitle">{{item.goal_name}}</span>
+        <!-- <span class="card-subtitle">{{}}</span> -->
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

@@ -1,0 +1,21 @@
+img{
+  width: 100%;
+}
+.text_bold{
+  font-weight: 900;
+}
+
+.light_blue {
+  background-color: #e5e9ff;
+}
+
+.title_left {
+  justify-content: start;
+  position: relative;
+  display: flex;
+  height: 5.2em;
+}
+
+.hand_pointer {
+  cursor: pointer;
+}

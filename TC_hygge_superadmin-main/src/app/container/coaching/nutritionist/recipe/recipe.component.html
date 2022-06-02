@@ -1,0 +1,201 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Recipe
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+      <li><a routerLink="/be-your-own-nutritionist">Be your own Nutritionist</a></li>
+      <li>Recipe</li>
+    </ul>
+  </div>
+</div>
+<mat-card>
+  <span class="card-title">
+    Recipe trends
+  </span>
+  <mat-card-content>
+    <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+      <div fxFlex="70">
+        <app-card [title]="''" [children]="children3"
+          [CardHeight]="heightRecord.dasboard6"
+          [isDefault]="heightRecord.isDefault">
+          <ng-template #children3>
+            <app-line class="wid-graph" *ngIf="ViewGraphChart"
+              [data]="ViewGraphChart"></app-line>
+          </ng-template>
+        </app-card>
+      </div>
+      <div fxFlex="30">
+        <app-pie *ngIf="graphData" [data]="graphData"></app-pie>
+        <br />
+        <span class="card-subtitle" style="text-align:center;display:block">Feedbacks</span>
+        <br />
+        <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+          <div fxFlex="33">
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  <span class="color-dot" style="background: #15c1dc"></span>
+                  {{totalView}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  views
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<br />
+<mat-card>
+  <div fxLayout="row" class="mid-graph">
+    <div fxFlex="100" fxFlex.gt-xs="100">
+      <mat-toolbar color="light" class="tool">
+        <span class="mat-toolbar-title icic"> <b>Recipe </b> </span>
+        <span class="spacer"></span>
+        <mat-form-field class="search-field" appearance="standard">
+          <mat-icon matSuffix class="text_bold">search</mat-icon>
+          <input matInput placeholder="Search" #input
+            (keyup)="applyFilter($event)">
+        </mat-form-field>
+        <button mat-mini-fab color="light" class="cal-button" aria-label="Sync"
+          (click)="getList()">
+          <mat-icon>sync</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="cal-button" aria-label="Add
+          new" [routerLink]="['/recipe-create']"
+          *ngIf="accessPermission">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-toolbar>
+      <table mat-table [dataSource]="dataSource" matSort
+        class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+                The actual rendered columns are set as a property on the row definition" -->
+        <!-- sno Column -->
+        <ng-container matColumnDef="srno">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header
+            class="text_bold"> Sr.no. </th>
+          <td mat-cell *matCellDef="let element;let i= index">
+            {{i+1}}
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="recipe_title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold
+            title_left"> Information </th>
+          <td mat-cell *matCellDef="let element" style="width:25em!important">
+            <div class="comp-info" style="text-align: left;">
+              <span class="hand_pointer mat-toolbar-title"
+                *ngIf="!element.expandStatus"
+                (click)="expandContent( true,
+                element.recipes_id)">
+                {{element.recipe_title | slice:0:25}}
+                {{element.recipe_title.length
+                >=
+                25 ?'...':''}}
+              </span><br/>
+                <span class="hand_pointer mat-toolbar-title"
+                  *ngIf="element.expandStatus"
+                  (click)="expandContent(false ,
+                  element.recipes_id)">
+                  {{element.recipe_title}}
+                </span><br/>
+
+                  <span>{{element.instructions | slice:0:50}}...</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- attempted Column -->
+            <ng-container matColumnDef="views">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text_bold"> Views </th>
+              <td mat-cell *matCellDef="let element">
+                <span class="blue-txt">{{element.views}}</span>
+              </td>
+            </ng-container>
+
+            <!-- published Column -->
+            <!-- <ng-container matColumnDef="likes">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold"> Likes </th>
+          <td mat-cell *matCellDef="let element"> <span class="yellow-txt">{{element.likes}}</span> </td>
+        </ng-container> -->
+            <!-- expiry Column -->
+            <!-- <ng-container matColumnDef="dislikes">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text_bold"> Dislikes </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="red-txt">{{element.dislikes}}</span>
+          </td>
+        </ng-container> -->
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text_bold"> Status </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-flat-button class="round-btn light_blue"
+                  *ngIf="element.status == 1"
+                  color="light">Active</button>
+                <button mat-flat-button class="round-btn" *ngIf="element.status
+                  == 0" color="warn">Locked</button>
+              </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header
+                class="text_bold"> Action Required </th>
+              <td mat-cell *matCellDef="let element"
+                style="padding:0em!important">
+                <span *ngIf="!accessPermission">No Permission</span>
+                <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                  *ngIf="accessPermission" matTooltip="Edit"
+                  routerLink="/recipe-edit/{{element.recipes_id}}"
+                  color="light">
+                  <mat-icon color="green">edit</mat-icon>
+                </button>
+                <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                  *ngIf="accessPermission" matTooltip="Recipe"
+                  routerLink="/recipe-view/9/{{element.recipes_id}}"
+                  color="light">
+                  <mat-icon color="accent">preview</mat-icon>
+                </button>
+                <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                  matTooltip="Lock"
+                  *ngIf="element.status != 0 && accessPermission" color="light"
+                  (click)="statusUpdate(element.recipes_id,'0')">
+                  <mat-icon color="primary">lock</mat-icon>
+                </button>
+                <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                  matTooltip="Activate"
+                  *ngIf="element.status != 1 && accessPermission" color="light"
+                  (click)="statusUpdate(element.recipes_id,'1')">
+                  <mat-icon color="primary">lock_open</mat-icon>
+                </button>
+                <button mat-mini-fab class="cal-button" #tooltip="matTooltip"
+                  *ngIf="accessPermission" matTooltip="delete"
+                  (click)="confirmDialog(element.recipes_id)" color="light">
+                  <mat-icon color="warn">delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data found.</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+        </div>
+      </div>
+    </mat-card>

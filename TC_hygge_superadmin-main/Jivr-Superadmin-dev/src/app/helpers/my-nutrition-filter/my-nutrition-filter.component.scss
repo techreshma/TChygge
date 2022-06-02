@@ -1,0 +1,198 @@
+.main_popup {
+  height: auto;
+  width : auto;
+}
+
+.header_content {
+  display         : inline-block;
+  padding         : 1.3em;
+  width           : 96%;
+  background-color: #3f51b5;
+}
+
+.cancel-dialoge,
+mat-icon {
+  color   : #f4f4f4;
+  position: relative;
+  top     : 0.2em;
+  float   : right;
+}
+
+::ng-deep .mat-dialog-container {
+  padding   : 0em;
+  transform : none;
+  overflow-x: hidden;
+}
+
+.cancel-dialoge {
+  cursor: pointer;
+}
+
+
+.active {
+  background-color: #3f51b5;
+  border          : #3f51b5;
+  color           : white;
+}
+
+.inactive {
+  background-color: white;
+  border          : 0.1em solid #3f51b5;
+  color           : #3f51b5;
+}
+
+.keyword_capsule {
+  border-radius : 5em;
+  font-family   : ui-monospace;
+  font-size     : 1.1em;
+  cursor        : pointer;
+  text-align    : center;
+  text-transform: capitalize;
+  margin        : 0.3em;
+  font-weight   : 700;
+  padding       : 7px 0 !important;
+  text-align    : center !important;
+}
+
+.recipe_list {
+  border-radius : 5em;
+  font-family   : ui-monospace;
+  font-size     : 0.9em;
+  cursor        : pointer;
+  text-align    : center;
+  text-transform: capitalize;
+  margin        : 0.3em;
+  font-weight   : 700;
+  padding       : 7px 0 !important;
+  text-align    : center !important;
+  border        : 0.1em solid #3f51b5;
+}
+
+.sidefilter_child {
+  font          : var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-12) / var(--unnamed-line-spacing-18) var(--unnamed-font-family-poppins);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color         : var(--unnamed-color-3d3d3d);
+  text-transform: capitalize;
+  opacity       : 1;
+  margin-top    : 0;
+  padding       : 1.3em 1.5em;
+  font-size     : 0.9em;
+  shape-outside : padding-box;
+  box-sizing    : border-box;
+  cursor        : pointer;
+}
+
+.filter_action_left {
+  padding         : 0.3em 2em;
+  margin          : 0.5em;
+  background-color: white;
+  border          : 0.2em solid #3f51b5;
+  color           : #3f51b5;
+}
+
+.recipestyling {
+  margin: 0.2em;
+}
+
+.filter_action_right {
+  padding         : 0.3em 2em;
+  margin          : 0.5em;
+  background-color: #3f51b5;
+  border          : 0.1eem solid #3f51b5;
+  color           : white;
+}
+
+.modulesearch {
+  float: left;
+}
+
+.modulesearch input[type="text"] {
+  color      : white;
+  caret-color: white;
+}
+
+.modulesearch ::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: white;
+}
+
+.modulesearch :-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color  : white;
+  opacity: 1;
+}
+
+.modulesearch ::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color  : white;
+  opacity: 1;
+}
+
+.modulesearch :-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: white;
+}
+
+.modulesearch ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: white;
+}
+
+.modulesearch ::placeholder {
+  /* Most modern browsers support this now. */
+  color: white;
+}
+
+.blue-search {
+  background-color: #436bb5;
+  color           : #ffff;
+  width           : 136%;
+  border          : 0.1em solid #436bb5;
+}
+
+.footer_content {
+  padding : 1.3em;
+  position: relative;
+  width   : 100%;
+}
+
+#icon-color {
+  color: white;
+}
+
+#search-color {
+  color: white;
+}
+
+.dot_icon {
+  color              : #3f51b5;
+  display            : list-item;
+  list-style-type    : disc;
+  list-style-position: inside;
+}
+
+.module_title {
+  display: "inline-block";
+}
+
+.example-radio-group {
+  display       : flex;
+  flex-direction: column;
+  margin        : 15px 0;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.keyword_main_panel {
+  display  : flex;
+  flex-wrap: wrap;
+  width    : 35em;
+  padding  : 0.1em 0.4em;
+
+}
+
+.keyword_child_panel {
+  width: 25% !important
+}

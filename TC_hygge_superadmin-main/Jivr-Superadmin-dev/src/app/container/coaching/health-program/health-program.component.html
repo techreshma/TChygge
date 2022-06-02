@@ -1,0 +1,86 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      My Coach
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/my-coach">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+      <li><a routerLink="/health-program"> Health Programs</a></li>
+    </ul>
+  </div>
+</div>
+ 
+
+<div fxLayout="row" class="mid-graph">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-toolbar class="mb-2" style="background: transparent !important">
+      <mat-icon class="closeModal text_blue" style="margin-right: 0.2em;" routerLink="/my-coach">keyboard_backspace</mat-icon>
+      <span class="mat-toolbar-title text_blue" style="cursor:pointer" routerLink="/my-coach">Back</span>
+      <span class="spacer"></span>
+    </mat-toolbar>
+  </div>
+</div>
+<!-- health-program -->
+
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="30px grid">
+  <div fxFlex="33" *ngFor="let item of list">
+    <mat-card [routerLink]="'/health-goals/'+item.coachingcat_id" style="height:30em">
+      <span class="card-title">
+        {{item.coaching_Category}}
+      </span>
+      <mat-card-content>
+        <img src="{{imgPath}}{{item.coaching_Image}}" /><br /><br />
+        <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+          <div fxFlex="33">
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  {{item.views}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  views
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div fxFlex="33">
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  {{item.likes}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  Likes
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div fxFlex="33">
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  {{item.dislikes}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  Dislikes
+                </span>
+              </div>
+            </div>
+          </div>
+        </div><br /><br />
+        <button mat-stroked-button [routerLink]="'/health-goals/'+item.coachingcat_id" class="view-more btn-round"
+          color="primary">View More</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br />

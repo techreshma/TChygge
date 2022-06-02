@@ -1,0 +1,66 @@
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box" *ngIf="detail">
+  <div fxLayout="row" class="">
+    <div fxFlex="100">
+      <span class="card-title" style="text-align: center;">{{detail.challenge_Name}}</span>
+    </div>
+  </div>
+  <br />
+  <mat-dialog-content class="mat-typography">
+    <table class="table-detail">
+      <tbody>
+        <tr>
+          <th>#</th>
+          <td><img src="{{imgPath}}{{detail.challenge_image}}" *ngIf="detail.challenge_image" />
+            <img src="./assets/img/Ellipse_1.png" *ngIf="!detail.challenge_image" />
+          </td>
+        </tr>
+        <tr>
+          <th>Accepted by</th>
+          <td>
+            <span *ngIf="detail.acceptedByTotalUser">{{detail.acceptedByAcceptUser}}/{{detail.acceptedByTotalUser}}
+              Employees</span>
+            <span *ngIf="!detail.acceptedByTotalUser"> 0/0 </span>
+          </td>
+        </tr>
+        <tr>
+          <th>Expiry</th>
+          <td>
+            <span *ngIf="detail.expiry == '-'">{{detail.expiry_Date}}</span>
+            <span *ngIf="detail.expiry != '-'">{{detail.expiry_Date | date: 'dd/MM/yyyy'}}</span>
+          </td>
+        </tr>
+        <tr>
+          <th>Points</th>
+          <td>{{detail.Reward}}</td>
+        </tr>
+        <tr>
+          <th colspan="2"><b>Conditions</b></th>
+        </tr>
+        <tr *ngFor="let item of config">
+          <th>{{item.key}}</th>
+          <td>{{item.value}}</td>
+        </tr>
+        <tr>
+          <th colspan="2"><b>Filter</b></th>
+        </tr>
+        <tr *ngIf="detail.age == 1">
+          <th>Age</th>
+          <td>{{detail.age_From}} - {{detail.age_To}}</td>
+        </tr>
+        <tr *ngIf="detail.Department == 1">
+          <th>Department</th>
+          <td>{{detail.department_Name}}</td>
+        </tr>
+        <tr *ngIf="detail.Gender == 1">
+          <th>Gender</th>
+          <td>{{detail.genderType}}</td>
+        </tr>
+        <tr rowspan="2">
+          <th>Description</th>
+          <td>{{detail.challenges_Description}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-dialog-content>
+</div>

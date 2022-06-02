@@ -1,0 +1,57 @@
+.card-container {
+  justify-content: center;
+  display: flex;
+}
+
+
+.mat-card-header-center {
+  text-align: center !important;
+  opacity: 0.5 !important;
+  display: table !important;
+  margin: auto !important;
+}
+
+.mat-card-header-left {
+  text-align: left !important;
+  opacity: 0.5 !important;
+  display: table !important;
+  margin: auto !important;
+}
+
+::ng-deep .dashboard-count mat-card-actions > span {
+  opacity: 0.5 !important;
+  display: table;
+  margin: auto;
+}
+
+.default_height {
+  height: calc(100% - 70px) !important;
+}
+
+.dashboard_card {
+  height: 16.5em !important;
+}
+
+.dashboard_radar {
+  height: 16.5em !important;
+}
+
+.dashboard_gauage {
+  height: 16.5em !important;
+}
+
+.dashboard_line {
+  height: 21.5em !important
+}
+
+.dashboard_donut {
+  height: 21.5em !important
+}
+
+.dashboard_maxline {
+  height: 30em !important
+}
+
+.dashboard_smallcard {
+  height:10em;
+}

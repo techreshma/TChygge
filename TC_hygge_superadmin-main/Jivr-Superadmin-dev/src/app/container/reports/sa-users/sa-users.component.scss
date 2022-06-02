@@ -1,0 +1,124 @@
+@import "./../../../../variable.scss";
+
+button.btn-round {
+  @include character-style-8;
+  width          : 100%;
+  background     : #1295f9;
+  color          : #fff !important;
+  border-radius  : 0 0 10px 10px;
+  display        : flex;
+  justify-content: center;
+  padding        : 20px;
+  align-items    : center;
+  position       : absolute;
+  left           : 0;
+  bottom         : 0;
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+.pdf-head-button {
+  display        : flex;
+  justify-content: flex-end;
+  align-items    : flex-end;
+  padding-bottom : 25px;
+}
+
+.count-detail {
+  @include character-style-8;
+  text-align: center;
+  width     : 100%;
+  display   : block;
+  margin    : 40px 0;
+}
+
+.mat-menu-content button {
+  display   : block !important;
+  background: transparent !important;
+  border    : none !important;
+}
+
+.custom-selection {
+  @include character-style-5;
+  max-width    : 175px;
+  border       : 1px solid var(--unnamed-color-3F51B5);
+  padding      : 5px 10px;
+  border-radius: 5px;
+  margin-right : 5px;
+  box-shadow   : 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  background   : #eaedf8;
+  color        : var(--unnamed-color-3F51B5);
+}
+
+::ng-deep .mat-chip-list-wrapper {
+  background-color: #f5f5f5;
+}
+
+::ng-deep .mat-chip-list-wrapper .mat-standard-chip {
+  margin          : 4px !important;
+  background-color: white;
+  padding         : 1.6em !important;
+}
+
+.titleOF_card {
+  text-align : center !important;
+  opacity    : 0.5 !important;
+  display    : table !important;
+  margin     : auto !important;
+  font-weight: 500 !important;
+  font-size  : 1.4em !important;
+  line-height: 3.8em !important;
+}
+
+.xy_centeric {
+  padding   : 70px 0 !important;
+  text-align: center !important;
+}
+
+.filled_btn_blue {
+  background-color: #3F51B4 !important;
+  color           : white !important
+}
+
+.strok_btn_blue {
+  border          : 0.1em solid #3F51B4 !important;
+  background-color: white !important;
+  color           : #3F51B4 !important;
+}
+
+.head-chart {
+  padding   : 70px 0 !important;
+  text-align: center !important;
+  opacity: 0.5 !important;
+  font-weight: 500 !important;
+  font-size: 1.4em !important;
+  line-height: 3.8em !important;
+}
+
+.big-number-report-users {
+  @include character-style-0;
+  color     : var(--unnamed-color-000000);
+  text-align: center;
+  display   : block;
+}
+
+.text_bold {
+  font-weight: 900 !important;
+}
+.center_alignment {
+  line-height: 4.7em !important;
+}
+
+.titleOF_card {
+  text-align: center !important;
+  opacity: 0.5 !important;
+  font-weight: 500 !important;
+  font-size: 1.4em !important;
+}
+
+.xy_centeric {
+  padding: 70px 0 !important;
+  text-align: center !important;
+}

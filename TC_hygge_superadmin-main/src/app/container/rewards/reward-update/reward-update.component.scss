@@ -1,0 +1,133 @@
+.mat-dark {
+  mat-icon.mat-icon {
+    margin-left: 35px;
+    opacity: .6;
+  }
+}
+mat-dialog-content, .revMargin {
+  margin: -24px !important;
+  padding: 0 !important;
+}
+.main-hra-form-container{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  overflow: auto;
+  .sub-hra-form-container{
+    position: relative;
+    margin: 40px auto;
+    background: #EEEEEE;
+    border-radius: 10px;
+    padding:30px 60px;
+    max-width: 60%;
+  }
+}
+
+span.option_options {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: block;
+  line-height: 95px;
+}
+.mat-icon{
+  cursor:pointer
+}
+.add-section {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 2px dashed #7a7a7a;
+  padding: 31px 0;
+  border-radius: 10px;
+  background: #eaeaea;
+  cursor: pointer;
+}
+.short-container {
+  max-width: 68%;
+  margin: 0 auto;
+}
+.ques-tab {
+  margin: 25px auto;
+  border-bottom: 1px solid #919191;
+  padding: 25px 0;
+}
+.toolbox {
+  position: absolute !important;
+  top: 78px !important;
+  right: -70px !important;
+}
+
+// naveesh
+p.reward-name {
+  font-size: 28px;
+}
+input.plac-holder {
+  padding: 7px 0 0 0;
+}
+button.btn-save-publish {
+  background: #3F51B5 !important;
+}
+p.create-by {
+font-size: 13px;
+}
+button.add-filter {
+background: #3F51B5 !important;
+color: #fff;
+margin-bottom: 20px;
+font-size: 14px;
+width: 100%;
+}
+button.delete-btn {
+background: #F43733;
+color: #fff;
+margin: 9px 0 0 0;
+width: 100%;
+}
+
+p.upload-doc {
+font-size: 20px;
+font-weight: 600;
+}
+.add-section-1 {
+margin: 20px auto;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+border: 2px dashed #7a7a7a;
+padding: 31px 0;
+border-radius: 10px;
+background: #fff;
+cursor: pointer;
+}
+.bg-model {
+background: #fff;
+border-radius: 10px;
+margin-bottom: 16px !important;
+margin-top: 16px !important;
+padding: 15px;
+}
+mat-label.filter-name {
+padding: 0 0 10px 0;
+}
+p.condition-fnt {
+padding: 7px 0 0 0;
+}
+.bg-small {
+background: #fff;
+box-shadow: 4px 3px 3px 0 #eee;
+padding: 3% 0 4% 9%;
+margin: 0 0 0 0;
+}
+.filterback {
+background: #fff;
+margin: 15px 0px 30px;
+padding: 15px !important;
+border-radius: 10px;
+}
+.smalltxt {
+margin-bottom: 20px;
+}

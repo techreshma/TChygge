@@ -1,0 +1,26 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Survey
+    </h3>
+    <ul class="surveygridpree_breadcrumb">
+      <li><a routerLink="/list-survey">Survey</a></li>
+      <li><a routerLink="/dashboard">Create New</a></li>
+      <li>Start From Template</li>
+    </ul>
+  </div>
+</div>
+
+<div class="mainGrid">
+  <div class="childGrid" *ngFor="let item of responseData">
+    <mat-card class="survery-select" style="background: url(./assets/img/demo.jpg);">
+      <mat-card-content style="height: 200px;">
+      </mat-card-content>
+      <mat-card-footer color="primary" routerLink="/pre-template-detail/{{item.surveytemplate_id}}">
+        <span class="card-title" style="font-size:1.5em">{{item.template_category}}</span><br/>
+        <span style="text-align: center;">{{item.totalQuestion}} Questions</span>
+      </mat-card-footer>
+      
+    </mat-card>
+  </div>
+</div>

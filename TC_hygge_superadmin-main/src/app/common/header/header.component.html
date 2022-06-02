@@ -1,0 +1,53 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex="80" fxFlex-md="10">
+    <button mat-icon-button aria-label="Menu Toggle" (click)="toggelChild()" #tooltip="matTooltip"
+      matTooltip="Menu-toggle">
+      <mat-icon aria-hidden="false" aria-label="menu-toggle">menu</mat-icon>
+    </button>
+  </div>
+  <div fxFlex="20">
+    <div fxLayout="row" fxLayoutAlign="space-around center" dir="rtl">
+      <div fxFlex>
+        <button mat-mini-fab color="light" [matMenuTriggerFor]="menu" aria-label="expand" #tooltip="matTooltip"
+          matTooltip="Setting">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="logout()" #tooltip="matTooltip" matTooltip="Logout">
+            <mat-icon>power_settings_new</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+      <div fxFlex>
+        <button mat-mini-fab color="light" class="img-fab {{!profilePic && profilePic === '' ? 'profilePic':''}}"
+          aria-label="expand" #tooltip="matTooltip" matTooltip="Company">
+          <img *ngIf="profilePic && profilePic !== ''" src="{{profilePic}}" style="border-radius:5em"
+            height='40em' width='40em' />
+          <span *ngIf="!profilePic && profilePic === ''" style="font-weight: 900!important;">
+            {{firstNameInitial}}{{lastNameInitial}}
+          </span>
+        </button>
+      </div>
+      <div fxFlex>
+        <button mat-mini-fab color="light" aria-label="expand" #tooltip="matTooltip" matTooltip="Notifications">
+          <mat-icon>notifications</mat-icon>
+        </button>
+      </div>
+      <!-- <div fxFlex>
+        <button mat-mini-fab color="light" aria-label="expand">
+          <mat-icon>aspect_ratio</mat-icon>
+        </button>
+      </div> -->
+
+      <button mat-mini-fab color="light" *ngIf="!isFullScreen" (click)="openFullscreen()" aria-label="expand"
+        #tooltip="matTooltip" matTooltip="Full Screen">
+        <mat-icon>aspect_ratio</mat-icon>
+      </button>
+      <button mat-mini-fab color="light" *ngIf="isFullScreen" (click)="closeFullscreen()" aria-label="expand"
+        #tooltip="matTooltip" matTooltip="Normal Screen">
+        <mat-icon>aspect_ratio</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

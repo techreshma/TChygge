@@ -1,0 +1,10 @@
+<ngx-ui-loader></ngx-ui-loader>
+<mat-drawer-container class="main-container"  [class.example-is-mobile]="mobileQuery.matches"  autosize>
+  <mat-drawer [mode]="mobileQuery.matches ? 'over' : 'side'" [style.marginTop.px]="mobileQuery.matches ?90 : 0" [ngStyle]="{'visibility':mobileQuery.matches ?'hidden' : 'visible'}" #drawer mode="side" opened *ngIf="!(router.url === '/' || router.url === '/forgot-password'|| router.url === '/reset-password' || getRoute(router.url) === 'set-password')">
+    <app-sidebar></app-sidebar>
+  </mat-drawer>
+  <mat-drawer-content  [class.example-is-mobile]="mobileQuery.matches" [ngClass]="(router.url === '/' || router.url === '/forgot-password' ||router.url === '/reset-password' || getRoute(router.url) === 'set-password')?'no-padding':''">
+    <app-header (toggleMenu)="toggleMenu()"  *ngIf="!(router.url === '/' || router.url === '/forgot-password' || router.url === '/reset-password' || getRoute(router.url) === 'set-password')"></app-header>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

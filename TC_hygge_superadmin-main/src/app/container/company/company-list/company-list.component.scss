@@ -1,0 +1,101 @@
+.dashboard-count {
+  padding: 25px;
+  h4 {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-15) /
+      var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-000000);
+    text-align: center;
+    text-transform: capitalize;
+    opacity: 0.5;
+    margin-bottom: 10px;
+  }
+  h2 {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) var(--unnamed-font-size-24) /
+      var(--unnamed-line-spacing-35) var(--unnamed-font-family-poppins);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-3d3d3d);
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  img {
+    margin: 0 auto;
+    display: block;
+  }
+}
+.mid-graph {
+  margin-top: 10px !important;
+  .comp-info {
+    display: flex;
+    flex-direction: column;
+    width: 17em;
+  }
+  .plan-info {
+    display: flex;
+    justify-content: center;
+    img {
+      margin-right: 10px;
+    }
+  }
+}
+th {
+  &:nth-child(2) {
+    text-align: left !important;
+    .mat-sort-header-container {
+      justify-content: left !important;
+    }
+  }
+}
+.mat-toolbar-title {
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px
+    var(--unnamed-font-family-poppins);
+  letter-spacing: var(--unnamed-character-spacing-0);
+  color: var(--unnamed-color-000000);
+  text-align: left;
+  font: normal normal 600 18px/27px Poppins;
+  letter-spacing: 0px;
+  color: #000000;
+  text-transform: capitalize;
+  opacity: 1;
+}
+
+//responsive
+@media (max-width: 414px) {
+  mat-card-content.scroll {
+    overflow-x: scroll;
+  }
+}
+
+@media (max-width: 959px) {
+  mat-card-content.scroll {
+    overflow-x: scroll;
+  }
+}
+
+.header_bold {
+  font-weight: 800;
+}
+
+.less_opacity {
+  background-color: #f0f0f3;
+  color: #3f51b5;
+}
+
+.center_alignment {
+  line-height: 4.7em !important;
+}
+
+.titleOF_card {
+  text-align: center !important;
+  opacity: 0.5 !important;
+  display: table !important;
+  margin: auto !important;
+  font-weight: 500 !important;
+  font-size: 1.4em !important;
+  line-height: 3.8em !important;
+}
+
+.xy_centeric {
+  padding: 70px 0 !important;
+  text-align: center !important;
+}

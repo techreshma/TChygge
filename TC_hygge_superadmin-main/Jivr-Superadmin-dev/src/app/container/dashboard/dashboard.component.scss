@@ -1,0 +1,73 @@
+@import "./../../../variable.scss";
+.center-txt {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 6px;
+}
+span.sub-title {
+  @include character-style-4;
+  text-align: center;
+  width: 100%;
+  display: block;
+  color: black;
+  opacity: 0.2em !important;
+}
+.time-head {
+  @include character-style-1;
+}
+.imgs-holder {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  justify-content: space-between;
+  span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.hrascrore_title {
+  display: flex;
+}
+
+.circle_shape {
+  border-radius: 5em;
+  height: 0.8em;
+  width: 0.8em;
+}
+.color_purple {
+  color: #c35bde;
+}
+.color_red {
+  color: #ff3399;
+}
+.color_yellow {
+  color: #ffaa2a;
+}
+
+.title_shape {
+  border-radius: 5em;
+  height: 2em !important;
+  width: 2em !important;
+}
+
+.main-heatmap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.child-heatmap {
+  background-color: rgb(77, 97, 180, 1);
+  margin: 0.1em;
+  padding: 1em;
+  text-align: center;
+  height: 2em;
+}
+
+.whitetextcolor {
+  color: white;
+}

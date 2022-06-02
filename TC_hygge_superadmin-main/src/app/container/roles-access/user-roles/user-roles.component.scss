@@ -1,0 +1,34 @@
+
+
+th, td {
+  text-align:center !important;
+  &:first-child{
+    text-align: left !important;
+  }
+}
+
+@media (max-width: 414px){
+  mat-card.scroll {
+    overflow-x: scroll;
+  }
+  .search-field {
+    width: 102px;
+    margin: 0 0 0 6px;
+  }
+  .cal-button {
+    margin-left: 7px !important;
+  }
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    width: 125%;
+  }
+}
+@media (max-width: 959px){
+  .search-field {
+    width: 123px;
+    margin-right: 0px;
+  }
+}
+
+.boldicon{
+  font-weight: 800;
+}

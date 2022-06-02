@@ -1,0 +1,113 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      My Coach
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+      <li><a routerLink="/be-your-own-nutritionist-info/{{catId}}">Be your own Nutritionist</a></li>
+      <li>{{responseData.fact_title}}</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid" *ngIf="responseData">
+  <div fxFlex="70">
+    <ng-image-slider #nav [images]="images" [infinite]="true" [autoSlide]="1" [imageSize]="{width: '100%', height: 350}"
+      slideImage="1"></ng-image-slider>
+    <span class="card-title">{{responseData.fact_title}}</span>
+    <span class="card-subtitle" *ngIf="catId == 9">Cooking Time: <span class="yellow-txt">10
+        mins</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serving size: <span class="yellow-txt">4</span></span>
+
+    <mat-chip-list *ngIf="catId == 9" class="example-chip" cdkDropListOrientation="horizontal">
+      <mat-chip class="ing-chip">
+        <span class="ing-heighlight">400</span> K cal
+      </mat-chip>
+      <mat-chip class="ing-chip">
+        <span class="ing-heighlight">6g</span> Protien
+      </mat-chip>
+      <mat-chip class="ing-chip">
+        <span class="ing-heighlight">41g</span> Fat
+      </mat-chip>
+      <mat-chip class="ing-chip">
+        <span class="ing-heighlight">2g</span> Carbs
+      </mat-chip>
+    </mat-chip-list>
+    <span class="card-title" *ngIf="catId == 9">Ingredients:</span>
+    <mat-chip-list *ngIf="catId == 9" class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+      <mat-chip class="example-box" cdkDrag *ngFor="let key of keywords">
+        {{key}}
+      </mat-chip>
+    </mat-chip-list>
+
+    <span class="card-title" *ngIf="catId == 9">Instructions:</span>
+    <p>{{responseData.fact_description}}</p>
+  </div>
+  <div fxFlex="30">
+    <mat-card>
+
+      <app-pie *ngIf="graphData" [data]="graphData"></app-pie>
+      <br />
+      <span class="card-subtitle" style="text-align:center;display:block">Feedbacks</span>
+      <br />
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="33">
+          <div fxLayout="column" style="text-align:center">
+            <div fxFlex>
+              <span class="like-label">
+                <span class="color-dot" style="background: #15c1dc"></span> {{responseData.views}}
+              </span>
+            </div>
+            <div fxFlex>
+              <span class="card-subtitle">
+                views
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div fxFlex="33">
+          <div fxLayout="column" style="text-align:center">
+            <div fxFlex>
+              <span class="like-label">
+                <span class="color-dot" style="background: #ffaa27"></span> {{responseData.likes}}
+              </span>
+            </div>
+            <div fxFlex>
+              <span class="card-subtitle">
+                Likes
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div fxFlex="33">
+          <div fxLayout="column" style="text-align:center">
+            <div fxFlex>
+              <span class="like-label">
+                <span class="color-dot" style="background: #f44336"></span> {{responseData.dislikes}}
+              </span>
+            </div>
+            <div fxFlex>
+              <span class="card-subtitle">
+                Dislikes
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+    <br />
+    <mat-card>
+      <span class="card-title">Keywords:</span><br />
+      <mat-card-content>
+        <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+          <mat-chip class="example-box" cdkDrag *ngFor="let key of keywords">
+            {{key}}
+          </mat-chip>
+        </mat-chip-list>
+      </mat-card-content>
+    </mat-card>
+    <br />
+  </div>
+</div>

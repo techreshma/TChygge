@@ -1,0 +1,96 @@
+<div class="back-bg-1">
+  <div class="login-container">
+    <div class="container">
+      <!-- <div fxLayout="row" fxLayout.xs="column" fxflexfill fxLayoutGap="10px grid"> -->
+      <div fxLayout="row" fxLayout.xs="column" fxflexfill fxLayoutGap="10px grid" class="position">
+        <!-- <div fxFlex="50" fxFlexAlign="stretch">
+          <div fxLayout="column" fxLayoutAlign="space-around left" fxFlexAlign="stretch">
+            <div fxFlex="20">
+              <h3 class="logo">
+                Company <br /><span>Logo</span>
+              </h3>
+            </div>
+            <div fxFlex="70">
+              <div class="login-heading welhide">
+                <h1>welcome on<br /> Company admin portal</h1>
+                <p>Lorem Ipsum is simply dummy text of the printing and<br /> typesetting industry. Lorem Ipsum has been the industry's<br/> standard dummy text.</p>
+              </div>
+            </div>
+            <div fxFlex="10">
+              <div class="quick-links welhide" >
+                <ul>
+                  <li>
+                    <a>About us</a>
+                  </li>
+                  <li>
+                    <a>Contact us</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div fxFlex="100" fxFlex.gt-xs="100" class="top" class="pos">
+          <mat-card class="loing-card">
+            <div class="df">
+              <img class="logo-live" src="../../../assets/img/logo-live.png" alt="">
+
+            </div>
+            <div class="df">
+              <h5 class="hygge">HYGGE</h5>
+
+            </div>
+            <mat-card-header>
+              <!-- <mat-card-title>Login</mat-card-title> -->
+
+              <mat-card-title class="title_mat">PLEASE SIGN IN</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <form name="loginform" (ngSubmit)="login()" #loginform="ngForm">
+                <!-- <mat-label>Email Address</mat-label> -->
+                <mat-form-field appearance="standard" style="height: 55px; padding:0 0 10px 10px;">
+                  <input matInput type="email" placeholder="Email Address" class="eml-inp emailadd" #email="ngModel"
+                    [(ngModel)]="formData.email" name="email" required autocomplete="off" maxlength="50"
+                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" />
+                  <!-- <input matInput type="email" placeholder="Email Address" class="eml-inp emailadd" #email="ngModel" [(ngModel)]="formData.email" name="email" required autocomplete="off" maxlength="50" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" /> -->
+                  <mat-icon matSuffix></mat-icon>
+                </mat-form-field>
+                <div [hidden]="email.valid || email.untouched">
+                  <span class="error" *ngIf="email.errors?.required">Email is mandatory.</span>
+                  <span class="error" *ngIf="email.errors?.pattern">Email is invalid</span>
+                </div>
+                <!-- <mat-label>Password</mat-label> -->
+                <mat-form-field appearance="standard" class="top-mar" style="height: 55px; padding:0 0 10px 10px;">
+                  <input matInput [type]="fieldPasswordType ? 'text' : 'password'" #password class="eml-inp"
+                    placeholder="Password" [(ngModel)]="formData.password" maxlength="100" name="password" required
+                    autocomplete="off" />
+                  <mat-icon matSuffix (click)="fieldPasswordType = !fieldPasswordType"
+                    style="cursor: pointer;padding:0 10px 10px 10px;">
+                    {{fieldPasswordType?'visibility_off':'visibility'}}</mat-icon>
+                  <div *ngIf="password.errors && password.touched">
+                    <span class="password" *ngIf="password.errors?.required">Password is mandatory.</span>
+                  </div>
+                </mat-form-field>
+                <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="login-form-links" style="display: none;">
+                  <div fxFlex="50">
+                    <mat-checkbox (change)="rememberMe($event)" class="example-margin ">Remember Me</mat-checkbox>
+                  </div>
+                  <div fxFlex="50" class="forgot-link">
+                    <a routerLink="/forgot-password">Forgot Password?</a>
+                  </div>
+                </div>
+                <button mat-raised-button color="primary" class="block-btn login-button" [disabled]="!loginform.valid">
+                  LOGIN
+                </button>
+              </form>
+              <span><a routerLink="/forgot-password" class="fgetpass">Forget Password ?</a></span>
+              <p class="terms">By signing up, you agree to our <b>Terms of service, Privacy Policy</b> </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="front-bg">
+  </div>
+</div>

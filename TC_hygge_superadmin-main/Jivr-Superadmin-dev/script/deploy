@@ -1,0 +1,9 @@
+ssh root@157.245.104.180 <<EOF
+ cd ~/Jivr-Superadmin
+ git pull origin dev
+ npm install
+ npm run build
+ rm -rf /var/www/html/superadmin/*
+ mv dist/* /var/www/html/superadmin/
+ exit
+EOF

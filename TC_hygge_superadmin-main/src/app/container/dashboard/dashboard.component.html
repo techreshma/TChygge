@@ -1,0 +1,181 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      Dashboard
+    </h3>
+    <ul class="breadcrumb">
+      <li>Dashboard</li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="'Open Actions'" [children]="children" [CardHeight]="heightRecord.dasboard1"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children>
+        <span class="sub-title">Tasks waiting for you</span>
+        <br /><br />
+        <div fxLayout="row">
+          <!-- <div fxFlex class="center-txt">
+            <span class="blue-txt">{{notifications}}</span>
+            <span><small>Notification</small></span>
+          </div>
+          <div fxFlex class="center-txt">
+            <span class="purple-txt">{{messages}}</span>
+            <span><small>Message</small></span>
+          </div> -->
+          <div fxFlex class="center-txt">
+            <span class="pink-txt">{{contract_expiry}}</span>
+            <span><small>Contract Expiry</small></span>
+          </div>
+        </div>
+        <br />
+        <br />
+        <!-- <div fxLayout="row">
+          <div fxFlex class="center-txt">
+            <button mat-raised-button color="primary">Take Action</button>
+          </div>
+        </div> -->
+        <br />
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="''" [children]="children1" [CardHeight]="heightRecord.dasboard2"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children1>
+        <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+
+          <div fxFlex="33" fxFlex.gt-xs="100" style="text-align: center;">
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+              <span fxFlex="30" [style.background-color]="lifeStyleColors" class="title_shape"></span>&nbsp;&nbsp;
+              <span fxFlex="70">Lifestyle</span>
+            </div>
+          </div>
+          <div fxFlex="33" fxFlex.gt-xs="100" style="text-align: center;">
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+              <span fxFlex="30" [style.background-color]="bodyColors" class="title_shape"></span>
+              <span fxFlex="70">Body</span>
+            </div>
+          </div>
+          <div fxFlex="33" fxFlex.gt-xs="100" style="text-align: center;">
+            <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+              <span fxFlex="30" [style.background-color]="mindColors" class="title_shape"></span>
+              <span fxFlex="70">Mind</span>
+            </div>
+          </div>
+        </div>
+        <app-radar [data]="hraRadarData" *ngIf="hraRadarData"></app-radar>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <app-card [title]="''" [children]="children2" [CardHeight]="heightRecord.dasboard3"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children2>
+        <app-gauge [data]="chartOptions" *ngIf="chartOptions"></app-gauge>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <mat-card fxFlex class="dashboard-count">
+      <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+          <span class="card-subtitle" style="padding-right: 10px;">Active Companies</span>
+        </div>
+        <div fxFlex="40" style="text-align: center;">
+          <span class="card-title">{{activeCompany}}</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <mat-card fxFlex class="dashboard-count">
+      <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+          <span class="card-subtitle" style="padding-right: 10px;">Active Challenges</span>
+        </div>
+        <div fxFlex="40" style="text-align: center;">
+          <span class="card-title">{{activeChallanges}}</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="33" fxFlex.gt-xs="100">
+    <mat-card fxFlex class="dashboard-count">
+      <div fxLayout="row" style="height: 100%;" fxLayoutAlign="center center" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="60" style="border-right: 1px solid lightgray; text-align: center;">
+          <span class="card-subtitle" style="padding-right: 10px;">Active Surveys</span>
+        </div>
+        <div fxFlex="40" style="text-align: center;">
+          <span class="card-title">{{activeSurveys}}</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<br />
+
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex>
+    <app-card [title]="'Number of Active Users'" [children]="children3" [CardHeight]="heightRecord.dasboard4"
+      [isDefault]="heightRecord.isDefault" [isLineChart]="heightRecord.isLineChart">
+      <ng-template #children3>
+        <app-line class="wid-graph" *ngIf="activeUserChart" [data]="activeUserChart"></app-line>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+<div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+  <div fxFlex="40">
+    <app-card [title]="'Companies based on Subscription'" [children]="children4" [CardHeight]="heightRecord.dasboard5"
+      [isDefault]="heightRecord.isDefault">
+      <ng-template #children4>
+        <!-- <app-donut class="wid-graph" [data]="companySubsChart" *ngIf="companySubsChart"></app-donut> -->
+        <app-doughnut class="wid-graph" [data]="companySubsChart" *ngIf="companySubsChart"></app-doughnut>
+      </ng-template>
+    </app-card>
+  </div>
+  <div fxFlex="60">
+    <app-card [title]="'Rewards Redeemed'" [children]="children5" [CardHeight]="heightRecord.dasboard6"
+      [isDefault]="heightRecord.isDefault" [isLineChart]="heightRecord.isLineChart">
+      <ng-template #children5>
+        <app-line class="wid-graph" *ngIf="rewardRedeemChart" [data]="rewardRedeemChart"></app-line>
+      </ng-template>
+    </app-card>
+  </div>
+</div>
+<br />
+
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card>
+      <ejs-schedule #scheduleObj width='100%' height='550px' currentView="month" [selectedDate]="selectedDate"
+        [eventSettings]="eventSettings">
+        <e-views>
+          <e-view option="Month"></e-view>
+        </e-views>
+      </ejs-schedule>
+    </mat-card>
+  </div>
+</div>
+
+<br />
+
+<div fxLayout="row" fxflexfill class="mid-graph" fxLayoutGap="10px grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <app-card [title]="'Participaints per Challenge'" [children]="children15" [CardHeight]="heightRecord.dasboard7">
+      <ng-template #children15>
+        <div class="main-heatmap">
+          <div *ngFor="let item of gridView" class="child-heatmap whitetextcolor" [ngStyle]="{'width':'item.size'}">
+            {{item.name}} {{item.value}}
+          </div>
+        </div>
+      </ng-template>
+    </app-card>
+  </div>
+</div>

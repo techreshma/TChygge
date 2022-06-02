@@ -1,0 +1,31 @@
+.sqare-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .square-chart {
+    min-width: 100px;
+    height: 80px;
+    text-align: center;
+    border: 1px solid white;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+}
+tr.mat-row {
+  cursor: pointer;
+  &:hover {
+    box-shadow: -1px -11px 10px lightgrey;
+  }
+}
+
+.textbold {
+  font-weight: 900;
+}
+
+.gray_color {
+  color: #000000;
+  opacity: 0.5;
+}

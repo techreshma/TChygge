@@ -1,0 +1,46 @@
+.sub-hra-form-container {
+  position: relative;
+  margin: 40px auto;
+  background: #eeeeee;
+  border-radius: 10px;
+  padding: 30px 60px;
+  max-width: 60%;
+}
+.filterback {
+  background: #fff;
+  margin: 15px 0px 30px;
+  padding: 15px !important;
+  border-radius: 10px;
+}
+mat-label.cndtnrtxt {
+  padding: 11px 0 0 0;
+}
+mat-label.cndtnrtxt-gender {
+  padding: 11px 0 8px 0;
+}
+mat-slide-toggle.example-margin {
+  margin-top: 8px;
+}
+.text_bold {
+  font-weight: 900;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.light_grey {
+  background-color: #e0e0e0;
+  color: #3f51b5;
+}
+
+.example-form-field {
+  margin-right: 20px;
+}
+
+
+.dateFilter{
+  position:relative;
+  left:-2em;
+  background-color: white;
+}

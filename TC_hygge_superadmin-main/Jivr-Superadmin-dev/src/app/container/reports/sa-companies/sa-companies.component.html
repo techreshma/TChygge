@@ -1,0 +1,424 @@
+<!-- Breadcrumb and Title Div -->
+<div fxLayout="row" fxLayoutAlign="space-between stretch">
+  <div fxFlex="70">
+    <h3 class="page-title">Companies Report</h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/reports">Reports</a></li>
+      <li>Companies</li>
+    </ul>
+  </div>
+  <div fxFlex="30" class="pdf-head-button">
+    <button mat-raised-button (click)="downloadAsPDF()" color="primary">
+      Export Report as PDF
+    </button>
+  </div>
+</div>
+
+<div id="pdfTable" #pdfTable>
+  <!-- Dashborad graph -->
+  <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+    <div fxFlex="33">
+      <app-card [title]="''" [children]="children4">
+        <ng-template #children4>
+          <div class="xy_centeric">
+            <span class="titleOF_card">Total Companies</span>
+            <span class="big-number">{{totalCompanies}}</span>
+          </div>
+        </ng-template>
+      </app-card>
+    </div>
+    <div fxFlex="33">
+      <app-card [title]="'Top 5 Industries'" [children]="children12">
+        <ng-template #children12>
+          <app-horizontal-bar class="wid-graph" *ngIf="topIndustriesGraphData"
+            [data]="topIndustriesGraphData">
+          </app-horizontal-bar>
+        </ng-template>
+      </app-card>
+    </div>
+    <div fxFlex="33">
+      <app-card [title]="'Top 5 Cities'" [children]="children67">
+        <ng-template #children67>
+          <app-horizontal-bar class="wid-graph" *ngIf="topCitiesGraphData"
+            [data]="topCitiesGraphData">
+          </app-horizontal-bar>
+        </ng-template>
+      </app-card>
+    </div>
+  </div>
+  <br />
+  <div fxLayout="row wrap" fxflexfill fxLayoutGap="10px grid">
+    <div fxFlex="33">
+      <app-card [title]="'Plans'" [children]="children1">
+        <ng-template #children1>
+          <app-doughnut class="wid-graph" *ngIf="plansDetailGraphData"
+            [data]="plansDetailGraphData"></app-doughnut>
+        </ng-template>
+      </app-card>
+    </div>
+
+    <div fxFlex="33">
+      <mat-card class="dashboard-count" style="height:calc(100% - 60px)
+        !important">
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <div fxFlex="100" style="text-align: center;">
+            <span class="head-chart">Users Per Company</span>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <div fxFlex="50">
+            <button mat-raised-button color="primary" class="{{usersRange ?
+              'filled_btn_blue':'strok_btn_blue'}}"
+              (click)="usersRange= true">Average</button>
+          </div>
+          <div fxFlex="50">
+            <button mat-raised-button class="{{!usersRange ?
+              'filled_btn_blue':'strok_btn_blue'}}"
+              (click)="usersRange= false">Users Range</button>
+          </div>
+        </div>
+        <div *ngIf="usersRange" style="height:20em !important">
+          <button mat-stroked-button class="btn-round" color="primary">
+            {{averageUsersCount}}
+          </button>
+        </div>
+        <div *ngIf="!usersRange">
+          <app-horizontal-bar *ngIf="userCompanyGraphData"
+            [data]="userCompanyGraphData"></app-horizontal-bar>
+        </div>
+      </mat-card>
+    </div>
+
+    <div fxFlex="33">
+      <mat-card class="dashboard-count" style="height:calc(100% - 60px)
+        !important">
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <div fxFlex="100" style="text-align: center;">
+            <span class="head-chart">Usage Score Based On</span>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between stretch">
+          <div fxFlex="50">
+            <button mat-raised-button color="primary" class="{{usageCheck ?
+              'filled_btn_blue':'strok_btn_blue'}}"
+              (click)="usageCheck= true">Average</button>
+          </div>
+          <div fxFlex="50">
+            <button mat-raised-button class="{{!usageCheck ?
+              'filled_btn_blue':'strok_btn_blue'}}"
+              (click)="usageCheck= false">Top 5 Companies</button>
+          </div>
+        </div>
+        <div *ngIf="usageCheck" style="height:20em !important">
+
+          <button mat-stroked-button class="btn-round" color="primary">
+            {{usageScoreAverage}}
+          </button>
+        </div>
+        <div *ngIf="!usageCheck">
+          <app-horizontal-bar *ngIf="usageScoreCompaniesGraphData"
+            [data]="usageScoreCompaniesGraphData">
+          </app-horizontal-bar>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<!-- Dashborad graph -->
+<br />
+
+<!------Table Section-------->
+<div fxLayout="row" fxflexfill class="mid-graph tab-top" fxLayoutGap="10px
+  grid">
+  <div fxFlex="100" fxFlex.gt-xs="100">
+    <mat-card class="dashboard-detail">
+      <mat-card-content>
+        <mat-toolbar color="light">
+          <mat-form-field class="search-field" appearance="standard">
+            <mat-icon matSuffix>search</mat-icon>
+            <input matInput placeholder="Search" #input
+              (keyup)="applyFilter($event)" />
+          </mat-form-field>
+          <span class="spacer"></span>
+
+          <mat-select class="custom-selection" [(ngModel)]="customizeData"
+            (ngModelChange)="addRemoveColumn($event)"
+            multiple>
+            <mat-select-trigger>
+              <span class="example-additional-selection">
+                Customize Table
+              </span>
+            </mat-select-trigger>
+            <mat-option *ngFor="let item of displayedColumnsTitleDemo; let i=
+              index" [value]="item.value">
+              {{ item.title }}</mat-option>
+          </mat-select>
+
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">
+            Export Table <mat-icon>expand_more </mat-icon></button>&nbsp;&nbsp;
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="exportExcel()">As EXCEL</button>
+            <button mat-menu-item (click)="export()">
+              As CSV
+            </button>
+          </mat-menu>&nbsp;&nbsp;
+          <button mat-raised-button color="primary" (click)="openFilterModal()"
+            class="filter-btn">
+            <mat-icon>filter_list</mat-icon> Filter
+          </button>
+        </mat-toolbar>
+
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let module of modulename" [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(module)">
+            {{ module.name }}&nbsp;&nbsp; {{ module.value }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input style="display: none" placeholder="New fruit..."
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)" />
+        </mat-chip-list>
+
+        <table id="csvTable" mat-table [dataSource]="dataSource" matSort
+          class="mat-elevation-z8">
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Name
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.name}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Industry">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Industry
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.Industry}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="customer_acquisition">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Customer Acquisition
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.customer_acquisition}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="location_city">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Location City
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.location_city}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="company_id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Company Id
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.company_id}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="plan">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Plan
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.plan}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="plan_activation_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Plan Activation Date
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.plan_activation_date}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="plan_expiry_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Plan Expiry Date
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.plan_expiry_date}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="plan_status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Plan Status
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.plan_status}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="usage_score">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header
+              class="header_text_bold">
+              Usage Score
+            </th>
+            <td mat-cell *matCellDef="let element" class="data">
+              {{element.usage_score}}
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data found</td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!------Table Section-------->
+
+<div style="display: none" *ngIf="data.length> 0">
+  <table>
+    <thead>
+      <tr style="text-align: left">
+        <th *ngFor="let c of displayedColumnsTitleDemo">
+          <b>{{ c.title }}</b>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let itemData of data; let i= index">
+        <ng-container *ngFor="let c of displayedColumnsTitleDemo">
+          <td>{{ itemData[c.value] }}</td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Export CSV and EXCEL -->
+<div style="display: none">
+  <table id="csvTableExp" mat-table [dataSource]="csvexcelDataSource" matSort
+    class="mat-elevation-z8">
+    <ng-container matColumnDef="company_id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Company Id
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.company_id}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Industry">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Industry
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.Industry}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="customer_acquisition">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Customer Acquisition
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.customer_acquisition}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="location_city">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Location City
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.location_city}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Name
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.name}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="plan">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Plan
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.plan}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="plan_activation_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Plan Activation Date
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.plan_activation_date}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="plan_expiry_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Plan Expiry Date
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.plan_expiry_date}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="plan_status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Plan Status
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.plan_status}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="usage_score">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Usage Score
+      </th>
+      <td mat-cell *matCellDef="let element" class="data">
+        {{element.usage_score}}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data found</td>
+    </tr>
+  </table>
+</div>
+<!-- Export CSV and EXCEL -->

@@ -1,0 +1,75 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      My Coach
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/my-coach">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+      <li><a routerLink="/be-your-own-nutritionist">Be your own Nutritionist</a></li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row wrap" fxflexfill fxLayoutGap="30px grid">
+  <div fxFlex="33" *ngFor="let item of list">
+    <mat-card (click)="gotToLink(item.coachingcat_id)">
+      <span class="card-title">
+        {{item.coaching_Category}}
+      </span>
+      <mat-card-content>
+        <img src="{{imgPath}}{{item.coaching_Image}}" /><br /><br />
+        <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+
+          <div fxFlex="{{item.coachingcat_id >= 5 ? 100 : 33}}">
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  {{item.views}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  views
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div fxFlex="33" [hidden]='item.coachingcat_id >= 5'>
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  {{item.likes}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  Likes
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div fxFlex="33" [hidden]='item.coachingcat_id >= 5'>
+            <div fxLayout="column" style="text-align:center">
+              <div fxFlex>
+                <span class="like-label">
+                  {{item.dislikes}}
+                </span>
+              </div>
+              <div fxFlex>
+                <span class="card-subtitle">
+                  Dislikes
+                </span>
+              </div>
+            </div>
+          </div>
+        </div><br /><br />
+        <button mat-stroked-button (click)="gotToLink(item.coachingcat_id)" class="view-more btn-round"
+          color="primary">View
+          More</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<br />

@@ -1,0 +1,30 @@
+img {
+  width: 100%;
+}
+
+.text_bold {
+  font-weight: 900;
+}
+
+.lightblue {
+  background-color: #d8d8f3;
+}
+
+.title_left {
+  justify-content: start;
+  position       : relative;
+  display        : flex;
+  height         : 5.2em;
+}
+
+.hide_column {
+  visibility: visible !important
+}
+
+.show_column {
+  visibility: hidden !important
+}
+
+.hand_pointer {
+  cursor: pointer;
+}

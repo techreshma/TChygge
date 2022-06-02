@@ -1,0 +1,48 @@
+
+<mat-icon class="closeModal" mat-dialog-close>close</mat-icon>
+<div class="modal-box">
+<form name="roleForm" (ngSubmit)="initiateSurvey()" #roleForm="ngForm">
+    <div fxLayout="row" class="theme-setting-inner">
+      <div fxFlex="100">
+        <span class="card-title">Initiate Survery</span>
+        <mat-form-field class="form-fields">
+          <input matInput placeholder="Survey Expiry Date" [min]="minDate" [matDatepicker]="picker" format="DD/MM/YYYY"  #survey_ExpiryDate  name="survey_ExpiryDate" [(ngModel)]="formData.survey_ExpiryDate"  required autocomplete="off"  />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div [hidden]="survey_ExpiryDate.valid || survey_ExpiryDate.untouched">
+          <span class="error" *ngIf="survey_ExpiryDate.errors?.required">Survey Expiry Date is mandatory.</span>
+        </div>
+
+        <mat-form-field class="form-fields">
+          <mat-select placeholder="Company" [(ngModel)]="formData.survey_CompanyId" name="survey_CompanyId" #survey_CompanyId >
+            <mat-option  *ngFor="let item of companyList" [value]="item.company_id">{{item.company_Name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-fields">
+          <input matInput maxlength="40" list="survey_AgeFrom" placeholder="Age From" type="number" #survey_AgeFrom  [(ngModel)]="formData.survey_AgeFrom"  name="survey_AgeFrom"  autocomplete="off" />
+          <datalist id="survey_AgeFrom">
+            <option *ngFor="let item of ageColumn" [value]="item.text">
+          </datalist>
+        </mat-form-field>
+        <mat-form-field class="form-fields">
+          <input matInput maxlength="40" list="survey_AgeTo" placeholder="Age To" type="number" #survey_AgeTo  [(ngModel)]="formData.survey_AgeTo"  name="survey_AgeTo"  autocomplete="off" />
+          <datalist id="survey_AgeTo">
+            <option *ngFor="let item of ageColumn" [value]="item.text">
+          </datalist>
+        </mat-form-field>
+        <mat-form-field class="form-fields">
+          <mat-select placeholder="Gender" [(ngModel)]="formData.survey_Gender" name="survey_Gender" #survey_Gender >
+            <mat-option  value="0">Male</mat-option>
+            <mat-option  value="1">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" class="theme-setting-inner" >
+      <div fxFlex="100">
+        <button mat-raised-button class="big-btn block-btn"  [disabled]="!roleForm.valid"  color="primary">Start Survey</button>
+      </div>
+    </div>
+  </form>
+</div>

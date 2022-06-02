@@ -1,0 +1,11 @@
+.user-detail{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  img{
+    width:75px;
+    height:75px;
+    border-radius: 100%;
+  }
+}

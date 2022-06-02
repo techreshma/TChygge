@@ -1,0 +1,19 @@
+.theme-setting-inner{
+  margin-bottom:30px;
+}
+.mat-toolbar-title{
+  font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-600) 18px/27px var(--unnamed-font-family-poppins);
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-000000);
+text-align: left;
+font: normal normal 600 18px/27px Poppins;
+letter-spacing: 0px;
+color: #000000;
+text-transform: capitalize;
+opacity: 1;
+}
+mat-icon.addRem {
+  margin-top: 35px;
+  margin-left: 10px;
+  cursor: pointer;
+}

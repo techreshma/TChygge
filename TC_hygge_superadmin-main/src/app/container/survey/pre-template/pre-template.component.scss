@@ -1,0 +1,49 @@
+.survery-select {
+  text-align: center;
+  background-size: cover;
+  .mat-card-footer {
+    background: #fff;
+    cursor: pointer;
+    height: 8em;
+    margin: auto;
+    span {
+      color: #000 !important;
+    }
+  }
+}
+
+.surveygridpree_breadcrumb {
+  list-style: none;
+  margin: 0 0 25px;
+  padding-left: 10px;
+  li {
+    font: var(--unnamed-font-style-normal) normal var(--unnamed-font-weight-normal) var(--unnamed-font-size-15) /
+      var(--unnamed-line-spacing-23) var(--unnamed-font-family-poppins);
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-000000);
+    text-align: left;
+    // text-transform: capitalize;
+    opacity: 0.5;
+    display: inline;
+    padding: 0 15px 0 0;
+    a {
+      text-decoration: none;
+      color: var(--unnamed-color-000000);
+      &:after {
+        content: ">";
+        margin-left: 15px;
+      }
+    }
+  }
+}
+
+.mainGrid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.childGrid {
+  width: 30%;
+  margin: 2em 1em;
+  height: 25em;
+}

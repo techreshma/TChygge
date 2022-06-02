@@ -1,0 +1,101 @@
+<div fxLayout="row" fxLayoutAlign="space-around left">
+  <div fxFlex>
+    <h3 class="page-title">
+      My Coach
+    </h3>
+    <ul class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/my-coach">My Coach</a></li>
+      <li><a routerLink="/be-your-own-nutritionist">Be your own Nutritionist</a></li>
+      <li><a routerLink="/meal-plan">Meal Plans</a></li>
+      <li>{{title}}</li>
+    </ul>
+  </div>
+</div>
+<mat-card>
+  <mat-accordion class="main-acco" multi>
+    <mat-expansion-panel *ngFor="let day of days;let i=index;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Day {{i+1}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-accordion class="sub-acco" multi>
+        <mat-expansion-panel *ngFor="let meal of day.mealday;let im = index;">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="yellow-txt">{{meal.type}}</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Information</th>
+                <th>No. of views</th>
+                <th>Plan min Calorie</th>
+                <th>Plan max Calorie</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let rec of meal.recipeData">
+                <tr *ngIf="rec && rec != null">
+                  <td>
+                    <img src="{{rec.primeImage}}" style="margin-left:15px" />
+                  </td>
+                  <td>
+                    <div class="comp-info">
+                      <span class="mat-toolbar-title">{{rec.recipe_title}}</span><br />
+                      <span class="yellow-txt">{{rec.preparation_time}} mins</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span>{{rec.from_calories}}</span>
+                  </td>
+                  <td>
+                    <span>{{rec.to_calories}}</span>
+                  </td>
+                  <td>
+                    <span class="blue-txt">{{rec.views}}</span>
+                  </td>
+                  <td>
+                    <button mat-flat-button class="round-btn" *ngIf="rec.status == 1" color="light">Active</button>
+                    <button mat-flat-button class="round-btn" *ngIf="rec.status == 0" color="warn">Locked</button>
+                  </td>
+                  <td>
+                    <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                      matTooltip="Edit" routerLink="/recipe-edit/{{rec.recipes_id}}" color="light">
+                      <mat-icon color="green">edit</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                      matTooltip="block" routerLink="/recipe-view/9/{{rec.recipes_id}}" color="light">
+                      <mat-icon color="accent">preview</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="cal-button" #tooltip="matTooltip" matTooltip="Lock"
+                      *ngIf="rec.status != 0 && accessPermission" color="light"
+                      (click)="statusUpdate(rec.recipes_id,'0')">
+                      <mat-icon color="primary">lock</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="cal-button" #tooltip="matTooltip" matTooltip="Activate"
+                      *ngIf="rec.status != 1 && accessPermission" color="light"
+                      (click)="statusUpdate(rec.recipes_id,'1')">
+                      <mat-icon color="primary">lock_open</mat-icon>
+                    </button>
+                    <button mat-mini-fab class="cal-button" #tooltip="matTooltip" *ngIf="accessPermission"
+                      matTooltip="delete" (click)="confirmDialog(rec.recipes_id)" color="light">
+                      <mat-icon color="warn">delete</mat-icon>
+                    </button>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>

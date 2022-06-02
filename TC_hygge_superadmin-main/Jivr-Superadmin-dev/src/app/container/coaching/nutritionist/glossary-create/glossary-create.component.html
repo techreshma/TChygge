@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+  <!-- <mat-icon class="closeModal" >keyboard_backspace</mat-icon> -->
+  <span class="spacer"></span>
+  <span class="mat-toolbar-title" style="color:#fff !important">Create Glossary</span>
+  <span class="spacer"></span>
+  <mat-icon class="closeModal" [routerLink]="['/glossary']" routerLinkActive="router-link-active">close</mat-icon>
+</mat-toolbar>
+<div class="main-hra-form-container">
+  <form name="postForm" #postForm="ngForm" (ngSubmit)="addGlossary()">
+    <div class="sub-hra-form-container">
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Name <span class="red-txt">*</span> </mat-label>
+          <div class="form-ques">
+            <mat-form-field>
+              <input matInput type="text" maxlength="100" name="glossary_Name" [(ngModel)]="formGroup.glossary_Name"
+                required />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-label>Meaning <span class="red-txt">*</span> </mat-label>
+          <div class="form-ques">
+            <mat-form-field>
+              <textarea matInput maxlength="200" name="glossary_Meaning" [(ngModel)]="formGroup.glossary_Meaning"
+                required></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="short-container">
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="100">
+          <mat-label></mat-label>
+          <button mat-raised-button class="big-btn block-btn" [disabled]="!postForm.valid" color="primary">Save &
+            Publish</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

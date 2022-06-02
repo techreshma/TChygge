@@ -1,0 +1,241 @@
+<mat-toolbar color="primary">
+  <span routerLink = "/reward-list"><img src="{{assets}}" height="28px" alt=""></span>
+  <span class="spacer"></span>
+  <span class="mat-toolbar-title" style="color:#fff">Create New Reward</span>
+  <span class="spacer"></span>
+  <mat-icon class="closeModal" [routerLink]="['/reward-list']" routerLinkActive="router-link-active">close</mat-icon>
+</mat-toolbar>
+
+<div class="main-hra-form-container">
+  <form name="registerForm" (ngSubmit)="save()" #registerForm="ngForm">
+    <!--#registerForm="ngForm"-->
+    <div class="sub-hra-form-container">
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <p class="reward-name">Reward name</p>
+          <p class="fill-info">Please fill below information.</p>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <input matInput Placeholder="Name" required #reward_Name="ngModel" [(ngModel)]="formData.reward_Name"
+              type="text" maxlength="100" name="reward_Name" placeholder="Write Name Here..." />
+
+          </mat-form-field>
+          <div [hidden]="reward_Name.valid || reward_Name.untouched">
+            <span class="error" *ngIf="reward_Name.errors?.required">Reward name is mandatory.</span>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <textarea placeholder="Description" rows="10" matInput [(ngModel)]="formData.reward_Description"
+              name="reward_Description" placeholder="Write Description Here..."></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxFlexfill fxLayoutGap="10px grid">
+        <div fxFlex>
+          <mat-label>Reward Image</mat-label>
+          <div class="dropzone">
+            <ngx-dropzone class="light" (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif">
+              <ngx-dropzone-label>
+                <mat-icon>note_add</mat-icon><br />
+                Upload Your Image<br />
+                <small>drag & drop to upload the image</small>
+              </ngx-dropzone-label>
+              <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)"
+                style="background-image: url({{formData.reward_Image}});">
+                <!-- <ngx-dropzone-label >{{ f.name }} ({{ f.type }})</ngx-dropzone-label> -->
+              </ngx-dropzone-preview>
+              <ngx-dropzone-preview *ngIf="files.length == 0 && formData.reward_Image != ''" [removable]="true"
+                style="background-image: url({{formData.reward_Image}});">
+                <ngx-dropzone-label></ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+            <div fxFlex="100">
+              <div>
+                <mat-form-field class="form-fields">
+                  <input matInput placholder="Points"
+                    (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57"
+                    required class="plac-holder" type="text" maxlength="100" [(ngModel)]="formData.reward_Points"
+                    name="reward_Points" placeholder="X number of points" />
+
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="50">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+            <div fxFlex="100">
+              <div>
+                <mat-form-field class="form-fields">
+                  <input matInput placholder="# of Rewards"
+                    (keypress)=" ($event.charCode == 8 || $event.charCode == 0) ? null : $event.charCode >= 48 && $event.charCode <= 57"
+                    required class="plac-holder" type="text" maxlength="100" [(ngModel)]="formData.reward_limit"
+                    name="reward_limit" placeholder="X of Rewards" />
+
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="50">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+            <div fxFlex="100">
+              <mat-form-field class="form-fields">
+                <input matInput placeholder="Start Date" [min]="minDate" [matDatepicker]="picker" format="DD/MM/YYYY"
+                  name="start_Date" [(ngModel)]="formData.start_Date" required autocomplete="off" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="50">
+          <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+            <div fxFlex="100">
+              <mat-form-field class="form-fields">
+                <input matInput placeholder="End Date" [min]="formData.start_Date" [matDatepicker]="picker2"
+                  format="DD/MM/YYYY" name="end_Date" [(ngModel)]="formData.end_Date" required autocomplete="off" />
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" class="theme-setting-inner" fxflexfill
+        fxLayoutGap="10px grid">
+        <div fxFlex="100" class="filterback">
+          <h4 class="filtertxt">Set Filter</h4>
+
+          <div class="row">
+            <div fxFlex="50">
+              <h4 class="cndtnrtxt">Age </h4>
+            </div>
+            <div fxFlex="50">
+              <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="formData.age_Type"
+                (change)="setAge($event)" #age="ngModel" name="age_Type">
+              </mat-slide-toggle>
+            </div>
+          </div>
+          <div class="row" *ngIf="formData.age_Type" fxflexfill fxLayoutGap="10px grid">
+            <div fxFlex="50">
+              <mat-form-field class="form-fields">
+                <mat-select [(ngModel)]="formData.age_From" name="age_From" #age_From placeholder="Age from">
+                  <mat-option>
+                    <ngx-mat-select-search [(ngModel)]="searchAge" (ngModelChange)="searchAgeFilter($event)"
+                      name="searchAge" class="margin-top" placeholderLabel="Search.."
+                      noEntriesFoundLabel="'no matching Staff found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let item of ageColumn" [value]="item.text">{{item.value}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="50">
+              <mat-form-field class="form-fields">
+                <mat-select [(ngModel)]="formData.age_To" name="age_To" #age_To placeholder="Age to">
+                  <mat-option>
+                    <ngx-mat-select-search [(ngModel)]="searchAge" (ngModelChange)="searchAgeFilter($event)"
+                      name="searchAge" class="margin-top" placeholderLabel="Search.."
+                      noEntriesFoundLabel="'no matching Staff found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let item of ageColumn" [value]="item.text">{{item.value}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div fxFlex="50">
+              <h4 class="cndtnrtxt">Company </h4>
+            </div>
+            <div fxFlex="50">
+              <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="companyShow"
+                (change)="setCompany($event)" #Company="ngModel" name="companyShow">
+              </mat-slide-toggle>
+            </div>
+          </div>
+          <div fxLayout="row" *ngIf="companyShow">
+            <div fxFlex="100">
+              <div class="smalltxt">
+                <mat-form-field class="form-fields drop-down" name="CompanyName">
+                  <mat-select #CompanyName="ngModel" [(ngModel)]="formData.company_Id" placeholder="Company "
+                    name="company_Id" #Company_Name>
+                    <mat-option *ngFor="let item of this.companyData" [value]="item.company_id">{{item.company_Name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div fxFlex="50">
+              <h4 class="cndtnrtxt">Gender </h4>
+            </div>
+            <div fxFlex="50">
+              <mat-slide-toggle class="example-margin" color="primary" [(ngModel)]="formData.gender_Type"
+                (change)="setGender($event)" #Gender="ngModel" name="gender_Type">
+              </mat-slide-toggle>
+            </div>
+          </div>
+          <div fxLayout="row" *ngIf="formData.gender_Type">
+            <div fxFlex="100">
+              <div class="smalltxt">
+                <mat-form-field class="form-fields drop-down">
+                  <mat-select [(ngModel)]="formData.gender" name="gender" placeholder="Select Gender">
+                    <mat-option value="male">Male</mat-option>
+                    <mat-option value="female">Female</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <mat-form-field class="form-fields">
+            <textarea matInput placeholder="Term & Conditions" maxlength="200" [(ngModel)]="formData.terms_Condition"
+              name="terms_Condition" placeholder="Mention Terms & Conditions here…"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <br />
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid" class="">
+        <div fxFlex="100">
+          <p class="create-by">Created By: {{userData.first_name}} {{userData.last_name}} </p>
+        </div>
+      </div>
+    </div>
+    <div class="short-container">
+      <div fxLayout="row" fxflexfill fxLayoutGap="10px grid">
+        <div fxFlex="30"></div>
+        <div fxFlex="40">
+          <button mat-raised-button class="big-btn block-btn btn-save-publish" [disabled]="!registerForm.valid"
+            color="green">SAVE & PUBLISH</button>
+        </div>
+        <div fxFlex="30"></div>
+      </div>
+    </div>
+  </form>
+</div>
